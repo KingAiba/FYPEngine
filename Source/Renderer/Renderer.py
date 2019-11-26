@@ -1,13 +1,9 @@
-import glfw
-import OpenGL.GL.shaders
 from OpenGL.GL import *
-from OpenGL.GLUT import *
-
 
 class Renderer:
     def __init__(self, name):
         self.name = name
-        return 0
+
 
     def Clear(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)

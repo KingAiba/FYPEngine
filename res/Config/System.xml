@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+    <window name="header">GLFWWindow</window>
+    <window name="width">1000</window>
+    <window name="height">800</window>
+    <window name="monitor">None</window>
+    <window name="share">None</window>
+</Config>

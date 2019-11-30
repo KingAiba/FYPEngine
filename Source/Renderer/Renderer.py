@@ -12,7 +12,7 @@ class Renderer:
         glClearColor(r, g, b, a)
 
     def GetAttribLocation(self, shader, name):
-        glGetAttribLocation(shader, name)
+        return glGetAttribLocation(shader, name)
 
     def VertexAttribPointer(self, location, size, type, normalized, stride, voidPointer):
         glVertexAttribPointer(location, size, type, normalized, stride, voidPointer)

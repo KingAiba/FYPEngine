@@ -87,7 +87,9 @@ def main():
     width = 800
     height = 600
     window = glfw.create_window(width, height, "OpenGLProj", None, None)
-
+    glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
+    glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
+    glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE);
     # check if window is created
     if not window:
         # not created, program terminated

@@ -1,40 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ebe9df4b-87f3-45ec-8fd8-6fd3d3f41ebf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Source/Renderer/Shader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/TextureExample.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Shaders/FragmentShader.fs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Shaders/VertexShader.vs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Textures/player.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/arraydatatype.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/buffers_formathandler.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/errorchecker.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/formathandler.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/latebind.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/nones_formathandler.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/numpy_formathandler.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/vbo.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/OpenGL_accelerate/wrapper.cp37-win_amd64.pyd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyGLM-1.1.2.dist-info/COPYING" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyGLM-1.1.2.dist-info/INSTALLER" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyGLM-1.1.2.dist-info/METADATA" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyGLM-1.1.2.dist-info/RECORD" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyGLM-1.1.2.dist-info/WHEEL" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyGLM-1.1.2.dist-info/top_level.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyOpenGL_accelerate-3.1.3rc1.dist-info/INSTALLER" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyOpenGL_accelerate-3.1.3rc1.dist-info/METADATA" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyOpenGL_accelerate-3.1.3rc1.dist-info/RECORD" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyOpenGL_accelerate-3.1.3rc1.dist-info/WHEEL" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyOpenGL_accelerate-3.1.3rc1.dist-info/license.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/PyOpenGL_accelerate-3.1.3rc1.dist-info/top_level.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/glm.cp37-win_amd64.pyd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Renderer/Renderer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Renderer/Renderer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/example.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/example.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="ebe9df4b-87f3-45ec-8fd8-6fd3d3f41ebf" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +38,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.TextureExample">
     <configuration name="Shader" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="FypEngine" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -179,8 +146,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.TextureExample" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.example" />
         <item itemvalue="Python.Shader" />
         <item itemvalue="Python.Window" />

@@ -2,11 +2,11 @@ import numpy
 
 import glfw
 
+import glm
+
 from Source.Renderer.Shader import Shader
 
 from Source.Renderer.Renderer import Renderer
-
-from PIL import Image
 
 from OpenGL.GL import *
 
@@ -16,9 +16,22 @@ from PIL import Image
 
 import os
 
+
+class Player:
+    def __init__(self, x, y, tran):
+        self.x = x
+        self.y = y
+        self.tran = tran
+
+
+# get paths
 VSFILEPATH = os.path.dirname(__file__) + "/../res/Shaders/VertexShader.vs"
 FSFILEPATH = os.path.dirname(__file__) + "/../res/Shaders/FragmentShader.fs"
 IMAGEPATH = os.path.dirname(__file__) + "/../res/Textures/player.png"
+# init shader and renderer
+myShader: Shader = Shader(VSFILEPATH, FSFILEPATH)
+myRenderer = Renderer("myRenderer")
+myPlayer = Player(0.0, 0.0, glm.mat4(1))
 
 
 # img = Image.open(FILEPATH)
@@ -31,6 +44,29 @@ IMAGEPATH = os.path.dirname(__file__) + "/../res/Textures/player.png"
 # print(img2)
 # print("\n")
 # print(width, height)
+
+
+def key_callback(window, key, scancode, action, mods):
+    if key == glfw.KEY_UP and action == glfw.PRESS:
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y+0.1, 0.0))
+        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
+        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        print("UP KEY PRESSED")
+    if key == glfw.KEY_DOWN and action == glfw.PRESS:
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y-0.1, 0.0))
+        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
+        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        print("UP KEY PRESSED")
+    if key == glfw.KEY_RIGHT and action == glfw.PRESS:
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x+0.1, myPlayer.y, 0.0))
+        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
+        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        print("UP KEY PRESSED")
+    if key == glfw.KEY_LEFT and action == glfw.PRESS:
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x-0.1, myPlayer.y, 0.0))
+        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
+        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        print("UP KEY PRESSED")
 
 
 def framebuffer_size_callback(window, width, height):
@@ -54,12 +90,11 @@ def main():
 
     glfw.make_context_current(window)
     glfw.set_framebuffer_size_callback(window, framebuffer_size_callback)
+    glfw.set_key_callback(window, key_callback)
 
-    myShader = Shader(VSFILEPATH, FSFILEPATH)
-    myRenderer = Renderer("myRenderer")
     #                       position      color          tex coords
-    vertices = numpy.array([0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0,
-                            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0,
+    vertices = numpy.array([0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
+                            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
                             -0.5, 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
                             -0.5, -0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0], dtype="f")
     myShader.Compile()
@@ -96,8 +131,8 @@ def main():
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
     # texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
     # load image
     ImgSource = Image.open(IMAGEPATH)
@@ -117,6 +152,19 @@ def main():
     glGenerateMipmap(GL_TEXTURE_2D)
 
     myShader.UseProgram()
+
+    scale_loc = glGetUniformLocation(myShader.ID, 'scale')
+    rotate_loc = glGetUniformLocation(myShader.ID, 'rotate')
+    translate_loc = glGetUniformLocation(myShader.ID, 'translate')
+
+    scale = glm.fmat4(1)
+    rot = glm.fmat4(1)
+    translate = glm.fmat4(1)
+
+    glUniformMatrix4fv(scale_loc, 1, GL_FALSE, glm.value_ptr(scale))
+    glUniformMatrix4fv(rotate_loc, 1, GL_FALSE, glm.value_ptr(rot))
+    glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(translate))
+
     glUniform1i(glGetUniformLocation(myShader.ID, "Texture"), 0)
 
     while not glfw.window_should_close(window):

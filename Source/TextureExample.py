@@ -29,7 +29,7 @@ VSFILEPATH = os.path.dirname(__file__) + "/../res/Shaders/VertexShader.vs"
 FSFILEPATH = os.path.dirname(__file__) + "/../res/Shaders/FragmentShader.fs"
 IMAGEPATH = os.path.dirname(__file__) + "/../res/Textures/player.png"
 # init shader and renderer
-myShader: Shader = Shader(VSFILEPATH, FSFILEPATH)
+myShader = Shader(VSFILEPATH, FSFILEPATH)
 myRenderer = Renderer("myRenderer")
 myPlayer = Player(0.0, 0.0, glm.mat4(1))
 
@@ -48,25 +48,25 @@ myPlayer = Player(0.0, 0.0, glm.mat4(1))
 
 def key_callback(window, key, scancode, action, mods):
     if key == glfw.KEY_UP and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y+0.1, 0.0))
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y + 0.1, 0.0))
         translate_loc = glGetUniformLocation(myShader.ID, 'translate')
         glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
         print("UP KEY PRESSED")
     if key == glfw.KEY_DOWN and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y-0.1, 0.0))
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y - 0.1, 0.0))
         translate_loc = glGetUniformLocation(myShader.ID, 'translate')
         glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
-        print("UP KEY PRESSED")
+        print("DOWN KEY PRESSED")
     if key == glfw.KEY_RIGHT and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x+0.1, myPlayer.y, 0.0))
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x + 0.1, myPlayer.y, 0.0))
         translate_loc = glGetUniformLocation(myShader.ID, 'translate')
         glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
-        print("UP KEY PRESSED")
+        print("RIGHT KEY PRESSED")
     if key == glfw.KEY_LEFT and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x-0.1, myPlayer.y, 0.0))
+        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x - 0.1, myPlayer.y, 0.0))
         translate_loc = glGetUniformLocation(myShader.ID, 'translate')
         glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
-        print("UP KEY PRESSED")
+        print("LEFT KEY PRESSED")
 
 
 def framebuffer_size_callback(window, width, height):
@@ -134,6 +134,8 @@ def main():
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     # load image
     ImgSource = Image.open(IMAGEPATH)
     if not ImgSource:
@@ -141,14 +143,14 @@ def main():
         return 0
     imgWidth, imgHeight = ImgSource.size
 
-    ImgSource = ImgSource.convert("RGB")
+    ImgSource = ImgSource.convert("RGBA")
     ImgArray = ImgSource.tobytes()
     print(ImgArray)
     if not ImgArray:
         print("ERROR CONVERTING IMAGE tobytes()")
         return 0
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imgWidth, imgHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, ImgArray)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imgWidth, imgHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, ImgArray)
     glGenerateMipmap(GL_TEXTURE_2D)
 
     myShader.UseProgram()

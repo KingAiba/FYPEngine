@@ -81,7 +81,10 @@ def main():
     glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
     glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE);
 
-    window = glfw.create_window(800, 600, "OPENGL_TextureExample", None, None)
+    screenWidth = 800
+    screenHeight = 600
+
+    window = glfw.create_window(screenWidth, screenHeight, "OPENGL_TextureExample", None, None)
 
     if not window:
         print("Window Creation Failed")
@@ -96,7 +99,9 @@ def main():
     vertices = numpy.array([0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
                             0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
                             -0.5, 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-                            -0.5, -0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0], dtype="f")
+                            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
+                            -0.5, 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+                           -0.5, -0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0], dtype="f")
     myShader.Compile()
 
     VBO = GLuint(0)
@@ -134,6 +139,7 @@ def main():
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
+    #glEnable(GL_DEPTH_TEST)
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     # load image
@@ -149,15 +155,27 @@ def main():
     if not ImgArray:
         print("ERROR CONVERTING IMAGE tobytes()")
         return 0
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+
+
+    # glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imgWidth, imgHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, ImgArray)
-    glGenerateMipmap(GL_TEXTURE_2D)
+    # glGenerateMipmap(GL_TEXTURE_2D)
 
     myShader.UseProgram()
 
     scale_loc = glGetUniformLocation(myShader.ID, 'scale')
     rotate_loc = glGetUniformLocation(myShader.ID, 'rotate')
     translate_loc = glGetUniformLocation(myShader.ID, 'translate')
+    #model_loc = glGetUniformLocation(myShader.ID, 'model')
+    #view_loc = glGetUniformLocation(myShader.ID, 'view')
+    # projection_loc = glGetUniformLocation(myShader.ID, 'P')
+
+    projection = glm.mat4(1)
+    # using glm for view frustum // perspective(fov, aspect ratio, near clipping plane, far clipping plane)
+    # projection = glm.perspective(45.0, screenWidth / screenHeight, 0.1, 1000.0)
+
+    # projection = glm.ortho(0.0, 800.0, 0.0, 600.0, 0.1, 1000.0)
+
 
     scale = glm.fmat4(1)
     rot = glm.fmat4(1)
@@ -166,6 +184,9 @@ def main():
     glUniformMatrix4fv(scale_loc, 1, GL_FALSE, glm.value_ptr(scale))
     glUniformMatrix4fv(rotate_loc, 1, GL_FALSE, glm.value_ptr(rot))
     glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(translate))
+    #glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm.value_ptr(model))
+    #glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm.value_ptr(view))
+    # glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm.value_ptr(projection))
 
     glUniform1i(glGetUniformLocation(myShader.ID, "Texture"), 0)
 
@@ -173,8 +194,8 @@ def main():
         myRenderer.ClearColor(0.2, 0.2, 0.4, 1.0)
         myRenderer.Clear()
 
-        glDrawArrays(GL_TRIANGLES, 0, 3)
-        glDrawArrays(GL_TRIANGLES, 1, 3)
+        glDrawArrays(GL_TRIANGLES, 0, 6)
+
 
         glfw.poll_events()
         glfw.swap_buffers(window)

@@ -6,7 +6,7 @@ class Renderer:
 
 
     def Clear(self):
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT)
 
     def ClearColor(self, r, g, b, a):
         glClearColor(r, g, b, a)

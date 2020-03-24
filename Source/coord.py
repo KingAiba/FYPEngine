@@ -24,14 +24,42 @@ class Player:
         self.tran = tran
 
 
+class Camera:
+    def __init__(self, camPos, camFront, camUp, camSpeed):
+        self.camPos = camPos
+        self.camFront = camFront
+        self.camUp = camUp
+        self.camSpeed = camSpeed
+
+
 # get paths
-VSFILEPATH = os.path.dirname(__file__) + "/../res/Shaders/VertexShader.vs"
+VSFILEPATH = os.path.dirname(__file__) + "/../res/Shaders/VertexShader2D.vs"
 FSFILEPATH = os.path.dirname(__file__) + "/../res/Shaders/FragmentShader.fs"
 IMAGEPATH = os.path.dirname(__file__) + "/../res/Textures/player.png"
 # init shader and renderer
 myShader = Shader(VSFILEPATH, FSFILEPATH)
 myRenderer = Renderer("myRenderer")
-myPlayer = Player(0.0, 0.0, glm.mat4(1))
+# myPlayer = Player(0.0, 0.0, glm.mat4(1))
+
+cameraPos = glm.vec3(0.0, 0.0, 1.0)
+cameraFront = glm.vec3(0.0, 100.0, 0.0)
+cameraUp = glm.vec3(0.0, 1.0, 0.0)
+
+myCamera = Camera(cameraPos, cameraFront, cameraUp, 0.5)
+
+
+
+model = glm.mat4(1)
+view = glm.mat4(1)
+projection = glm.mat4(1)
+projection = glm.ortho(0.0, 800.0, 0.0, 600.0, 0.1, 1000.0)
+
+view = glm.lookAt(myCamera.camPos, myCamera.camPos + myCamera.camFront, myCamera.camUp)
+translate = glm.fmat4(1)
+
+MVP = projection * view * model * translate
+
+
 
 
 # img = Image.open(FILEPATH)
@@ -48,24 +76,43 @@ myPlayer = Player(0.0, 0.0, glm.mat4(1))
 
 def key_callback(window, key, scancode, action, mods):
     if key == glfw.KEY_UP and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y + 0.1, 0.0))
-        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
-        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        myCamera.camPos = myCamera.camPos + (myCamera.camSpeed * myCamera.camFront)
+        view = glm.lookAt(myCamera.camPos, myCamera.camPos + myCamera.camFront, myCamera.camUp)
+        MVP_loc = glGetUniformLocation(myShader.ID, 'MVP')
+        MVP = projection * view * model * translate
+        glUniformMatrix4fv(MVP_loc, 1, GL_FALSE, glm.value_ptr(MVP))
+
         print("UP KEY PRESSED")
+        print(myCamera.camPos)
+
     if key == glfw.KEY_DOWN and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x, myPlayer.y - 0.1, 0.0))
-        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
-        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        myCamera.camPos = myCamera.camPos - (myCamera.camSpeed * myCamera.camFront)
+        view = glm.lookAt(myCamera.camPos, myCamera.camPos + myCamera.camFront, myCamera.camUp)
+        MVP_loc = glGetUniformLocation(myShader.ID, 'MVP')
+        MVP = projection * view * model * translate
+        glUniformMatrix4fv(MVP_loc, 1, GL_FALSE, glm.value_ptr(MVP))
+
+
         print("DOWN KEY PRESSED")
+
     if key == glfw.KEY_RIGHT and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x + 0.1, myPlayer.y, 0.0))
-        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
-        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        myCamera.camPos = myCamera.camPos + glm.normalize(
+            glm.cross(myCamera.camFront, myCamera.camUp) * myCamera.camSpeed)
+        view = glm.lookAt(myCamera.camPos, myCamera.camPos + myCamera.camFront, myCamera.camUp)
+        MVP_loc = glGetUniformLocation(myShader.ID, 'MVP')
+        MVP = projection * view * model * translate
+        glUniformMatrix4fv(MVP_loc, 1, GL_FALSE, glm.value_ptr(MVP))
+
         print("RIGHT KEY PRESSED")
+
     if key == glfw.KEY_LEFT and action == glfw.PRESS:
-        myPlayer.tran = glm.translate(myPlayer.tran, glm.fvec3(myPlayer.x - 0.1, myPlayer.y, 0.0))
-        translate_loc = glGetUniformLocation(myShader.ID, 'translate')
-        glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(myPlayer.tran))
+        myCamera.camPos = myCamera.camPos - glm.normalize(
+            glm.cross(myCamera.camFront, myCamera.camUp) * myCamera.camSpeed)
+        view = glm.lookAt(myCamera.camPos, myCamera.camPos + myCamera.camFront, myCamera.camUp)
+        MVP_loc = glGetUniformLocation(myShader.ID, 'MVP')
+        MVP = projection * view * model * translate
+        glUniformMatrix4fv(MVP_loc, 1, GL_FALSE, glm.value_ptr(MVP))
+
         print("LEFT KEY PRESSED")
 
 
@@ -94,14 +141,17 @@ def main():
     glfw.make_context_current(window)
     glfw.set_framebuffer_size_callback(window, framebuffer_size_callback)
     glfw.set_key_callback(window, key_callback)
+    h = 300
+    w = 300
 
     #                       position      color          tex coords
-    vertices = numpy.array([0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
-                            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
-                            -0.5, 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-                            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
-                            -0.5, 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-                           -0.5, -0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0], dtype="f")
+    vertices = numpy.array([0.0, h, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
+                            0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
+                            w, h, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+
+                            0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
+                            w, h, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+                            w, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0], dtype="f")
     myShader.Compile()
 
     VBO = GLuint(0)
@@ -139,9 +189,9 @@ def main():
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
-    #glEnable(GL_DEPTH_TEST)
-    glEnable(GL_BLEND)
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+    # glEnable(GL_DEPTH_TEST)
+    # glEnable(GL_BLEND)
+    # glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     # load image
     ImgSource = Image.open(IMAGEPATH)
     if not ImgSource:
@@ -161,31 +211,19 @@ def main():
 
     myShader.UseProgram()
 
-    scale_loc = glGetUniformLocation(myShader.ID, 'scale')
-    rotate_loc = glGetUniformLocation(myShader.ID, 'rotate')
-    translate_loc = glGetUniformLocation(myShader.ID, 'translate')
-    #model_loc = glGetUniformLocation(myShader.ID, 'model')
-    #view_loc = glGetUniformLocation(myShader.ID, 'view')
-    projection_loc = glGetUniformLocation(myShader.ID, 'P')
 
-    projection = glm.mat4(1)
+
+
     # using glm for view frustum // perspective(fov, aspect ratio, near clipping plane, far clipping plane)
     # projection = glm.perspective(45.0, screenWidth / screenHeight, 0.1, 1000.0)
 
-    projection = glm.ortho(0.0, 800.0, 0.0, 600.0, 0.1, 1000.0)
+
+    # scale = glm.fmat4(1)
+    # rot = glm.fmat4(1)
+    MVP_loc = glGetUniformLocation(myShader.ID, 'MVP')
 
 
-    scale = glm.fmat4(1)
-    rot = glm.fmat4(1)
-    translate = glm.fmat4(1)
-
-    glUniformMatrix4fv(scale_loc, 1, GL_FALSE, glm.value_ptr(scale))
-    glUniformMatrix4fv(rotate_loc, 1, GL_FALSE, glm.value_ptr(rot))
-    glUniformMatrix4fv(translate_loc, 1, GL_FALSE, glm.value_ptr(translate))
-    #glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm.value_ptr(model))
-    #glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm.value_ptr(view))
-    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm.value_ptr(projection))
-
+    glUniformMatrix4fv(MVP_loc, 1, GL_FALSE, glm.value_ptr(MVP))
     glUniform1i(glGetUniformLocation(myShader.ID, "Texture"), 0)
 
     while not glfw.window_should_close(window):
@@ -193,7 +231,6 @@ def main():
         myRenderer.Clear()
 
         glDrawArrays(GL_TRIANGLES, 0, 6)
-
 
         glfw.poll_events()
         glfw.swap_buffers(window)

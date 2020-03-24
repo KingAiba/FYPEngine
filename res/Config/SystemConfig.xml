@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<SystemConfig>
+
+<WindowSystem windowTitle="Cyclic Shift v 0.1.0" className="CyclicShift"/>
+
+
+<Graphics maxFps="60" runFullSpeed="false" allowFullScreen="false" windowWidth="400" frameBufferHeight="0" frameBufferWidth="0"/>
+
+<Sound musicVolume="100" sfxVolume="100"/>
+
+<Localization language="English"/>
+
+</SystemConfig>

@@ -24,14 +24,6 @@ class Shader:
         self.ID = 0
 
     def Compile(self):
-        #Fixme
-        # print(bool(glCreateShader))
-        # vertex = glCreateShader(GL_VERTEX_SHADER)
-        # glShaderSource(vertex, 1, self.VSCode, None)
-        # glCompileShader(vertex)
-        # frag = glCreateShader(GL_FRAGMENT_SHADER)
-        # glShaderSource(frag, 1, self.FSCode, None)
-        # glCreateShader(frag)
 
         vertex = OpenGL.GL.shaders.compileShader(self.VSCode, GL_VERTEX_SHADER)
         frag = OpenGL.GL.shaders.compileShader(self.FSCode, GL_FRAGMENT_SHADER)

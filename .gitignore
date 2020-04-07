@@ -1,3 +1,5 @@
 .idea
 Source\Renderer\__pycache__
-\venv
+venv\Lib
+venv\Scripts
+venv\pyvenv.cfg

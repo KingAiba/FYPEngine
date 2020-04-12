@@ -29,7 +29,7 @@ class Shader:
         frag = OpenGL.GL.shaders.compileShader(self.FSCode, GL_FRAGMENT_SHADER)
 
         # compile program
-        self.ID = glCreateProgram();
+        self.ID = glCreateProgram()
         glAttachShader(self.ID, vertex)
         glAttachShader(self.ID, frag)
         glLinkProgram(self.ID)

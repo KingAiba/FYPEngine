@@ -49,15 +49,25 @@ class Generator:
         # Add new from list, first unused particle
 
         for index in range(0, particle):
+<<<<<<< HEAD
             Unsed = self.FindUnusedParticle()
 
             self.RespawnParticle(self.ParticleList[Unsed], obj, offset)
+=======
+            Unused = self.FindUnusedParticle()
+
+            self.RespawnParticle(self.ParticleList[Unused], obj, offset)
+>>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
         for index in range(0, self.amount):
             P = self.ParticleList[index]
             P.Life = P.Life - dt
 
             if P.Life > 0.0:
+<<<<<<< HEAD
                 print(self.ParticleList[index].Life)
+=======
+                # print(self.ParticleList[index].Life)
+>>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
                 P.Position = P.Position - (P.Velocity * dt)
                 P.Color.w = P.Color.w - (dt*2)
                 # print(P.Color, P.Velocity, P.Position)

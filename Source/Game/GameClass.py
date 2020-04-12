@@ -137,7 +137,11 @@ class Game:
         self.LevelsList.append(One)
         self.LevelsList.append(Two)
         self.LevelsList.append(Three)
+<<<<<<< HEAD
         print(self.LevelsList)
+=======
+        # print(self.LevelsList)
+>>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
         self.Level = 3
 
         self.Renderer = SpriteRender(self.Resource.Shaders["Shader"])
@@ -150,6 +154,10 @@ class Game:
                            glm.value_ptr(projection))
 
     def Update(self, dt):
+<<<<<<< HEAD
+=======
+        # print(1/dt)
+>>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
         self.Ball.Move(dt, self.width)
         self.BlockCollision()
         self.PGen.Update(dt, self.Ball, 10, glm.vec2(self.Ball.Radius / 2))

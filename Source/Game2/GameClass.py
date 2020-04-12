@@ -117,7 +117,7 @@ class Game2:
         self.Player.Health = 3
         self.Player.Sprite = Resources.Textures["PlayerShip2"]
 
-        self.LevelList.append(Scene(Resources.Textures["background2"], 10, 10, self.width,
+        self.LevelList.append(Scene(Resources.Textures["background2"], 15, 15, self.width,
                                     self.height))
         # glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["ParticleShader"].ID, "projection"), 1,
         # GL_FALSE, glm.value_ptr(projection))

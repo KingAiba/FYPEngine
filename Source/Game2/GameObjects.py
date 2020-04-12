@@ -26,7 +26,7 @@ class Player(Ship):
     def __init__(self):
         super().__init__()
         self.ProjectileList = []
-        self.RoF = 0.4
+        self.RoF = 0.33
         self.Timer = 0
 
     def MakeProjectile(self, texture, dt):

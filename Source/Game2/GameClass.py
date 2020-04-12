@@ -74,11 +74,11 @@ class Game2:
         self.state = "ACTIVE"
         self.keys = keys
         self.LevelList = []
-<<<<<<< HEAD
+
         self.CurrLevel = 0
-=======
+
         self.CurrLevel = 1
->>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
+
         self.Player = None
         self.Resource = None
         self.Renderer = None
@@ -115,34 +115,35 @@ class Game2:
         glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(projection))
 
-<<<<<<< HEAD
+
         self.Player = Player();
-=======
+
         self.Player = Player()
->>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
+
         self.Player.Position = glm.vec2(self.width / 2 - Player_Size.x / 2, self.height / 2 - Player_Size.x / 2)
         self.Player.Size = Player_Size
         self.Player.Health = 3
         self.Player.Sprite = Resources.Textures["PlayerShip2"]
 
-<<<<<<< HEAD
+
         self.LevelList.append(Scene(Resources.Textures["background2"], 15, 15, self.width,
-=======
+                                    self.height))
+
         self.LevelList.append(Scene(Resources.Textures["background2"], 10, 10, self.width,
                                     self.height))
         self.LevelList.append(Scene(Resources.Textures["background2"], 50, 10, self.width,
->>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
+
                                     self.height))
         # glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["ParticleShader"].ID, "projection"), 1,
         # GL_FALSE, glm.value_ptr(projection))
 
     def Update(self, dt):
-<<<<<<< HEAD
+
         self.LevelList[self.CurrLevel].UpdateScene(1, dt)
-=======
+
         # print(1/dt)
         self.LevelList[self.CurrLevel].UpdateScene(2, dt)
->>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
+
         self.Player.UpdateProjectile(dt)
         self.DoCollision()
         self.CheckLoss()

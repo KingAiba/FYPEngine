@@ -60,8 +60,8 @@ class ResourceManager:
         return texture
 
 
-<<<<<<< HEAD
+
 Resources = ResourceManager();
-=======
+
 Resources = ResourceManager()
->>>>>>> 34645cfb986cda57e5aabfb380a56d084c577e21
+

@@ -28,6 +28,7 @@ The project should be setup now and to check if everything is working properly r
 to start either of the sample games.
 
 ### Making a new game
+
 #### tutorial.py
 
 #### tutorialGame.py

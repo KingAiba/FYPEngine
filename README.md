@@ -95,7 +95,7 @@ def InitRenderer(self):
     
 ```
 We can draw objects in ``def Render(self)`` function by calling ``Renderer.DrawSprite(texture, position, size, rotate, color):``
-```bash
+```python
  def Render(self):
     self.Resource.Textures["ship"], glm.vec2(100, 100),
                            glm.vec2(200, 200), 0.0, glm.vec3(1.0, 1.0, 1.0)

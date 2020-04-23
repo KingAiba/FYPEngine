@@ -57,5 +57,4 @@ class BallObject(GameObject):
 
 class Particle:
     def __init__(self):
-        
         self.Life = float(0.0)

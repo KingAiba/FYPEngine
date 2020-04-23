@@ -115,7 +115,6 @@ class Game2:
         glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(projection))
 
-
         self.Player = Player();
 
         self.Player = Player()
@@ -124,7 +123,6 @@ class Game2:
         self.Player.Size = Player_Size
         self.Player.Health = 3
         self.Player.Sprite = Resources.Textures["PlayerShip2"]
-
 
         self.LevelList.append(Scene(Resources.Textures["background2"], 15, 15, self.width,
                                     self.height))
@@ -200,10 +198,9 @@ class Game2:
     def CheckLoss(self):
         ShipIndex = 0
         for ship in self.LevelList[self.CurrLevel].Curr:
-            if ship.Position.y >= (self.height+50):
+            if ship.Position.y >= (self.height + 50):
                 self.Player.Health = self.Player.Health - 1
                 self.LevelList[self.CurrLevel].DelShip(ShipIndex)
             ShipIndex = ShipIndex + 1
         if self.Player.Health <= 0:
             print("GAME OVER")
-

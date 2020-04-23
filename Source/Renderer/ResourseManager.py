@@ -1,10 +1,8 @@
 # dictionary = {}
-#
 # print(dictionary)
-#
 # dictionary["New"] = "New"
-#
 # print(dictionary)
+
 from Source.Renderer.Shader import Shader
 from Source.Renderer.texture import Texture
 
@@ -60,8 +58,4 @@ class ResourceManager:
         return texture
 
 
-
-Resources = ResourceManager();
-
 Resources = ResourceManager()
-

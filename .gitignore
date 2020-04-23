@@ -1,3 +1,11 @@
 .idea
 Source\Renderer\__pycache__
 venv
+Source\__pycache
+Source\dist
+Source\build
+Source\main.spec
+res\Textures\Effects
+res\Textures\PSD
+res\Textures\Golem_03
+res\Textures\golem_idle.tps

@@ -58,9 +58,9 @@ from OpenGL.GL import *
 from Source.Renderer.ResourseManager import Resources
 from Source.Renderer.SpriteRender import SpriteRender
 ```
-Now we need to load some textures and shader to setup the renderer. We do this by
+Now we need to load some textures and shader to setup the renderer. We can do this by
 using the ``Resources.LoadShader(VertexShader FilePath, FragmentShader FilePath, Key)``
-& ``Resources.LoadTexture(Texture FilePath, bool Alpha, Key)``.
+& ``Resources.LoadTexture(Texture FilePath,isAlpha, Key)``.
 
 ```python
 def InitRenderer(self):
@@ -72,7 +72,7 @@ def InitRenderer(self):
                               "ship")
 
 ```
-To setup the renderer we need  to includ the following line in ``InitRenderer``
+To setup the renderer we need  to include the following line in ``InitRenderer``
 ```python
 Renderer = None
 class Game:
@@ -90,6 +90,8 @@ def InitRenderer(self):
 
     glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
                         glm.value_ptr(projection))
+            .
+            .
     
 ```
 We can draw objects in ``def Render(self)`` function by calling ``Renderer.DrawSprite(texture, position, size, rotate, color):``

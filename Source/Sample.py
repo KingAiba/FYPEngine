@@ -36,15 +36,15 @@ def main(width, height, keys):
         glfw.terminate()  # terminate library
         return "get some window"
 
-    glfw.make_context_current(window)  # on which window we are working on
+    glfw.make_context_current(window)
 
-    glViewport(0, 0, width, height)  # create camera
+    glViewport(0, 0, width, height)
 
-    glfw.set_key_callback(window, key_callback)  # func call
+    glfw.set_key_callback(window, key_callback)
 
-    glEnable(GL_CULL_FACE)  # drawing method on camera
-    glEnable(GL_BLEND)  # alpha blending == remove black white blocks in png file
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)  # alpha blending
+    glEnable(GL_CULL_FACE)
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
     game_1.initial_renderer()
 

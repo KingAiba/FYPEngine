@@ -138,7 +138,7 @@ class Game:
         self.LevelsList.append(Two)
         self.LevelsList.append(Three)
 
-        print(self.LevelsList)
+        # print(self.LevelsList)
 
         # print(self.LevelsList)
 

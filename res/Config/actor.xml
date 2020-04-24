@@ -1,0 +1,6 @@
+<Actor name = "Player">
+	<Component>
+		<Sprite PosX = "0" PosY = "0" PosZ = "0" rotation = "0" texture = "playerTexture" sizeX = "100"
+                sizeY = "200" ColorR="1.0" ColorG="0.0" ColorB="0.5" Alpha="1.0"/>
+	</Component>
+</Actor>

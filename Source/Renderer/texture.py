@@ -37,6 +37,11 @@ class Texture:
     def BindTexture(self):
         glBindTexture(GL_TEXTURE_2D, self.ID)
 
+    def BindTextureBySlot(self, slot):
+        glActiveTexture(GL_TEXTURE0 + slot)
+        glBindTexture(GL_TEXTURE_2D, self.ID)
+        return self.ID
+
     @staticmethod
     def EnableAlpha():
         glEnable(GL_BLEND)

@@ -5,6 +5,8 @@ from Source.Renderer.ResourseManager import Resources
 from Source.Renderer.SpriteRender import SpriteRender
 from Source.Renderer.BatchRenderer import BatchRenderer
 
+Rows = 30
+Cols = 30
 
 
 class Game:
@@ -16,15 +18,24 @@ class Game:
         return
 
     def initial_renderer(self):
-        Resources.LoadShader(os.path.dirname(__file__) +"/../../res/Shaders/BatchRenderVS2D.vs",
-                             os.path.dirname(__file__) +"/../../res/Shaders/BatchRenderFS2D.fs", "Shader")
+        Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderVS2D.vs",
+                             os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderFS2D.fs", "Shader")
+        Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/VS2D.vs",
+                             os.path.dirname(__file__) + "/../../res/Shaders/FS2D.fs", "Shader1")
 
         Resources.LoadTexture(os.path.dirname(__file__) + "/../../res/Textures/golem_attacking.png", 1,
                               "testTexture")
+        Resources.LoadTexture(os.path.dirname(__file__) + "/../../res/Textures/spritesheet.png", 1,
+                              "testTexture1")
+        Resources.LoadTexture(os.path.dirname(__file__) + "/../../res/Textures/DurrrSpaceShip.png", 1,
+                              "testTexture2")
+        Resources.LoadTexture(os.path.dirname(__file__) + "/../../res/Textures/block.png", 0,
+                              "block")
+        # self.Renderer = SpriteRender(Resources.Shaders["Shader1"])
         self.Renderer = BatchRenderer()
         self.Renderer.Shader = Resources.Shaders["Shader"]
         self.Renderer.Start()
-        Resources.Textures["testTexture"].FullGrid = glm.vec2(4, 3)
+        # Resources.Textures["testTexture"].FullGrid = glm.vec2(4, 3)
 
         projection = glm.ortho(0.0, self.width, self.height, 0.0, -1.0, 1.0)
 
@@ -32,22 +43,27 @@ class Game:
                            glm.value_ptr(projection))
         return
 
-    def update(self, dt):  # dt = delta time
-        print(1/dt)
+    def update(self, dt):
+        print(dt ,1/dt)
         return
 
     def processInput(self, dt):
         return
 
     def render(self):
-        self.Renderer.Draw(Resources.Textures["testTexture"], glm.vec2(0, 0),
-                            glm.vec2(250, 150), 0.0, glm.vec3(1.0, 1.0, 1.0), glm.vec2(3, 4), glm.vec2(1, 1), 0)
-        self.Renderer.Draw(Resources.Textures["testTexture"], glm.vec2(300, 0),
-                           glm.vec2(250, 150), 0.0, glm.vec3(1.0, 1.0, 1.0), glm.vec2(3, 4), glm.vec2(3, 1), 0)
-        self.Renderer.Draw(Resources.Textures["testTexture"], glm.vec2(0, 200),
-                           glm.vec2(250, 150), 0.0, glm.vec3(1.0, 1.0, 1.0), glm.vec2(3, 4), glm.vec2(1, 4), 0)
-        self.Renderer.Draw(Resources.Textures["testTexture"], glm.vec2(300, 200),
-                           glm.vec2(250, 150), 0.0, glm.vec3(1.0, 1.0, 1.0), glm.vec2(3, 4), glm.vec2(2, 4), 0)
+        unitX = self.width / Cols
+        unitY = self.height / Rows
+        i = 0
+        while i < Rows:
+            j = 0
+            while j < Cols:
+                self.Renderer.Draw(Resources.Textures["block"], glm.vec2(unitX * j, unitY * i),
+                                    glm.vec2(unitX, unitY), 0.0, glm.vec3(1.0, 1.0, 1.0), glm.vec2(1, 1), glm.vec2(1, 1),
+                                    1)
+                j = j + 1
+                # self.Renderer.DrawSprite(Resources.Textures["block"], glm.vec2(unitX * j, unitY * i),glm.vec2(unitX, unitY), 0.0, glm.vec3(1.0, 1.0, 1.0))
+
+            i = i + 1
 
         self.Renderer.Render()
-        return
+

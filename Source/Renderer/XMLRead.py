@@ -59,29 +59,36 @@ from Source.Renderer.BatchRenderer import BatchRenderer
 # print("xOffset :" + str(xOffset) + " yOffset : " + str(yOffset))
 # print("new: X :" + str(newX) + " Y: " + str(newY))
 # print("Curr X :" + str(newX+(newX*xOffset)) + " Y: " + str(newY+(newY*yOffset)))
-a = numpy.array([1, 2, 3, 4, 5,
-                         6, 7, 8, 9, 10,
-                         1, 1, 1, 1, 1,
+# a = numpy.array([1, 2, 3, 4, 5,
+#                          6, 7, 8, 9, 10,
+#                          1, 1, 1, 1, 1,
+#
+#                          1, 1, 1, 1, 1,
+#                          1, 1, 1, 1, 1,
+#                          1, 1, 1, 1, 1], dtype="f")
+# b = numpy.array([2, 2, 2, 2, 2,
+#                          2, 2, 2, 2, 2,
+#                          0.0, 0.0, 0.0, 0.0, 3,
+#
+#                          0.0, 1.0, 0.0, 1.0, 3,
+#                          1.0, 1.0, 1.0, 1.0, 3,
+#                          1.0, 0.0, 1.0, 0.0, 3], dtype="f")
+# verticies = numpy.array([0.0, 1.0, 0.0, 1.0,
+#                                  1.0, 0.0, 1.0, 0.0,
+#                                  0.0, 0.0, 0.0, 0.0,
+#
+#                                  0.0, 1.0, 0.0, 1.0,
+#                                  1.0, 1.0, 1.0, 1.0,
+#                                  1.0, 0.0, 1.0, 0.0], dtype="f")
+# a = numpy.append(a ,b)
+# print(a)
+#
+#
+# a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# while a:
+#     print (a);
+#     del a[:3]
 
-                         1, 1, 1, 1, 1,
-                         1, 1, 1, 1, 1,
-                         1, 1, 1, 1, 1], dtype="f")
-b = numpy.array([2, 2, 2, 2, 2,
-                         2, 2, 2, 2, 2,
-                         0.0, 0.0, 0.0, 0.0, 3,
-
-                         0.0, 1.0, 0.0, 1.0, 3,
-                         1.0, 1.0, 1.0, 1.0, 3,
-                         1.0, 0.0, 1.0, 0.0, 3], dtype="f")
-verticies = numpy.array([0.0, 1.0, 0.0, 1.0,
-                                 1.0, 0.0, 1.0, 0.0,
-                                 0.0, 0.0, 0.0, 0.0,
-
-                                 0.0, 1.0, 0.0, 1.0,
-                                 1.0, 1.0, 1.0, 1.0,
-                                 1.0, 0.0, 1.0, 0.0], dtype="f")
-a = numpy.append(a ,b)
-print(a)
 
 
 

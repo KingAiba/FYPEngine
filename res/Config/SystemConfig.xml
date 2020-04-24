@@ -2,13 +2,9 @@
 
 <SystemConfig>
 
-<WindowSystem windowTitle="Cyclic Shift v 0.1.0" className="CyclicShift"/>
+<WindowSystem windowTitle="WindowName"/>
 
 
-<Graphics maxFps="60" runFullSpeed="false" allowFullScreen="false" windowWidth="400" frameBufferHeight="0" frameBufferWidth="0"/>
-
-<Sound musicVolume="100" sfxVolume="100"/>
-
-<Localization language="English"/>
+<Graphics maxFps="60" runFullSpeed="false" allowFullScreen="false" windowWidth="800" windowHeight="600"/>
 
 </SystemConfig>

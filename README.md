@@ -35,7 +35,6 @@ class Game:
     def __init__(self, width, height, keys):
         self.width = width
         self.height = height
-        self.keys = keys
 
     def InitRenderer(self):
         return
@@ -52,9 +51,9 @@ class Game:
 After this import the required libraries.
 ```python
 import glm
-import glfw
 from OpenGL.GL import *
 
+from Source.Renderer.windowManager import Window
 from Source.Renderer.ResourseManager import Resources
 from Source.Renderer.SpriteRender import SpriteRender
 ```
@@ -106,50 +105,28 @@ Make a main function at the end of the file like:
 
 WIDTH = 800
 HEIGHT = 600
-Keys = [GL_FALSE] * 1024
 
-NewGame = Game(WIDTH, HEIGHT, Keys)
+
+NewGame = Game(WIDTH, HEIGHT)
 def main():
-    if not glfw.init():
-        print("ERROR : Could not Init GLFW")
-        return 0
-    glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
-    glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
-    glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
+    window = Window()
 
-    window = glfw.create_window(WIDTH, HEIGHT, "GAME", None, None)
-
-    if not window:
-        print("ERROR : Window Creation Failed")
-        glfw.terminate()
-        return 0
-
-    glfw.make_context_current(window)
-
-    glViewport(0, 0, WIDTH, HEIGHT)
-    glEnable(GL_CULL_FACE)
+    window.CreateWindow(WIDTH, HEIGHT, "tutorial")
 
     NewGame.InitRenderer()
 
-    deltaTime = float(0.0)
-    LastFrame = float(0.0)
+    while not window.isWindowClosed():
 
-    while not glfw.window_should_close(window):
-        currentFrame = glfw.get_time()
-        deltaTime = currentFrame - LastFrame
-        LastFrame = currentFrame
-
-        glfw.poll_events()
+        deltaTime = window.GetDeltaTime()
+        window.PollEvents()
 
         NewGame.ProccessInput(deltaTime)
         NewGame.Update(deltaTime)
-
-        glClearColor(0.0, 0.0, 0.0, 1.0)
-        glClear(GL_COLOR_BUFFER_BIT)
+        window.BackgroundColor(0.5, 0.2, 1.0, 1.0)
         NewGame.Render()
-        glfw.swap_buffers(window)
+        window.SwapBuffers()
 
-    glfw.terminate()
+    window.End()
     return 0
 
 

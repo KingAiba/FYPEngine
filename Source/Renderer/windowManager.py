@@ -48,3 +48,7 @@ class Window:
     def BackgroundColor(r, g, b, alpha):
         glClearColor(r, g, b, alpha)
         glClear(GL_COLOR_BUFFER_BIT)
+
+    @staticmethod
+    def End():
+        glfw.terminate()

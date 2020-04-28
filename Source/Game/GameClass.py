@@ -156,7 +156,6 @@ class Game:
     def Update(self, dt):
 
         # print(1/dt)
-
         self.Ball.Move(dt, self.width)
         self.BlockCollision()
         self.PGen.Update(dt, self.Ball, 10, glm.vec2(self.Ball.Radius / 2))

@@ -35,7 +35,7 @@ class SpriteRender:
         glDrawArrays(GL_TRIANGLES, 0, 6)
         glBindVertexArray(0)
 
-    def DrawSpriteFromSheet(self, texture, position, size, rotate, color):
+    def DrawSpriteFromSheet(self, texture, position, size, rotate, color, Grid, Selected):
         self.shader.UseProgram()
 
         model = glm.fmat4(1.0)
@@ -50,8 +50,8 @@ class SpriteRender:
         glUniformMatrix4fv(glGetUniformLocation(self.shader.ID, "model"), 1, GL_FALSE, glm.value_ptr(model))
 
         glUniform3f(glGetUniformLocation(self.shader.ID, "spriteColor"), color.x, color.y, color.z)
-        glUniform2f(glGetUniformLocation(self.shader.ID, "FullGrid"), texture.FullGrid.x, texture.FullGrid.y)
-        glUniform2f(glGetUniformLocation(self.shader.ID, "CurrCoord"), texture.SelectedCoord.x, texture.SelectedCoord.y)
+        glUniform2f(glGetUniformLocation(self.shader.ID, "FullGrid"), Grid.x, Grid.y)
+        glUniform2f(glGetUniformLocation(self.shader.ID, "CurrCoord"), Selected.x, Selected.y)
 
         glActiveTexture(GL_TEXTURE0)
         texture.BindTexture()
@@ -84,5 +84,3 @@ class SpriteRender:
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, ctypes.sizeof(GLfloat) * 4, ctypes.c_void_p(0))
         glBindBuffer(GL_ARRAY_BUFFER, 0)
         glBindVertexArray(0)
-
-

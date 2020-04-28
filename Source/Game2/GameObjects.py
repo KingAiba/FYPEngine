@@ -42,7 +42,6 @@ class Player(Ship):
             newProjectile.Sprite = texture
             self.ProjectileList.append(newProjectile)
 
-
     def DrawProjectiles(self, renderer):
         for P in self.ProjectileList:
             P.Draw(renderer)

@@ -1,3 +1,4 @@
+
 import numpy
 import glm
 from Source.Renderer.BatchRenderer import BatchRenderer
@@ -88,7 +89,51 @@ from Source.Renderer.BatchRenderer import BatchRenderer
 # while a:
 #     print (a);
 #     del a[:3]
+# import xml.etree.ElementTree as ET
+# import os
+#
+#
+# def find_attrib(path, t, att):
+#     myTree = os.path.abspath(path)
+#     myTree = ET.parse(myTree)
+#     myRoot = myTree.getroot()
+#
+#     for i in myRoot:
+#         if (i.tag == t):
+#             return i.attrib[att]
+#         else:
+#             for j in i:
+#                 if (j.tag == t):
+#                     return j.attrib[att]
+#                 else:
+#                     pass
+#
+#
+# print(find_attrib('../../res/Config/actor.xml', 'Sprite', 'Alpha'))
+#
+# -> SceneManager
+# # -> Input Manager
+# # -> System Class -> initialize all system -> load shader and taxtures
+#
+# system -> I/O
+#        -> render
+#         -> Level/Scene Manager
+#                             ->init
+#                             ->free
+#                             ->update
+#                           ->render
 
-
-
-
+# LevelManager  -> init()
+#               ->free()
+#                 -> add() -> list of object in leverl
+#               -> Update()
+#               -> Render()
+# Super class
+# Level Manager in system class
+# Initialize game system in system class
+# Change level functions
+#
+# gameObject class -> attributes, check collision not part
+# -> check -> engine
+#
+#

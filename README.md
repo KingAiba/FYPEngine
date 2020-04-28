@@ -28,112 +28,36 @@ The project should be setup now and to check if everything is working properly r
 to start either of the sample games.
 
 ### Making a new game
-To make a game, first we need to make a small game class, similar to:
+To make a game, first we need to make a subclass of the LevelManager class and making game objects using the Sprite class. We can make sprites by 
+including the path to an xml file, but object can also without an external xml and initializing all Sprite variables through python.
 #### tutorialGame.py
 ```python
-class Game:
-    def __init__(self, width, height, keys):
-        self.width = width
-        self.height = height
+import os
+from Source.System.System import System
+from Source.LevelManager.LevelManager import LevelManager
+from Source.GameObjects.Object import Sprite
 
-    def InitRenderer(self):
-        return
 
-    def Update(self, dt):
-        return
+class LevelTest(LevelManager):
 
-    def ProccessInput(self, dt):
-        return
+    def InitLevel(self):
+        super().InitLevel()
 
-    def Render(self):
-        return
+        player = Sprite(os.path.dirname(__file__) + "/../res/GameObjects/Player.xml")
+        Obj1 = Sprite(os.path.dirname(__file__) + "/../res/GameObjects/Object1.xml")
+        self.AddObject(player)
+        self.AddObject(Obj1)
 ```
-After this import the required libraries.
+After this we need to make a new System object and pass it our Level Object. Then initalize the Level and start our Gameloop
 ```python
-import glm
-from OpenGL.GL import *
+newSystem = System()
+Level1 = LevelTest(newSystem)
 
-from Source.Renderer.windowManager import Window
-from Source.Renderer.ResourseManager import Resources
-from Source.Renderer.SpriteRender import SpriteRender
+newSystem.LevelManager = Level1
+
+Level1.InitLevel()
+newSystem.GameLoop()
 ```
-Now we need to load some textures and shader to setup the renderer. We can do this by
-using the ``Resources.LoadShader(VertexShader FilePath, FragmentShader FilePath, Key)``
-& ``Resources.LoadTexture(Texture FilePath,isAlpha, Key)``.
+This will start rendering the required objects.
 
-```python
-def InitRenderer(self):
-
-    Resources.LoadShader(os.path.dirname(__file__) +"/../../res/Shaders/BatchRenderVS2D.vs",
-                             os.path.dirname(__file__) +"/../../res/Shaders/BatchRenderFS2D.fs", "Shader")
-
-    Resources.LoadTexture(os.path.dirname(__file__) + "/../../res/Textures/DurrrSpaceShip.png", 1,
-                              "ship")
-
-```
-To setup the renderer we need  to include the following line in ``InitRenderer``
-```python
-Renderer = None
-class Game:
-            .
-            . 
-            .
-
-def InitRenderer(self):
-            .
-            .
-            .
-
-    Renderer = SpriteRender(self.Resource.Shaders["Shader"])
-    projection = glm.ortho(0.0, self.width, self.height, 0.0, -1.0, 1.0)
-
-    glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
-                        glm.value_ptr(projection))
-            .
-            .
-    
-```
-We can draw objects in ``def Render(self)`` function by calling ``Renderer.DrawSprite(texture, position, size, rotate, color):``
-```python
- def Render(self):
-    self.Resource.Textures["ship"], glm.vec2(100, 100),
-                           glm.vec2(200, 200), 0.0, glm.vec3(1.0, 1.0, 1.0)
-
-```
-Make a main function at the end of the file like:
-```python
-
-WIDTH = 800
-HEIGHT = 600
-
-
-NewGame = Game(WIDTH, HEIGHT)
-def main():
-    window = Window()
-
-    window.CreateWindow(WIDTH, HEIGHT, "tutorial")
-
-    NewGame.InitRenderer()
-
-    while not window.isWindowClosed():
-
-        deltaTime = window.GetDeltaTime()
-        window.PollEvents()
-
-        NewGame.ProccessInput(deltaTime)
-        NewGame.Update(deltaTime)
-        window.BackgroundColor(0.5, 0.2, 1.0, 1.0)
-        NewGame.Render()
-        window.SwapBuffers()
-
-    window.End()
-    return 0
-
-
-main()
-```
-this should draw the specified object and textures.
-
-#### tutorialGame.py
-
-####
+![Result](res/Textures/cap1.PNG)

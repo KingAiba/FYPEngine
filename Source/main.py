@@ -1,8 +1,8 @@
 import glfw
 from Source.Game.GameClass import Game
-from Source.Renderer.ResourseManager import ResourceManager
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+
 
 WIDTH = 800
 HEIGHT = 600

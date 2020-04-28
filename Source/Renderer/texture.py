@@ -5,7 +5,6 @@ from OpenGL.GL import *
 class Texture:
 
     def __init__(self):
-
         self.ID = glGenTextures(1)
         self.Width = 0
         self.Height = 0
@@ -15,9 +14,6 @@ class Texture:
         self.Wrap_T = GL_REPEAT
         self.Filter_Min = GL_LINEAR
         self.Filter_Max = GL_LINEAR
-        # TODO MOVE TexCoords TO GAME OBJECT
-        self.FullGrid = glm.vec2(1.0, 1.0)
-        self.SelectedCoord = glm.vec2(1.0, 1.0)
 
     def Generate(self, width, height, data):
         self.Width = width
@@ -46,7 +42,3 @@ class Texture:
     def EnableAlpha():
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
-
-
-

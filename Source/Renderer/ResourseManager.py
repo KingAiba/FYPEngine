@@ -7,7 +7,7 @@ from Source.Renderer.Shader import Shader
 from Source.Renderer.texture import Texture
 
 from OpenGL.GL import *
-from OpenGL.GLUT import *
+
 
 from PIL import Image
 
@@ -33,7 +33,8 @@ class ResourceManager:
         self.Textures[Name] = self.TextureFromFile(File, Alpha)
         return self.Textures[Name]
 
-    def TextureFromFile(self, File, Alpha):
+    @staticmethod
+    def TextureFromFile(File, Alpha):
 
         ImageSource = Image.open(File)
 

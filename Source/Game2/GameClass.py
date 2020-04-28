@@ -74,9 +74,7 @@ class Game2:
         self.state = "ACTIVE"
         self.keys = keys
         self.LevelList = []
-
         self.CurrLevel = 0
-
         self.CurrLevel = 1
 
         self.Player = None
@@ -115,7 +113,7 @@ class Game2:
         glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(projection))
 
-        self.Player = Player();
+        self.Player = Player()
 
         self.Player = Player()
 

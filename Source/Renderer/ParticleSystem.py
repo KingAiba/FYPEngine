@@ -64,7 +64,7 @@ class Generator:
 
             if P.Life > 0.0:
 
-                print(self.ParticleList[index].Life)
+                # print(self.ParticleList[index].Life)
 
                 # print(self.ParticleList[index].Life)
 

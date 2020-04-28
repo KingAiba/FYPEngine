@@ -5,8 +5,8 @@ from Source.Renderer.ResourseManager import Resources
 from Source.Renderer.SpriteRender import SpriteRender
 from Source.Renderer.BatchRenderer import BatchRenderer
 
-Rows = 30
-Cols = 30
+Rows = 10
+Cols = 10
 
 
 class Game:
@@ -66,4 +66,3 @@ class Game:
             i = i + 1
 
         self.Renderer.Render()
-

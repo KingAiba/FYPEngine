@@ -55,7 +55,8 @@ class BatchRenderer:
         glEnableVertexAttribArray(3)
         glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, ctypes.sizeof(GLfloat) * 8,
                               ctypes.c_void_p(7 * ctypes.sizeof(GLfloat)))
-# TODO fix texture slot inconsistency
+
+    # TODO fix texture slot inconsistency
     def Render(self):
         IDarray = [None] * self.MaxTexture
         count = 0
@@ -130,8 +131,6 @@ class BatchRenderer:
         self.Objects.clear()
         self.Textures = [None] * self.MaxTexture
         self.TextureIndex = 0
-
-
 
 # int index = int(TexID);
 #     if(index == 0){

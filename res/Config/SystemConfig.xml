@@ -2,9 +2,6 @@
 
 <SystemConfig>
 
-<WindowSystem windowTitle="WindowName"/>
-
-
-<Graphics maxFps="60" runFullSpeed="false" allowFullScreen="false" windowWidth="800" windowHeight="600"/>
+<Window windowTitle="WindowName" windowWidth="800" windowHeight="600"/>
 
 </SystemConfig>

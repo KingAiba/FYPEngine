@@ -3,12 +3,10 @@
 # dictionary["New"] = "New"
 # print(dictionary)
 
-from Source.Renderer.Shader import Shader
-from Source.Renderer.texture import Texture
+from .Shader import Shader
+from .texture import Texture
 
 from OpenGL.GL import *
-
-
 from PIL import Image
 
 
@@ -22,7 +20,7 @@ class ResourceManager:
         return self.Shaders[Shader]
 
     def GetTexture(self, TexName):
-        return self.Shaders[TexName]
+        return self.Textures[TexName]
 
     def LoadShader(self, VertexShaderFile, FragmentShaderFile, Name):
         NewShader = Shader(VertexShaderFile, FragmentShaderFile)

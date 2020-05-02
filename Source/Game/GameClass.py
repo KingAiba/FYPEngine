@@ -1,14 +1,17 @@
-import glm
 import glfw
+import glm
+import os
+
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-from Source.Renderer.ResourseManager import ResourceManager
-from Source.Renderer.ResourseManager import Resources
-from Source.Renderer.SpriteRender import SpriteRender
-from Source.Renderer.ParticleSystem import Generator
-from Source.Game.GameLevel import GameLevel
-from Source.Game.GameObject import GameObject
-from Source.Game.GameObject import BallObject
+
+from .GameLevel import GameLevel
+from .GameObject import BallObject
+from .GameObject import GameObject
+from Renderer.ParticleSystem import Generator
+from Renderer.ResourseManager import Resources
+from Renderer.SpriteRender import SpriteRender
+
 
 Player_Size = glm.vec2(100, 20)
 Player_Velocity = float(500.0)

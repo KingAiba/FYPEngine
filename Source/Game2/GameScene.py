@@ -1,10 +1,7 @@
-import glm
 import random
-from OpenGL.GL import *
-from OpenGL.GLUT import *
-from Source.Renderer.SpriteRender import SpriteRender
-from Source.Renderer.ResourseManager import Resources
-from Source.Game2.GameObjects import *
+
+from .GameObjects import *
+from Renderer.ResourseManager import Resources
 
 
 class Scene:

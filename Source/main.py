@@ -1,5 +1,5 @@
 import glfw
-from Source.Game.GameClass import Game
+from Game.GameClass import Game
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 

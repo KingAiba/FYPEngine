@@ -1,3 +1,4 @@
+
 class LevelManager:
     def __init__(self, system):
         self.gameObjects = []

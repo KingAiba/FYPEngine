@@ -1,7 +1,7 @@
 import os
-from Source.System.System import System
-from Source.LevelManager.LevelManager import LevelManager
-from Source.GameObjects.Object import Sprite
+from System.System import System
+from LevelManager.LevelManager import LevelManager
+from GameObjects.Object import Sprite
 
 
 class LevelTest(LevelManager):

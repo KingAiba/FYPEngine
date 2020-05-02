@@ -1,8 +1,5 @@
-import os
 import OpenGL.GL.shaders
 from OpenGL.GL import *
-from OpenGL.GLUT import *
-import glfw
 
 
 def framebuffer_size_callback(window, width, height):

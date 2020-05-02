@@ -1,9 +1,9 @@
 import glm
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-from Source.Renderer.ResourseManager import Resources
-from Source.Renderer.SpriteRender import SpriteRender
-from Source.Renderer.BatchRenderer import BatchRenderer
+
+from ..Renderer.BatchRenderer import BatchRenderer
+from ..Renderer.ResourseManager import Resources
 
 Rows = 10
 Cols = 10

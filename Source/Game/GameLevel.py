@@ -1,11 +1,9 @@
-import os
 import glm
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-from Source.Game.GameObject import GameObject
-from Source.Renderer.SpriteRender import SpriteRender
-from Source.Renderer.ResourseManager import ResourceManager
-from Source.Renderer.ResourseManager import Resources
+
+from .GameObject import GameObject
+from Renderer.ResourseManager import Resources
 
 
 class GameLevel:

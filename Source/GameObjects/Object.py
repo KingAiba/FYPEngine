@@ -1,6 +1,6 @@
 import glm
-from Source.Utility.XmlUtility import GetAttribute
-from Source.Renderer.ResourseManager import Resources
+from Utility.XmlUtility import GetAttribute
+from Renderer.ResourseManager import Resources
 
 # PathToTexture = "../"
 

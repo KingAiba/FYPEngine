@@ -1,7 +1,5 @@
 .idea
-Source\Renderer\__pycache__
 venv
-Source\__pycache
 Source\dist
 Source\build
 Source\main.spec

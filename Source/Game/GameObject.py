@@ -1,8 +1,6 @@
 import glm
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-from Source.Renderer.SpriteRender import SpriteRender
-from Source.Renderer.texture import Texture
 
 
 class GameObject:

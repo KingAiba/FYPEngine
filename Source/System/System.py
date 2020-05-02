@@ -1,15 +1,13 @@
-import glm
-import glfw
 import os
-from OpenGL.GL import *
-from Source.Renderer.ResourseManager import Resources
-from Source.Renderer.windowManager import Window
-from Source.Renderer.SpriteRender import SpriteRender
-from Source.Renderer.ParticleSystem import Generator
-from Source.Utility.XmlUtility import GetAttribute
-from Source.System.InputManager import InputManager
-from Source.Renderer.Shader import Shader
 
+import glm
+from OpenGL.GL import *
+
+from Renderer.ResourseManager import Resources
+from Renderer.SpriteRender import SpriteRender
+from Renderer.windowManager import Window
+from .InputManager import InputManager
+from Utility.XmlUtility import GetAttribute
 
 window = Window()
 

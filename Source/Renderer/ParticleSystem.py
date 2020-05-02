@@ -1,11 +1,8 @@
+import random
 import glm
 import numpy
-import random
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-from Source.Renderer.Shader import Shader
-from Source.Renderer.texture import Texture
-from Source.Game.GameObject import GameObject
 
 
 class Particle:

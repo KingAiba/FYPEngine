@@ -1,6 +1,4 @@
 import glm
-from OpenGL.GL import *
-from OpenGL.GLUT import *
 
 
 class Ship:

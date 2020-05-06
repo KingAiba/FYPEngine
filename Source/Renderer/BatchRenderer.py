@@ -1,8 +1,13 @@
 import numpy
 import glm
+import os
+import sys
 import _ctypes
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+sys.path.append(os.path.dirname(__file__)+"/../../")
+from Source.Renderer.texture import Texture
+
 
 #                         x   y    color        tx   ty   ti
 sampleQuad = numpy.array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1,

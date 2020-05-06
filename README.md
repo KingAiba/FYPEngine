@@ -34,8 +34,8 @@ including the path to an xml file, but object can also without an external xml a
 ```python
 import os
 from Source.System.System import System
-from Source.LevelManager.LevelManager import LevelManager
-from Source.GameObjects.Object import Sprite
+from Source.System.LevelManager import LevelManager
+from Source.System.gameObject import Sprite
 
 
 class LevelTest(LevelManager):

@@ -1,6 +1,7 @@
 import random
-
-from .GameObjects import *
+import glm
+from GameObjects import Ship
+from GameObjects import Player
 from Renderer.ResourseManager import Resources
 
 

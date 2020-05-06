@@ -1,7 +1,9 @@
 import os
+import sys
 from System.System import System
-from LevelManager.LevelManager import LevelManager
-from GameObjects.Object import Sprite
+from System.LevelManager import LevelManager
+from System.gameObject import Sprite
+
 
 
 class LevelTest(LevelManager):
@@ -15,8 +17,13 @@ class LevelTest(LevelManager):
         self.AddObject(Obj1)
 
 
+
 newSystem = System()
 Level1 = LevelTest(newSystem)
 newSystem.LevelManager = Level1
 Level1.InitLevel()
 newSystem.GameLoop()
+
+
+
+

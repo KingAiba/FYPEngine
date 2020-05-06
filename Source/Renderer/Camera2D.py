@@ -1,16 +1,34 @@
 import glm
+import os
+import sys
+
+sys.path.append(os.path.dirname(__file__) + "/../../")
+from OpenGL.GL import *
+
 
 class Camera2D:
 
-    def __init__(self, screenWidth, screenHeight):
-        self.position = glm.vec2(0)
-        self.screenWidth = screenWidth
-        self.screenHeight = screenHeight
-        self.scale = 0.0
-        self.orthoMatrix = glm.ortho(0.0, self.screenWidth, 0.0, self.screenHeight)
+    def __init__(self, left, right, top, bottom):
+        self.position = glm.vec3(0.0, 0.0, 0.0)
+        self.rotation = float(0.0)
+        self.scale = float(0.0)
 
-    def setPosition(self, newPosition):
-        self.position = newPosition
+        self.projectionMat = glm.ortho(left, right, bottom, top, -1.0, 1.0)
+        self.viewMat = glm.mat4(1)
+        self.VP = self.projectionMat * self.viewMat
+
+        self.screenWidth = right
+        self.screenHeight = bottom
+
+    def setPosition(self, x, y):
+        self.position.x = x
+        self.position.y = y
+
+    def setRotation(self, rotation):
+        self.rotation = rotation
+
+    def getRotation(self):
+        return self.rotation
 
     def getPosition(self):
         return self.position
@@ -21,13 +39,30 @@ class Camera2D:
     def getScale(self):
         return self.scale
 
-    def getCameraMatrix(self):
-        return self.orthoMatrix
+    def getVP(self):
+        return self.VP
 
-    def update(self):
-        cameraMatrix = glm.translate(self.orthoMatrix, glm.vec3(self.position.x, self.position.y, 0.0))
-        cameraMatrix = glm.scale(cameraMatrix, glm.vec3(self.scale, self.scale, 0.0))
-        return cameraMatrix
+    def setProjection(self, left, right, top, bottom):
+        self.projectionMat = glm.ortho(left, right, bottom, top, -1.0, 1.0)
 
+    def getProjection(self):
+        return self.projectionMat
 
+    def getView(self):
+        return self.viewMat
 
+    def CalcViewMatrix(self):
+        transfrom = glm.translate(glm.mat4(1), self.position)
+        transfrom = glm.rotate(transfrom, self.rotation, glm.vec3(0, 0, 1))
+
+        self.viewMat = glm.inverse(transfrom)
+        self.VP = self.projectionMat * self.viewMat
+
+    def update(self, x, y, rotation):
+        self.setPosition(x, y)
+        self.setRotation(rotation)
+        self.CalcViewMatrix()
+
+    def upload(self, shaderID, uniform):
+        glUniformMatrix4fv(glGetUniformLocation(shaderID, uniform), 1, GL_FALSE,
+                           glm.value_ptr(self.VP))

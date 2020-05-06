@@ -1,9 +1,13 @@
 import glm
+import os
+import sys
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+sys.path.append(os.path.dirname(__file__)+"/../../")
 
-from ..Renderer.BatchRenderer import BatchRenderer
-from ..Renderer.ResourseManager import Resources
+from Source.Renderer.BatchRenderer import BatchRenderer
+from Source.Renderer.ResourseManager import Resources
+
 
 Rows = 10
 Cols = 10

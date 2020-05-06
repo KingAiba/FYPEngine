@@ -17,7 +17,7 @@ class SpriteRender:
 
         model = glm.fmat4(1.0)
         model = glm.translate(model, glm.vec3(position, 0.0))
-
+        # TRS
         model = glm.translate(model, glm.vec3(0.5 * size.x, 0.5 * size.y, 0.0))
         model = glm.rotate(model, rotate, glm.vec3(0.0, 0.0, 1.0))
         model = glm.translate(model, glm.vec3(-0.5 * size.x, -0.5 * size.y, 0.0))

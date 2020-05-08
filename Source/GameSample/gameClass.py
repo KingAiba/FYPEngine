@@ -36,8 +36,7 @@ class Game:
         Resources.LoadTexture(os.path.dirname(__file__) + "/../../res/Textures/block.png", 0,
                               "block")
         # self.Renderer = SpriteRender(Resources.Shaders["Shader1"])
-        self.Renderer = BatchRenderer()
-        self.Renderer.Shader = Resources.Shaders["Shader"]
+        self.Renderer = BatchRenderer(Resources.Shaders["Shader"])
         self.Renderer.Start()
         # Resources.Textures["testTexture"].FullGrid = glm.vec2(4, 3)
 

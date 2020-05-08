@@ -8,7 +8,7 @@ from OpenGL.GL import *
 
 class Camera2D:
 
-    def __init__(self, left, right, top, bottom):
+    def __init__(self, left, right, bottom, top):
         self.position = glm.vec3(0.0, 0.0, 0.0)
         self.rotation = float(0.0)
         self.scale = float(0.0)
@@ -42,7 +42,7 @@ class Camera2D:
     def getVP(self):
         return self.VP
 
-    def setProjection(self, left, right, top, bottom):
+    def setProjection(self, left, right, bottom, top):
         self.projectionMat = glm.ortho(left, right, bottom, top, -1.0, 1.0)
 
     def getProjection(self):
@@ -58,11 +58,15 @@ class Camera2D:
         self.viewMat = glm.inverse(transfrom)
         self.VP = self.projectionMat * self.viewMat
 
+    def upload(self, shaderID, uniform):
+        glUniformMatrix4fv(glGetUniformLocation(shaderID, uniform), 1, GL_FALSE,
+                           glm.value_ptr(self.VP))
+
     def update(self, x, y, rotation):
         self.setPosition(x, y)
         self.setRotation(rotation)
         self.CalcViewMatrix()
+        # print(self.VP)
 
-    def upload(self, shaderID, uniform):
-        glUniformMatrix4fv(glGetUniformLocation(shaderID, uniform), 1, GL_FALSE,
-                           glm.value_ptr(self.VP))
+
+

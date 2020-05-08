@@ -10,6 +10,7 @@ class Particle:
         self.Position = glm.vec2(0.0)
         self.Velocity = glm.vec2(0.0)
         self.Color = glm.vec4(1.0)
+        self.Scale = float(6.0)
         self.Life = float(0.0)
 
 
@@ -31,6 +32,7 @@ class Generator:
 
         for particle in self.ParticleList:
             if particle.Life > 0.0:
+                glUniform1f(glGetUniformLocation(self.Shader.ID, "Scale"), particle.Scale)
                 glUniform2f(glGetUniformLocation(self.Shader.ID, "offset"), particle.Position.x, particle.Position.y)
                 # print(particle.Position)
                 glUniform4f(glGetUniformLocation(self.Shader.ID, "color"), particle.Color.x, particle.Color.y,
@@ -47,9 +49,9 @@ class Generator:
 
         for index in range(0, particle):
 
-            Unsed = self.FindUnusedParticle()
+            Unused = self.FindUnusedParticle()
 
-            self.RespawnParticle(self.ParticleList[Unsed], obj, offset)
+            self.RespawnParticle(self.ParticleList[Unused], obj, offset)
 
             Unused = self.FindUnusedParticle()
 
@@ -57,16 +59,12 @@ class Generator:
 
         for index in range(0, self.amount):
             P = self.ParticleList[index]
-            P.Life = P.Life - dt
+            P.Life = P.Life - dt*6
 
             if P.Life > 0.0:
 
-                # print(self.ParticleList[index].Life)
-
-                # print(self.ParticleList[index].Life)
-
                 P.Position = P.Position - (P.Velocity * dt)
-                P.Color.w = P.Color.w - (dt*2)
+                P.Color.w = P.Color.w - dt*2
                 # print(P.Color, P.Velocity, P.Position)
 
     def InitRenderer(self):

@@ -42,7 +42,7 @@ class SpriteRender:
         model = glm.translate(model, glm.vec3(position, 0.0))
 
         model = glm.translate(model, glm.vec3(0.5 * size.x, 0.5 * size.y, 0.0))
-        model = glm.rotate(model, rotate, glm.vec3(0.0, 0.0, 1.0))
+        model = glm.rotate(model, glm.radians(rotate), glm.vec3(1.0, 0.0, 0.0))
         model = glm.translate(model, glm.vec3(-0.5 * size.x, -0.5 * size.y, 0.0))
 
         model = glm.scale(model, glm.vec3(size, 1.0))
@@ -52,6 +52,7 @@ class SpriteRender:
         glUniform3f(glGetUniformLocation(self.shader.ID, "spriteColor"), color.x, color.y, color.z)
         glUniform2f(glGetUniformLocation(self.shader.ID, "FullGrid"), Grid.x, Grid.y)
         glUniform2f(glGetUniformLocation(self.shader.ID, "CurrCoord"), Selected.x, Selected.y)
+
 
         glActiveTexture(GL_TEXTURE0)
         texture.BindTexture()
@@ -65,7 +66,7 @@ class SpriteRender:
         self.shader.UseProgram()
 
         VBO = GLuint(0)
-        #                        //Pos    //Tex
+        #                      //Pos    //Tex
         vertices = numpy.array([0.0, 1.0, 0.0, 1.0,
                                 1.0, 0.0, 1.0, 0.0,
                                 0.0, 0.0, 0.0, 0.0,
@@ -73,6 +74,15 @@ class SpriteRender:
                                 0.0, 1.0, 0.0, 1.0,
                                 1.0, 1.0, 1.0, 1.0,
                                 1.0, 0.0, 1.0, 0.0], dtype="f")
+        #                      //Pos    //Tex
+        # vertices = numpy.array([0.0, 1.0, 1.0, 1.0,
+        #                         1.0, 0.0, 0.0, 0.0,
+        #                         0.0, 0.0, 1.0, 0.0,
+        #
+        #                         0.0, 1.0, 1.0, 1.0,
+        #                         1.0, 1.0, 0.0, 1.0,
+        #                         1.0, 0.0, 0.0, 0.0], dtype="f")
+
         glGenVertexArrays(1, self.VAO)
         glGenBuffers(1, VBO)
 

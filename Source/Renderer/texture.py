@@ -2,6 +2,7 @@ import glm
 from OpenGL.GL import *
 
 
+
 class Texture:
 
     def __init__(self):
@@ -37,6 +38,16 @@ class Texture:
         glActiveTexture(GL_TEXTURE0 + slot)
         glBindTexture(GL_TEXTURE_2D, self.ID)
         return self.ID
+
+    def setTextureAttributes(self, Wrap_S, Wrap_T, Filter_Min, Filter_Max):
+        self.Wrap_S = Wrap_S
+        self.Wrap_T = Wrap_T
+        self.Filter_Min = Filter_Min
+        self.Filter_Max = Filter_Max
+
+    @staticmethod
+    def UnbindTexture():
+        glBindTexture(GL_TEXTURE_2D, 0)
 
     @staticmethod
     def EnableAlpha():

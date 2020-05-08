@@ -1,9 +1,9 @@
 <Actor name = "Object1">
 	<Component>
-		<Transform PosX = "250" PosY = "250" rotation = "0" sizeX = "200"
-                sizeY = "150"/>
-		<Sprite textureName="golem_attacking" texturePath = "../res/Textures/golem_attacking.png" ColorR="1.0" ColorG="1.0" ColorB="1.0" isAlpha="1" Alpha="1.0"
-				GridX="3" GridY="4" SelectedX="2" SelectedY="3" />
+		<Transform PosX = "250" PosY = "250" rotation = "0" sizeX = "100"
+                sizeY = "100"/>
+		<Sprite textureName="adventurer" texturePath = "../res/Textures/adventurer-Sheet.png" ColorR="1.0" ColorG="1.0" ColorB="1.0" isAlpha="1" Alpha="1.0"
+				GridX="8" GridY="12" SelectedX="1" SelectedY="1" />
 	</Component>
 
 </Actor>

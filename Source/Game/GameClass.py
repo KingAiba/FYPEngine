@@ -12,7 +12,6 @@ from Renderer.ParticleSystem import Generator
 from Renderer.ResourseManager import Resources
 from Renderer.SpriteRender import SpriteRender
 
-
 Player_Size = glm.vec2(100, 20)
 Player_Velocity = float(500.0)
 Ball_Velocity = glm.vec2(100.0, -350.0)
@@ -134,16 +133,10 @@ class Game:
         self.Ball.Velocity = Ball_Velocity
         self.Ball.Sprite = Resources.Textures["spikedball"]
 
-        self.PGen = Generator(Resources.Shaders["ParticleShader"], Resources.Textures["particle"], 500)
-
         self.LevelsList.append(Zero)
         self.LevelsList.append(One)
         self.LevelsList.append(Two)
         self.LevelsList.append(Three)
-
-        # print(self.LevelsList)
-
-        # print(self.LevelsList)
 
         self.Level = 3
 
@@ -153,6 +146,8 @@ class Game:
 
         glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(projection))
+
+        self.PGen = Generator(Resources.Shaders["ParticleShader"], Resources.Textures["particle"], 555)
         glUniformMatrix4fv(glGetUniformLocation(self.Resource.Shaders["ParticleShader"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(projection))
 
@@ -161,7 +156,7 @@ class Game:
         # print(1/dt)
         self.Ball.Move(dt, self.width)
         self.BlockCollision()
-        self.PGen.Update(dt, self.Ball, 10, glm.vec2(self.Ball.Radius / 2))
+        self.PGen.Update(dt, self.Ball, 20, glm.vec2(self.Ball.Radius / 2))
         if self.Ball.Position.y >= self.height:
             self.ResetLevel()
             self.ResetPlayer()

@@ -2,11 +2,12 @@ import os
 import sys
 import glm
 from OpenGL.GL import *
-sys.path.append(os.path.dirname(__file__)+"/../../")
 
+sys.path.append(os.path.dirname(__file__) + "/../../")
 
 from Source.Renderer.ResourseManager import Resources
 from Source.Renderer.SpriteRender import SpriteRender
+from Source.Renderer.BatchRenderer import BatchRenderer
 from Source.Renderer.windowManager import Window
 from Source.Renderer.Camera2D import *
 from Source.System.InputManager import *
@@ -30,7 +31,7 @@ class System:
         self.Camera = None
         self.ConfigPath = os.path.dirname(__file__) + "/../../res/Config/SystemConfig.xml"
 
-    def InitSystems(self):
+    def InitSystem(self):
         self.windowWidth = int(GetAttribute(self.ConfigPath, "Window", "windowWidth"))
         self.windowHeight = int(GetAttribute(self.ConfigPath, "Window", "windowHeight"))
         self.windowTitle = GetAttribute(self.ConfigPath, "Window", "windowTitle")
@@ -46,11 +47,9 @@ class System:
         Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderVS2D.vs",
                              os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderFS2D.fs", "BatchShader")
 
-
-        # print(Resources.Shaders["Shader"])
-
         self.SpriteRenderer = SpriteRender(Resources.Shaders["Shader"])
         self.SpriteRenderer.initRenderer()
+
         self.Camera = Camera2D(0.0, self.windowWidth, 0.0, self.windowHeight)
         self.Camera.update(0.0, 0.0, 0.0)
         # projection = glm.ortho(0.0, self.windowWidth, self.windowHeight, 0.0, -1.0, 1.0)
@@ -58,17 +57,32 @@ class System:
         glUniformMatrix4fv(glGetUniformLocation(Resources.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(self.Camera.VP))
 
-    def GameLoop(self):
-        while not window.isWindowClosed():
-            window.PollEvents()
-            self.LevelManager.Update()
-            window.BackgroundColor(0.2, 0.2, 0.4, 1.0)
-            self.LevelManager.Draw()
-            window.SwapBuffers()
+        self.BatchRenderer = BatchRenderer(Resources.Shaders["BatchShader"])
+        self.BatchRenderer.Start()
+        self.Camera.update(0.0, 0.0, 0.0)
+        glUniformMatrix4fv(glGetUniformLocation(Resources.Shaders["BatchShader"].ID, "projection"), 1, GL_FALSE,
+                           glm.value_ptr(self.Camera.VP))
+
+    def GameLoop(self, flag, r=0.3, g=0.2, b=0.6, a=1.0):
+
+        if flag == 0:
+            while not window.isWindowClosed():
+                window.PollEvents()
+                self.LevelManager.Update(self.GetDeltaTime())
+                window.BackgroundColor(r, g, b, a)
+                self.LevelManager.Draw()
+                window.SwapBuffers()
+        else:
+            while not window.isWindowClosed():
+                window.PollEvents()
+                self.LevelManager.Update(self.GetDeltaTime())
+                window.BackgroundColor(r, g, b, a)
+                self.LevelManager.BatchDraw()
+                self.BatchRender()
+                window.SwapBuffers()
 
     def ClearSystem(self):
         self.LevelManager.ClearLevel()
-
 
     def ChangeLevel(self, newLevel):
         self.LevelManager.ClearLevel()
@@ -79,9 +93,56 @@ class System:
     def GetDeltaTime():
         return window.GetDeltaTime()
 
-    def GetKeys(self):
+    def GetInput(self):
         return self.InputManager.getKeys()
 
+    def UpdateCamera(self, x, y, rotation, flag=0):
+        if flag == 0:
+            self.SpriteRenderer.shader.UseProgram()
+            self.Camera.update(x, y, rotation)
+            self.Camera.upload(self.SpriteRenderer.shader.ID, "projection")
+        else:
+            self.BatchRenderer.Shader.UseProgram()
+            self.Camera.update(x, y, rotation)
+            self.Camera.upload(self.BatchRenderer.Shader.ID, "projection")
+
+    def getCameraPosition(self):
+        return self.Camera.getPosition()
+
+    def setCamera(self, left, right, bottom, top):
+        self.Camera.setProjection(left, right, bottom, top)
+
+    def getKey(self, key):
+        return self.InputManager.key_string_to_glfw(key)
+
+    def BatchRender(self):
+        self.BatchRenderer.Render()
+
+    @staticmethod
+    def GetResourceManager():
+        return Resources
+
+    @staticmethod
+    def LoadTextureToResources(texturePath, key, isAlpha):
+        if key in Resources.Textures:
+            pass
+        else:
+            Resources.LoadTexture(texturePath, isAlpha, key)
+
+    @staticmethod
+    def GetTextureFromResources(key):
+        return Resources.GetTexture(key)
+
+    @staticmethod
+    def LoadShaderToResources(VertexShaderFile, FragmentShaderFile, key):
+        if key in Resources.Shaders:
+            pass
+        else:
+            Resources.LoadShader(VertexShaderFile, FragmentShaderFile, key)
+
+    @staticmethod
+    def GetShaderFromResources(key):
+        return Resources.GetShader(key)
 
 # EngineSystem = System()
 # EngineSystem.InitSystems()

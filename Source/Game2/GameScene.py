@@ -1,8 +1,8 @@
 import random
 import glm
-from GameObjects import Ship
-from GameObjects import Player
-from Renderer.ResourseManager import Resources
+from Source.Game2.GameObjects import Ship
+from Source.Game2.GameObjects import Player
+from Source.Renderer.ResourseManager import Resources
 
 
 class Scene:

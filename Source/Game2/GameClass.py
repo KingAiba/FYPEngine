@@ -5,9 +5,9 @@ import os
 from OpenGL.GL import *
 from .GameScene import *
 from .GameObjects import *
-from Renderer.ParticleSystem import Generator
-from Renderer.ResourseManager import Resources
-from Renderer.SpriteRender import SpriteRender
+from Source.Renderer.ParticleSystem import Generator
+from Source.Renderer.ResourseManager import Resources
+from Source.Renderer.SpriteRender import SpriteRender
 
 Player_Velocity = float(550.0)
 Player_Size = glm.vec2(125, 125)

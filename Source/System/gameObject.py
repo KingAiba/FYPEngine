@@ -1,6 +1,12 @@
 import glm
-from Utility.XmlUtility import GetAttribute
-from Renderer.ResourseManager import Resources
+import os
+import sys
+
+sys.path.append(os.path.dirname(__file__) + "/../../")
+
+from Source.Utility.XmlUtility import GetAttribute
+from Source.Renderer.ResourseManager import Resources
+
 
 # PathToTexture = "../"
 
@@ -17,21 +23,31 @@ class Sprite:
         self.Texture = ""
         self.Grid = glm.vec2(1, 1)
         self.Selected = glm.vec2(1, 1)
+        self.VerticalFlip = 0
+        self.HorizontalFlip = 0
+        self.TexID = 0
+        self.Animated = False
+        self.Animations = []
+        self.AnimationState = 0
 
         if FilePath is not None:
             self.GetAttrFromFile(FilePath)
 
-    def Update(self):
-        return
+    def Update(self, dt):
+        pass
 
     def Move(self, dt):
         self.position = self.position + (self.Velocity * dt)
-
         return self.position
 
     def Draw(self, system):
         system.SpriteRenderer.DrawSpriteFromSheet(Resources.Textures[self.Texture], self.position, self.Size,
-                                                        self.Rotation, self.Color, self.Grid, self.Selected)
+                                                  self.Rotation, self.Color, self.Grid, self.Selected)
+
+    def BatchDraw(self, system):
+        system.BatchRenderer.Draw(Resources.Textures[self.Texture], self.position, self.Size,
+                                  self.Rotation, self.Color, self.Grid, self.Selected, self.TexID,
+                                  self.VerticalFlip)
 
     def GetAttrFromFile(self, FilePath):
         self.position.x = float(GetAttribute(FilePath, "Transform", "PosX"))
@@ -53,8 +69,10 @@ class Sprite:
         self.Selected.y = int(GetAttribute(FilePath, "Sprite", "SelectedY"))
 
         isAlpha = int(GetAttribute(FilePath, "Sprite", "isAlpha"))
-
-        Resources.LoadTexture(GetAttribute(FilePath, "Sprite", "texturePath"), isAlpha, self.Texture)
+        if self.Texture in Resources.Textures:
+            pass
+        else:
+            Resources.LoadTexture(GetAttribute(FilePath, "Sprite", "texturePath"), isAlpha, self.Texture)
 
     def DetectCollision(self, gameObject):
         ColX = False
@@ -68,6 +86,47 @@ class Sprite:
             ColY = True
 
         return ColX and ColY
+
+    @staticmethod
+    def CheckDirection(target):
+        compass = [glm.vec2(0.0, 1.0), glm.vec2(1.0, 0.0), glm.vec2(0.0, -1.0), glm.vec2(-1.0, 0.0)]
+        direction = ["UP", "RIGHT", "DOWN", "LEFT"]
+
+        maxVal = 0.0
+        bestVal = -1
+        index = 0
+
+        for value in compass:
+            dotProduct = glm.dot(glm.normalize(target), value)
+
+            if dotProduct > maxVal:
+                maxVal = dotProduct
+                bestVal = index
+
+            index = index + 1
+
+        return direction[bestVal]
+
+    def CheckClampedCollision(self, Obj1, Obj2):
+        # find center of call
+        center = glm.vec2(Obj1.Position + Obj1.Radius)
+
+        # calculate halk extents
+        halfExtent = glm.vec2(Obj2.Size.x / 2, Obj2.Size.y / 2)
+        aabbCenter = glm.vec2(Obj2.Position.x + halfExtent.x, Obj2.Position.y + halfExtent.y)
+
+        # get difference and clamped val
+        difference = center - aabbCenter
+        clamped = glm.clamp(difference, -halfExtent, halfExtent)
+        closest = aabbCenter + clamped
+        difference = closest - center
+
+        if glm.length(difference) < Obj1.Radius:
+            Collision = (True, self.CheckDirection(difference), difference)
+        else:
+            Collision = (False, "UP", glm.vec2(0, 0))
+
+        return Collision
 
     def getPosition(self):
         return self.position
@@ -126,3 +185,26 @@ class Sprite:
 
     def getSelected(self):
         return self.Selected
+
+    def addAnimation(self, newAnimation):
+        self.Animations.append(newAnimation)
+
+    def playAnimation(self, dt):
+        if self.Animated:
+            self.Selected = self.Animations[self.AnimationState].Play(dt)
+            # print(self.Selected)
+
+    def ChangeAnimationState(self, state):
+        self.AnimationState = state
+
+    def setTexture(self, key):
+        self.Texture = key
+
+    def setNewTexture(self, texturePath, isAlpha, key):
+        if key in Resources.Textures:
+            pass
+        else:
+            Resources.LoadTexture(texturePath, isAlpha, key)
+
+        self.Texture = key
+

@@ -5,9 +5,9 @@ import sys
 import _ctypes
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-sys.path.append(os.path.dirname(__file__)+"/../../")
-from Source.Renderer.texture import Texture
 
+sys.path.append(os.path.dirname(__file__) + "/../../")
+from Source.Renderer.texture import Texture
 
 #                         x   y    color        tx   ty   ti
 sampleQuad = numpy.array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1,
@@ -20,8 +20,8 @@ sampleQuad = numpy.array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1,
 
 
 class BatchRenderer:
-    def __init__(self):
-        self.Shader = None
+    def __init__(self, shader):
+        self.Shader = shader
         self.VAO = GLuint(0)
         self.VBO = GLuint(0)
         self.Objects = []
@@ -30,9 +30,6 @@ class BatchRenderer:
         self.TextureIndex = 0
         self.Textures = [None] * self.MaxTexture
         self.BufferSize = numpy.size(sampleQuad) * self.MaxObjects * 4
-
-    def AddObject(self, position, size, rotation, grid, selected):
-        return
 
     def Start(self):
         self.Shader.Compile()
@@ -63,6 +60,7 @@ class BatchRenderer:
 
     # TODO fix texture slot inconsistency
     def Render(self):
+        self.Shader.UseProgram()
         IDarray = [None] * self.MaxTexture
         count = 0
         for texture in self.Textures:
@@ -95,7 +93,10 @@ class BatchRenderer:
             # print("Batch Done at : " + str(count))
         self.End()
 
-    def Draw(self, texture, position, size, rotate, color, grid, selected, TexID):
+    def Draw(self, texture, position, size, rotate, color, grid, selected, TexID, VerticalFlip=0):
+
+        self.Shader.UseProgram()
+
         model = glm.fmat4(1.0)
         model = glm.translate(model, glm.vec3(position, 0.0))
 
@@ -109,18 +110,45 @@ class BatchRenderer:
         glPos2 = model * glm.vec4(1.0, 0.0, 0.0, 1.0)
         glPos3 = model * glm.vec4(0.0, 0.0, 0.0, 1.0)
         glPos4 = model * glm.vec4(1.0, 1.0, 0.0, 1.0)
+        # 1 -- (selected.x / grid.x)
+        # 0 -- ((selected.x - 1) / grid.x)
+        if VerticalFlip == 1:
+            # Pos                 color                            TexCoords                                    TexID
+            vertices = numpy.array(
+                [glPos1.x, glPos1.y, color.x, color.y, color.z, (selected.x / grid.x), (selected.y / grid.y),
+                 TexID,
+                 glPos2.x, glPos2.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x),
+                 ((selected.y - 1) / grid.y),
+                 TexID,
+                 glPos3.x, glPos3.y, color.x, color.y, color.z, (selected.x / grid.x),
+                 ((selected.y - 1) / grid.y),
+                 TexID,
 
-        # Pos                 color                            TexCoords                                    TexID
-        vertices = numpy.array(
-            [glPos1.x, glPos1.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), (selected.y / grid.y), TexID,
-             glPos2.x, glPos2.y, color.x, color.y, color.z, (selected.x / grid.x), ((selected.y - 1) / grid.y), TexID,
-             glPos3.x, glPos3.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), ((selected.y - 1) / grid.y),
-             TexID,
+                 glPos1.x, glPos1.y, color.x, color.y, color.z, (selected.x / grid.x), (selected.y / grid.y),
+                 TexID,
+                 glPos4.x, glPos4.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), (selected.y / grid.y),
+                 TexID,
+                 glPos2.x, glPos2.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x),
+                 ((selected.y - 1) / grid.y),
+                 TexID],
+                dtype="f")
+        else:
+            # Pos                 color                            TexCoords                                    TexID
+            vertices = numpy.array(
+                [glPos1.x, glPos1.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), (selected.y / grid.y),
+                 TexID,
+                 glPos2.x, glPos2.y, color.x, color.y, color.z, (selected.x / grid.x), ((selected.y - 1) / grid.y),
+                 TexID,
+                 glPos3.x, glPos3.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x),
+                 ((selected.y - 1) / grid.y),
+                 TexID,
 
-             glPos1.x, glPos1.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), (selected.y / grid.y), TexID,
-             glPos4.x, glPos4.y, color.x, color.y, color.z, (selected.x / grid.x), (selected.y / grid.y), TexID,
-             glPos2.x, glPos2.y, color.x, color.y, color.z, (selected.x / grid.x), ((selected.y - 1) / grid.y), TexID],
-            dtype="f")
+                 glPos1.x, glPos1.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), (selected.y / grid.y),
+                 TexID,
+                 glPos4.x, glPos4.y, color.x, color.y, color.z, (selected.x / grid.x), (selected.y / grid.y), TexID,
+                 glPos2.x, glPos2.y, color.x, color.y, color.z, (selected.x / grid.x), ((selected.y - 1) / grid.y),
+                 TexID],
+                dtype="f")
 
         if self.TextureIndex >= self.MaxTexture:
             print("ERROR : Texture binding limit reached, currently set at : " + str(self.MaxTexture))

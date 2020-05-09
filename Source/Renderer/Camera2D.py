@@ -10,7 +10,7 @@ class Camera2D:
 
     def __init__(self, left, right, bottom, top):
         self.position = glm.vec3(0.0, 0.0, 0.0)
-        self.rotation = float(0.0)
+        self.rotation = float(0)
         self.scale = float(0.0)
 
         self.projectionMat = glm.ortho(left, right, bottom, top, -1.0, 1.0)
@@ -53,7 +53,7 @@ class Camera2D:
 
     def CalcViewMatrix(self):
         transfrom = glm.translate(glm.mat4(1), self.position)
-        transfrom = glm.rotate(transfrom, self.rotation, glm.vec3(0, 0, 1))
+        transfrom = glm.rotate(transfrom, glm.radians(self.rotation), glm.vec3(0, 0, 1))
 
         self.viewMat = glm.inverse(transfrom)
         self.VP = self.projectionMat * self.viewMat

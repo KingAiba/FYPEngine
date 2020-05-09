@@ -54,7 +54,7 @@ class SpriteRender:
         glUniform2f(glGetUniformLocation(self.shader.ID, "CurrCoord"), Selected.x, Selected.y)
 
 
-        glActiveTexture(GL_TEXTURE0)
+        # glActiveTexture(GL_TEXTURE0)
         texture.BindTexture()
 
         glBindVertexArray(self.VAO)

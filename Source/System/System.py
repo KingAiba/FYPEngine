@@ -8,6 +8,8 @@ sys.path.append(os.path.dirname(__file__) + "/../../")
 from Source.Renderer.ResourseManager import Resources
 from Source.Renderer.SpriteRender import SpriteRender
 from Source.Renderer.BatchRenderer import BatchRenderer
+from Source.Renderer.ParticleSystem import Particle
+from Source.Renderer.ParticleSystem import Generator
 from Source.Renderer.windowManager import Window
 from Source.Renderer.Camera2D import *
 from Source.System.InputManager import *
@@ -50,7 +52,7 @@ class System:
         self.SpriteRenderer = SpriteRender(Resources.Shaders["Shader"])
         self.SpriteRenderer.initRenderer()
 
-        self.Camera = Camera2D(0.0, self.windowWidth, 0.0, self.windowHeight)
+        self.Camera = Camera2D(0.0, self.windowWidth, self.windowHeight, 0.0)
         self.Camera.update(0.0, 0.0, 0.0)
         # projection = glm.ortho(0.0, self.windowWidth, self.windowHeight, 0.0, -1.0, 1.0)
 
@@ -123,15 +125,16 @@ class System:
         return Resources
 
     @staticmethod
-    def LoadTextureToResources(texturePath, key, isAlpha):
+    def LoadTextureToResources(texturePath, isAlpha, key):
         if key in Resources.Textures:
             pass
         else:
             Resources.LoadTexture(texturePath, isAlpha, key)
 
+
     @staticmethod
     def GetTextureFromResources(key):
-        return Resources.GetTexture(key)
+        return Resources.Textures[key]
 
     @staticmethod
     def LoadShaderToResources(VertexShaderFile, FragmentShaderFile, key):
@@ -144,6 +147,14 @@ class System:
     def GetShaderFromResources(key):
         return Resources.GetShader(key)
 
+    def SystemDraw(self, texture, position, size, rotation, color, Grid, Selected):
+        self.SpriteRenderer.DrawSpriteFromSheet(texture, position, size, rotation, color, Grid, Selected)
+
+    def SystemTerminate(self):
+        self.ClearSystem()
+        self.SpriteRenderer = None
+        self.BatchRenderer = None
+        glfw.terminate()
 # EngineSystem = System()
 # EngineSystem.InitSystems()
 # EngineSystem.GameLoop()

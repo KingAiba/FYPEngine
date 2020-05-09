@@ -33,7 +33,7 @@ class Generator:
         for particle in self.ParticleList:
             if particle.Life > 0.0:
                 glUniform1f(glGetUniformLocation(self.Shader.ID, "Scale"), particle.Scale)
-                glUniform2f(glGetUniformLocation(self.Shader.ID, "offset"), particle.Position.x, particle.Position.y)
+                glUniform2f(glGetUniformLocation(self.Shader.ID, "offset"), particle.position.x, particle.position.y)
                 # print(particle.Position)
                 glUniform4f(glGetUniformLocation(self.Shader.ID, "color"), particle.Color.x, particle.Color.y,
                             particle.Color.z, particle.Color.w)
@@ -63,7 +63,7 @@ class Generator:
 
             if P.Life > 0.0:
 
-                P.Position = P.Position - (P.Velocity * dt)
+                P.position = P.position - (P.Velocity * dt)
                 P.Color.w = P.Color.w - dt*2
                 # print(P.Color, P.Velocity, P.Position)
 
@@ -116,7 +116,7 @@ class Generator:
         randNum = (random.uniform(0, 100) - 50) / 10.0
         randColor = 0.5 + (random.uniform(0, 100) / 100.0)
 
-        particle.Position = obj.Position + randNum + offset
+        particle.position = obj.position + randNum + offset
         particle.Color = glm.vec4(randColor, randColor, randColor, 1.0)
         particle.Life = 1.0
         particle.Velocity = obj.Velocity * 0.1

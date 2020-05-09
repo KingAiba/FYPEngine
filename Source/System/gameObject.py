@@ -109,11 +109,11 @@ class Sprite:
 
     def CheckClampedCollision(self, Obj1, Obj2):
         # find center of call
-        center = glm.vec2(Obj1.Position + Obj1.Radius)
+        center = glm.vec2(Obj1.position + Obj1.Radius)
 
         # calculate halk extents
         halfExtent = glm.vec2(Obj2.Size.x / 2, Obj2.Size.y / 2)
-        aabbCenter = glm.vec2(Obj2.Position.x + halfExtent.x, Obj2.Position.y + halfExtent.y)
+        aabbCenter = glm.vec2(Obj2.position.x + halfExtent.x, Obj2.position.y + halfExtent.y)
 
         # get difference and clamped val
         difference = center - aabbCenter

@@ -65,3 +65,6 @@ class InputManager:
             return KEY_2
         elif keystr == "3":
             return KEY_3
+
+    def cursorPositionCallback(self, window, xPos, yPos):
+        print("XPos:" + str(xPos) + " YPos:" + str(yPos))

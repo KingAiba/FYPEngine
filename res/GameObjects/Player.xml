@@ -1,9 +1,7 @@
-<Actor name = "Player">
-	<Component>
-		<Transform PosX = "100" PosY = "100" rotation = "0" sizeX = "200"
-                sizeY = "200"/>
-		<Sprite textureName="DurrrSpaceShip" texturePath = "../res/Textures/DurrrSpaceShip.png" ColorR="1.0" ColorG="1.0" ColorB="1.0" isAlpha="1" Alpha="1.0"
-				GridX="1" GridY="1" SelectedX="1" SelectedY="1" />
-	</Component>
+<Actor name = "player">
+	<Transform PosX = "250" PosY = "250" rotation = "0" sizeX = "100"
+                sizeY = "100"/>
+	<Sprite textureName="adventurer" texturePath = "../res/Textures/adventurer-Sheet.png" ColorR="1.0" ColorG="1.0" ColorB="1.0" isAlpha="1" Alpha="1.0"
+			GridX="8" GridY="12" SelectedX="1" SelectedY="1" />
 
 </Actor>

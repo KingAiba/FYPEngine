@@ -104,7 +104,7 @@ class GameLevel(LevelManager):
     def InitLevel(self):
         super().InitLevel()
 
-
+        self.System.SpriteRenderer.ChangeShader(Resources.Shaders["ShaderV2"])
 
         self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/block.png", 0, "block")
         self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/block.png", 0,

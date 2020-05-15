@@ -45,19 +45,21 @@ class System:
 
         Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/VS2D2.vs",
                              os.path.dirname(__file__) + "/../../res/Shaders/FS2D.fs", "Shader")
+        Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/VS2D2.vs",
+                             os.path.dirname(__file__) + "/../../res/Shaders/FS2D2.fs", "ShaderV2")
         Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/ParticleVS.vs",
                              os.path.dirname(__file__) + "/../../res/Shaders/ParticleFS.fs", "ParticleShader")
         Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderVS2D.vs",
                              os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderFS2D.fs", "BatchShader")
 
-        self.SpriteRenderer = SpriteRender(Resources.Shaders["Shader"])
+        self.SpriteRenderer = SpriteRender(Resources.Shaders["ShaderV2"])
         self.SpriteRenderer.initRenderer()
 
         self.Camera = Camera2D(0.0, self.windowWidth, self.windowHeight, 0.0)
         self.Camera.update(0.0, 0.0, 0.0)
         # projection = glm.ortho(0.0, self.windowWidth, self.windowHeight, 0.0, -1.0, 1.0)
 
-        glUniformMatrix4fv(glGetUniformLocation(Resources.Shaders["Shader"].ID, "projection"), 1, GL_FALSE,
+        glUniformMatrix4fv(glGetUniformLocation(Resources.Shaders["ShaderV2"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(self.Camera.VP))
 
         self.BatchRenderer = BatchRenderer(Resources.Shaders["BatchShader"])

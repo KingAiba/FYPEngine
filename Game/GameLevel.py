@@ -4,8 +4,9 @@ import sys
 
 # sys.path.append(os.path.dirname(__file__) + "/../")
 sys.path.append(sys.path[0] + "/../")
-from Game.GameObject import GameObject
-from Game.GameObject import BallObject
+from Game.GameObjectV2 import GameObject
+from Game.GameObjectV2 import BallObject
+from Source.Renderer.ResourseManager import Resources
 
 from Source.System.LevelManager import LevelManager
 
@@ -103,8 +104,10 @@ class GameLevel(LevelManager):
     def InitLevel(self):
         super().InitLevel()
 
+
+
         self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/block.png", 0, "block")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/block_solid.png", 0,
+        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/block.png", 0,
                                            "block_solid")
         self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/paddle.png", 1, "paddle")
         self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/background.jpg", 0,

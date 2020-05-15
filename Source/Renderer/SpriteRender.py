@@ -61,6 +61,30 @@ class SpriteRender:
         glDrawArrays(GL_TRIANGLES, 0, 6)
         glBindVertexArray(0)
 
+    def DrawNoTex(self, position, size, rotate, color, Grid, Selected):
+        self.shader.UseProgram()
+
+        model = glm.fmat4(1.0)
+        model = glm.translate(model, glm.vec3(position, 0.0))
+
+        model = glm.translate(model, glm.vec3(0.5 * size.x, 0.5 * size.y, 0.0))
+        model = glm.rotate(model, glm.radians(rotate), glm.vec3(1.0, 0.0, 0.0))
+        model = glm.translate(model, glm.vec3(-0.5 * size.x, -0.5 * size.y, 0.0))
+
+        model = glm.scale(model, glm.vec3(size, 1.0))
+
+        glUniformMatrix4fv(glGetUniformLocation(self.shader.ID, "model"), 1, GL_FALSE, glm.value_ptr(model))
+
+        glUniform3f(glGetUniformLocation(self.shader.ID, "spriteColor"), color.x, color.y, color.z)
+        glUniform2f(glGetUniformLocation(self.shader.ID, "FullGrid"), Grid.x, Grid.y)
+        glUniform2f(glGetUniformLocation(self.shader.ID, "CurrCoord"), Selected.x, Selected.y)
+
+        # glActiveTexture(GL_TEXTURE0)
+
+        glBindVertexArray(self.VAO)
+        glDrawArrays(GL_TRIANGLES, 0, 6)
+        glBindVertexArray(0)
+
     def initRenderer(self):
         self.shader.Compile()
         self.shader.UseProgram()

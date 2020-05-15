@@ -4,8 +4,8 @@ import sys
 
 # sys.path.append(os.path.dirname(__file__) + "/../")
 sys.path.append(sys.path[0] + "/../")
-from Game.GameObjectV2 import GameObject
-from Game.GameObjectV2 import BallObject
+from Game.GameObject import GameObject
+from Game.GameObject import BallObject
 from Source.Renderer.ResourseManager import Resources
 
 from Source.System.LevelManager import LevelManager

@@ -43,8 +43,8 @@ class System:
         self.InputManager = InputManager()
         self.InputManager.SetCallback(self.window)
 
-        Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/VS2D2.vs",
-                             os.path.dirname(__file__) + "/../../res/Shaders/FS2D.fs", "Shader")
+        # Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/VS2D2.vs",
+        #                      os.path.dirname(__file__) + "/../../res/Shaders/FS2D.fs", "Shader")
         Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/VS2D2.vs",
                              os.path.dirname(__file__) + "/../../res/Shaders/FS2D2.fs", "ShaderV2")
         # Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/ParticleVS.vs",
@@ -52,7 +52,7 @@ class System:
         # Resources.LoadShader(os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderVS2D.vs",
         #                      os.path.dirname(__file__) + "/../../res/Shaders/BatchRenderFS2D.fs", "BatchShader")
 
-        self.SpriteRenderer = SpriteRender(Resources.Shaders["Shader"])
+        self.SpriteRenderer = SpriteRender(Resources.Shaders["ShaderV2"])
         self.SpriteRenderer.initRenderer()
 
         self.Camera = Camera2D(0.0, self.windowWidth, self.windowHeight, 0.0)
@@ -159,7 +159,7 @@ class System:
         self.SpriteRenderer = None
         self.BatchRenderer = None
         glfw.terminate()
-        
+
 # EngineSystem = System()
 # EngineSystem.InitSystems()
 # EngineSystem.GameLoop()

@@ -4,7 +4,7 @@ in vec3 spriteColor;
 in vec2 TexCoords;
 in float TexID;
 
-uniform sampler2D Textures[30];
+uniform sampler2D Textures[10];
 
 out vec4 color;
 

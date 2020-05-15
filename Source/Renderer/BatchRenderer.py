@@ -6,7 +6,8 @@ import _ctypes
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
-sys.path.append(os.path.dirname(__file__) + "/../../")
+# sys.path.append(os.path.dirname(__file__) + "/../../")
+sys.path.append(sys.path[0] + "/../../")
 from Source.Renderer.texture import Texture
 
 #                         x   y    color        tx   ty   ti

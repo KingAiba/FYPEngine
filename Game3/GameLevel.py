@@ -1,8 +1,8 @@
 import os
 import sys
 import glm
-
-sys.path.append(os.path.dirname(__file__) + "/../")
+#sys.path.append(os.path.dirname(__file__) + "/../")
+sys.path.append(sys.path[0] + "/../")
 from Source.System.LevelManager import LevelManager
 from Source.System.animationComponent import Animation
 from Game3.GameObjects import Player

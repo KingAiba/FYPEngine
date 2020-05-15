@@ -2,8 +2,8 @@ import random
 import glm
 import sys
 import os
-
-sys.path.append(os.path.dirname(__file__) + "/../")
+#sys.path.append(os.path.dirname(__file__) + "/../")
+sys.path.append(sys.path[0] + "/../")
 from Game2.GameObjects import Ship
 from Game2.GameObjects import Player
 from Source.System.LevelManager import LevelManager

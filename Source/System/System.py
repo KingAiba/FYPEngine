@@ -3,7 +3,8 @@ import sys
 import glm
 from OpenGL.GL import *
 
-sys.path.append(os.path.dirname(__file__) + "/../../")
+# sys.path.append(os.path.dirname(__file__) + "/../../")
+sys.path.append(sys.path[0] + "/../../")
 
 from Source.Renderer.ResourseManager import Resources
 from Source.Renderer.SpriteRender import SpriteRender

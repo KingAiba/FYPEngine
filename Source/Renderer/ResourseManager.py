@@ -65,5 +65,7 @@ class ResourceManager:
         # print(os.path.dirname(__file__) + "/../../res")
         return os.path.dirname(__file__) + "/../../res"
 
-
+    def clear(self):
+        self.Textures.clear()
+        self.Shaders.clear()
 Resources = ResourceManager()

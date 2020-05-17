@@ -123,8 +123,14 @@ class System:
     def ClearSystem(self):
         self.LevelManager.ClearLevel()
 
+    def terminate(self):
+        self.ClearSystem()
+        Resources.clear()
+        glfw.terminate()
+        exit()
     def ChangeLevel(self, newLevel):
         self.LevelManager.ClearLevel()
+        Resources.clear()
         self.LevelManager = newLevel
         self.LevelManager.InitLevel()
 

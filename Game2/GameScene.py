@@ -9,6 +9,7 @@ from Source.System.LevelManager import LevelManager
 from Source.Utility.glmVec import GetVec2, GetVec3
 from Source.System.TextManager import TextManager
 from Source.System.audioManager import AudioManager
+
 Player_Velocity = float(550.0)
 Player_Size = GetVec2(125, 125)
 
@@ -67,7 +68,6 @@ class Scene(LevelManager):
         self.audio = AudioManager()
         self.audio.LoadSound("/SoundEffects/scifi_weapon1.wav", "wep1")
         self.audio.LoadSound("/SoundEffects/NewHorizons.wav", "music1")
-
 
     def Update(self, dt):
         self.player.Update(dt, self.System, self.audio)

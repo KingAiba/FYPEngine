@@ -7,7 +7,7 @@ sys.path.append(sys.path[0] + "/../")
 from Game.GameObject import GameObject, BallObject, Player
 from Source.Utility.glmVec import GetVec2, GetVec3, normalize, glmLength
 from Source.Renderer.ResourseManager import Resources
-
+from Source.System.TextManager import TextManager
 from Source.System.LevelManager import LevelManager
 
 Player_Size = GetVec2(100, 20)
@@ -16,6 +16,58 @@ Ball_Velocity = GetVec2(100.0, -350.0)
 Ball_Radius = 12.5
 
 Time = 0.0
+
+
+class Menu(LevelManager):
+    def __init__(self, system):
+        super().__init__(system)
+        self.textManager = None
+        self.count = 0
+        self.max = 1
+        pass
+
+    def InitLevel(self):
+        super().InitLevel()
+        Resources.LoadTexture("/Textures/sci_fi_bg1.jpg", 0, "background3")
+        self.textManager = TextManager("textsheet", "/Text/8x8text_whiteNoShadow.png", "/Text/textCoord.xml")
+        self.textManager.size = GetVec2(48, 48)
+
+    def Update(self, dt):
+        keys = self.System.GetInput()
+        if keys[self.System.getKey("UP")]:
+            self.count -= 1
+        elif keys[self.System.getKey("DOWN")]:
+            self.count += 1
+        if keys[self.System.getKey("ENTER")]:
+            if self.count == 0:
+                NewLevel = GameLevel(self.System)
+                self.System.ChangeLevel(NewLevel)
+            if self.count == 1:
+                self.System.terminate()
+
+        if self.count < 0:
+            self.count = 0
+        if self.count > self.max:
+            self.count = self.max
+
+
+    def Draw(self):
+
+        self.System.SystemDraw(Resources.GetTexture("background3"), GetVec2(0, 0),
+                               GetVec2(self.System.windowWidth, self.System.windowHeight), 0.0,
+                               GetVec3(0.3, 0.3, 0.5), GetVec2(1, 1), GetVec2(1, 1))
+
+        if self.count == 0:
+            self.textManager.DrawString(self.System, "START", GetVec2(200, 200))
+        else:
+            self.textManager.DrawString(self.System, "START", GetVec2(200, 200), GetVec3(0.5, 0.5, 0.5))
+
+        if self.count == 1:
+            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300))
+        else:
+            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300),GetVec3(0.5, 0.5, 0.5))
+
+
 
 
 class GameLevel(LevelManager):
@@ -107,11 +159,11 @@ class GameLevel(LevelManager):
         # self.System.SpriteRenderer.ChangeShader(Resources.Shaders["ShaderV2"])
 
         Resources.LoadTexture("/Textures/block.png", 0, "block")
-        Resources.LoadTexture("/Textures/block.png", 0,"block_solid")
+        Resources.LoadTexture("/Textures/block.png", 0, "block_solid")
         Resources.LoadTexture("/Textures/paddle.png", 1, "paddle")
         Resources.LoadTexture("/Textures/background.jpg", 0, "background")
         Resources.LoadTexture("/Textures/bg5.jpg", 0, "background2")
-        Resources.LoadTexture("/Textures/sci_fi_bg1.jpg", 0,"background3")
+        Resources.LoadTexture("/Textures/sci_fi_bg1.jpg", 0, "background3")
         Resources.LoadTexture("/Textures/ball.png", 1, "ball")
         Resources.LoadTexture("/Textures/spikedball.png", 1, "spikedball")
         Resources.LoadTexture("/Textures/glasspaddle2.png", 1, "glasspaddle")

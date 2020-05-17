@@ -6,15 +6,18 @@ import sys
 sys.path.append(sys.path[0] + "/../")
 from Source.System.System import System
 from Game.GameLevel import GameLevel
+from Game.GameLevel import Menu
 
 
 def main():
     GameSystem = System()
     GameSystem.InitSystem()
 
-    Level = GameLevel(GameSystem)
-    Level.InitLevel()
-    GameSystem.LevelManager = Level
+    #Level = GameLevel(GameSystem)
+    #Level.InitLevel()
+    menu = Menu(GameSystem)
+    menu.InitLevel()
+    GameSystem.LevelManager = menu
 
     GameSystem.GameLoop(0)
 

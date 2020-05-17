@@ -13,7 +13,8 @@ KEY_ENTER = glfw.KEY_ENTER
 KEY_1 = glfw.KEY_1
 KEY_2 = glfw.KEY_2
 KEY_3 = glfw.KEY_3
-
+KEY_UP = glfw.KEY_UP
+KEY_DOWN = glfw.KEY_DOWN
 
 class InputManager:
 
@@ -65,6 +66,10 @@ class InputManager:
             return KEY_2
         elif keystr == "3":
             return KEY_3
+        elif keystr == "UP":
+            return KEY_UP
+        elif keystr == "DOWN":
+            return KEY_DOWN
 
     def cursorPositionCallback(self, window, xPos, yPos):
         print("XPos:" + str(xPos) + " YPos:" + str(yPos))

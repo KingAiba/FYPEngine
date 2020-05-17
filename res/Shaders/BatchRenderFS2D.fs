@@ -11,5 +11,5 @@ out vec4 color;
 void main()
 {
     int index = int(TexID);
-    color = vec4(spriteColor, 1.0) * texture(Textures[index], TexCoords);
+    color = vec4(spriteColor, 1.0) * texture2D(Textures[index], TexCoords);
 }

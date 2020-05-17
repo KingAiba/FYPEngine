@@ -1,18 +1,17 @@
-
 import os
 import sys
+
 # sys.path.append(os.path.dirname(__file__) + "/../")
 sys.path.append(sys.path[0] + "/../")
 from Source.System.System import System
 from Game2.GameScene import Scene
 
 
-
 def main():
     GameSystem = System()
     GameSystem.InitSystem()
 
-    Level = Scene(15, 15, GameSystem.windowWidth, GameSystem.windowHeight,GameSystem)
+    Level = Scene(15, 15, GameSystem.windowWidth, GameSystem.windowHeight, GameSystem)
     Level.InitScene()
     GameSystem.LevelManager = Level
 

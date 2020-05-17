@@ -257,3 +257,27 @@
 #         PlayerPos = glm.vec2(self.width / 2 - Player_Size.x / 2, self.height - Player_Size.y)
 #         self.Player.Position = PlayerPos
 #         self.Ball.Reset(PlayerPos + glm.vec2(Player_Size.x / 2 - Ball_Radius, -Ball_Radius * 2), Ball_Velocity)
+
+# def ProccessInput(self, dt):
+#     Velocity = Player_Velocity * dt
+#     # print("DT : " + str(dt))
+#     # print("Velocity : " + str(Velocity))
+#     keys = self.System.GetInput()
+#     if keys[self.System.getKey("A")]:
+#         if self.Player.position.x >= 0:
+#             self.Player.position.x = self.Player.position.x - Velocity
+#             if self.Ball.Stuck:
+#                 self.Ball.position.x = self.Ball.position.x - Velocity
+#
+#     if keys[self.System.getKey("D")]:
+#         if self.Player.position.x <= (self.System.windowWidth - self.Player.Size.x):
+#             self.Player.position.x = self.Player.position.x + Velocity
+#             if self.Ball.Stuck:
+#                 self.Ball.position.x = self.Ball.position.x + Velocity
+#     if keys[self.System.getKey("Q")]:
+#         for Tile in self.Blocks:
+#             if Tile.Destroyed is not True:
+#                 Tile.Destroyed = True
+#
+#     if keys[self.System.getKey("SPACE")]:
+#         self.Ball.Stuck = False

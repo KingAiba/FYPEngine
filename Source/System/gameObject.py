@@ -30,6 +30,7 @@ class Sprite:
         self.Animated = False
         self.Animations = []
         self.AnimationState = 0
+        self.ObjectType = "STATIC"
 
         if FilePath is not None:
             self.GetAttrFromFile(FilePath)

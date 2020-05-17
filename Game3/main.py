@@ -9,7 +9,7 @@ from Game3.GameLevel import GameLevel
 
 def main():
     GameSystem = System()
-    GameSystem.InitSystem()
+    GameSystem.InitBatchSystem()
 
     Level1 = GameLevel(GameSystem)
     Level1.InitLevel()

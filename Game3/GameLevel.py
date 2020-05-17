@@ -1,7 +1,8 @@
 import os
 import sys
 import glm
-#sys.path.append(os.path.dirname(__file__) + "/../")
+
+# sys.path.append(os.path.dirname(__file__) + "/../")
 sys.path.append(sys.path[0] + "/../")
 from Source.System.LevelManager import LevelManager
 from Source.System.animationComponent import Animation
@@ -21,8 +22,8 @@ class GameLevel(LevelManager):
     def InitLevel(self):
         super().InitLevel()
         # load resources
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/tile_spritesheet.png", 1,
-                                           "TileSheet")
+        self.System.LoadTextureToResources("/Textures/tile_spritesheet.png", 1, "TileSheet")
+        self.System.LoadTextureToResources("/Text/8x8text_whiteNoShadow.png", 1, "textSheet")
 
         # init objects
         idleAnimation = Animation()
@@ -46,17 +47,17 @@ class GameLevel(LevelManager):
         Player1.addAnimation(walkingAnimation)
         Player1.addAnimation(jumpAnimation)
         Player1.position = glm.vec2(530, 100)
-        Player1.TexID = 0
-        Player1.VerticalFlip = 0
+        Player1.TexID = 1
+        Player1.VerticalFlip = 1
         Player1.Velocity = glm.vec2(0, 0)
         self.player = Player1
 
         testTile = Tile()
         testTile.position = glm.vec2(500, 500)
-        testTile.Size = glm.vec2(200, 200)
+        testTile.Size = glm.vec2(100, 100)
         testTile.Grid = glm.vec2(6, 4)
         testTile.Selected = glm.vec2(3, 2)
-        testTile.TexID = 2
+        testTile.TexID = 3
         testTile.Texture = "TileSheet"
 
         testTile2 = Tile()
@@ -64,13 +65,22 @@ class GameLevel(LevelManager):
         testTile2.Size = glm.vec2(200, 200)
         testTile2.Grid = glm.vec2(6, 4)
         testTile2.Selected = glm.vec2(3, 4)
-        testTile2.TexID = 2
+        testTile2.TexID = 3
         testTile2.Texture = "TileSheet"
+
+        testTile3 = Tile()
+        testTile3.position = glm.vec2(0, 0)
+        testTile3.Size = glm.vec2(50, 50)
+        testTile3.Grid = glm.vec2(12, 14)
+        testTile3.Selected = glm.vec2(6, 5)
+        testTile3.TexID = 0
+        testTile3.Texture = "textSheet"
 
         # self.AddObject(player)
         self.AddObject(Player1)
         self.staticObjects.append(testTile)
         self.staticObjects.append(testTile2)
+        self.staticObjects.append(testTile3)
 
     def Update(self, dt):
         i = 0
@@ -95,7 +105,6 @@ class GameLevel(LevelManager):
 
         self.player.ChangeAnimationState(i)
         if not (keys[self.System.getKey("D")] or keys[self.System.getKey("A")]):
-
             self.player.Velocity.x = 0
 
         for Objects in self.staticObjects:
@@ -107,7 +116,6 @@ class GameLevel(LevelManager):
                 break
             else:
                 self.player.CollisionFlag = 0
-
 
         super().Update(dt)
 

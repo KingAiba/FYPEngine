@@ -1,18 +1,18 @@
-import glm
+# import glm
 import os
 import sys
 
 # sys.path.append(os.path.dirname(__file__) + "/../")
 sys.path.append(sys.path[0] + "/../")
-from Game.GameObject import GameObject
-from Game.GameObject import BallObject
+from Game.GameObject import GameObject, BallObject, Player
+from Source.Utility.glmVec import GetVec2, GetVec3, normalize, glmLength
 from Source.Renderer.ResourseManager import Resources
 
 from Source.System.LevelManager import LevelManager
 
-Player_Size = glm.vec2(100, 20)
+Player_Size = GetVec2(100, 20)
 Player_Velocity = float(500.0)
-Ball_Velocity = glm.vec2(100.0, -350.0)
+Ball_Velocity = GetVec2(100.0, -350.0)
 Ball_Radius = 12.5
 
 Time = 0.0
@@ -61,9 +61,9 @@ class GameLevel(LevelManager):
             for x in y:
 
                 if int(x) == 1:
-                    Pos = glm.vec2(UnitWidth * float(IndexX), UnitHeight * float(IndexY))
-                    Size = glm.vec2(UnitWidth, UnitHeight)
-                    Color = glm.vec3(0.9, 0.9, 0.9)
+                    Pos = GetVec2(UnitWidth * float(IndexX), UnitHeight * float(IndexY))
+                    Size = GetVec2(UnitWidth, UnitHeight)
+                    Color = GetVec3(0.9, 0.9, 0.9)
 
                     Obj = GameObject()
                     Obj.position = Pos
@@ -74,18 +74,18 @@ class GameLevel(LevelManager):
                     self.Blocks.append(Obj)
 
                 elif int(x) > 1:
-                    color = glm.vec3(1.0, 1.0, 1.0)
-                    Pos = glm.vec2(UnitWidth * float(IndexX), UnitHeight * float(IndexY))
-                    Size = glm.vec2(UnitWidth, UnitHeight)
+                    color = GetVec3(1.0, 1.0, 1.0)
+                    Pos = GetVec2(UnitWidth * float(IndexX), UnitHeight * float(IndexY))
+                    Size = GetVec2(UnitWidth, UnitHeight)
 
                     if int(x) == 2:
-                        color = glm.vec3(0.0, 1.0, 1.3)
+                        color = GetVec3(0.0, 1.0, 1.3)
                     elif int(x) == 3:
-                        color = glm.vec3(1.3, 1.0, 0.0)
+                        color = GetVec3(1.3, 1.0, 0.0)
                     elif int(x) == 4:
-                        color = glm.vec3(0.5, 1.3, 0.0)
+                        color = GetVec3(0.5, 1.3, 0.0)
                     elif int(x) == 5:
-                        color = glm.vec3(1.3, 0.3, 0.5)
+                        color = GetVec3(1.3, 0.3, 0.5)
 
                     Obj = GameObject()
                     Obj.position = Pos
@@ -106,58 +106,61 @@ class GameLevel(LevelManager):
 
         # self.System.SpriteRenderer.ChangeShader(Resources.Shaders["ShaderV2"])
 
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/block.png", 0, "block")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/block.png", 0,
-                                           "block_solid")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/paddle.png", 1, "paddle")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/background.jpg", 0,
-                                           "background")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/bg5.jpg", 0, "background2")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/sci_fi_bg1.jpg", 0,
-                                           "background3")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/ball.png", 1, "ball")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/spikedball.png", 1,
-                                           "spikedball")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/glasspaddle2.png", 1,
-                                           "glasspaddle")
-        self.System.LoadTextureToResources(os.path.dirname(__file__) + "/../res/Textures/particle.png", 1, "particle")
+        Resources.LoadTexture("/Textures/block.png", 0, "block")
+        Resources.LoadTexture("/Textures/block.png", 0,"block_solid")
+        Resources.LoadTexture("/Textures/paddle.png", 1, "paddle")
+        Resources.LoadTexture("/Textures/background.jpg", 0, "background")
+        Resources.LoadTexture("/Textures/bg5.jpg", 0, "background2")
+        Resources.LoadTexture("/Textures/sci_fi_bg1.jpg", 0,"background3")
+        Resources.LoadTexture("/Textures/ball.png", 1, "ball")
+        Resources.LoadTexture("/Textures/spikedball.png", 1, "spikedball")
+        Resources.LoadTexture("/Textures/glasspaddle2.png", 1, "glasspaddle")
+        Resources.LoadTexture("/Textures/particle.png", 1, "particle")
 
         # make player object
-        PlayerPos = glm.vec2(self.System.windowWidth / 2 - Player_Size.x / 2, self.System.windowHeight - Player_Size.y)
-        self.Player = GameObject()
+        PlayerPos = GetVec2(self.System.windowWidth / 2 - Player_Size.x / 2, self.System.windowHeight - Player_Size.y)
+        self.Player = Player()
         self.Player.position = PlayerPos
         self.Player.Size = Player_Size
+        self.Player.Velocity = GetVec2(Player_Velocity, 0.0)
         self.Player.Texture = "glasspaddle"
 
         # make ball object
-        BallPos = PlayerPos + glm.vec2(Player_Size.x / 2 - Ball_Radius, -Ball_Radius * 2)
+        BallPos = PlayerPos + GetVec2(Player_Size.x / 2 - Ball_Radius, -Ball_Radius * 2)
         self.Ball = BallObject()
         self.Ball.position = BallPos
         self.Ball.Radius = Ball_Radius
-        self.Ball.Size = glm.vec2(Ball_Radius * 2, Ball_Radius * 2)
+        self.Ball.Size = GetVec2(Ball_Radius * 2, Ball_Radius * 2)
         self.Ball.Velocity = Ball_Velocity
         self.Ball.Texture = "spikedball"
+
+        self.gameObjects.append(self.Player)
+        self.gameObjects.append(self.Ball)
 
         # Load Levels
         self.Load(os.path.dirname(__file__) + "/levels/level0.txt", self.System.windowWidth,
                   self.System.windowHeight * 0.5)
 
     def Draw(self):
-        self.System.SystemDraw(self.System.GetTextureFromResources("background3"), glm.vec2(0, 0),
-                               glm.vec2(self.System.windowWidth, self.System.windowHeight), 0.0,
-                               glm.vec3(0.3, 0.3, 0.5), glm.vec2(1, 1), glm.vec2(1, 1))
+        self.System.SystemDraw(Resources.GetTexture("background3"), GetVec2(0, 0),
+                               GetVec2(self.System.windowWidth, self.System.windowHeight), 0.0,
+                               GetVec3(0.3, 0.3, 0.5), GetVec2(1, 1), GetVec2(1, 1))
         for Tile in self.Blocks:
             if not Tile.Destroyed:
                 Tile.Draw(self.System)
-        self.Player.Draw(self.System)
-        self.Ball.Draw(self.System)
+        super().Draw()
 
     # self.PGen.Draw()
 
     def Update(self, dt):
         super().Update(dt)
         self.System.UpdateCamera(0, 0, 0, 0)
-        self.ProccessInput(dt)
+        self.Player.ProccessInput(dt, self.System, self.Ball)
+        keys = self.System.GetInput()
+        if keys[self.System.getKey("Q")]:
+            for Tile in self.Blocks:
+                if Tile.Destroyed is not True:
+                    Tile.Destroyed = True
         # print(1/dt)
         self.Ball.BallMove(dt, self.System.windowWidth)
         self.BlockCollision()
@@ -172,30 +175,6 @@ class GameLevel(LevelManager):
                 self.CurrLevel = 0
             self.ResetLevel()
             self.ResetPlayer()
-
-    def ProccessInput(self, dt):
-        Velocity = Player_Velocity * dt
-        # print("DT : " + str(dt))
-        # print("Velocity : " + str(Velocity))
-        keys = self.System.GetInput()
-        if keys[self.System.getKey("A")]:
-            if self.Player.position.x >= 0:
-                self.Player.position.x = self.Player.position.x - Velocity
-                if self.Ball.Stuck:
-                    self.Ball.position.x = self.Ball.position.x - Velocity
-
-        if keys[self.System.getKey("D")]:
-            if self.Player.position.x <= (self.System.windowWidth - self.Player.Size.x):
-                self.Player.position.x = self.Player.position.x + Velocity
-                if self.Ball.Stuck:
-                    self.Ball.position.x = self.Ball.position.x + Velocity
-        if keys[self.System.getKey("Q")]:
-            for Tile in self.Blocks:
-                if Tile.Destroyed is not True:
-                    Tile.Destroyed = True
-
-        if keys[self.System.getKey("SPACE")]:
-            self.Ball.Stuck = False
 
     def IsComplete(self):
         for Tile in self.Blocks:
@@ -245,7 +224,7 @@ class GameLevel(LevelManager):
 
             # self.Ball.Velocity.y = -self.Ball.Velocity.y
             self.Ball.Velocity.y = -1 * abs(self.Ball.Velocity.y)
-            self.Ball.Velocity = glm.normalize(self.Ball.Velocity) * glm.length(OldVel)
+            self.Ball.Velocity = normalize(self.Ball.Velocity) * glmLength(OldVel)
             # print(self.Ball.Velocity)
 
     def ResetLevel(self):
@@ -264,9 +243,9 @@ class GameLevel(LevelManager):
 
     def ResetPlayer(self):
         self.Player.Size = Player_Size
-        PlayerPos = glm.vec2(self.System.windowWidth / 2 - Player_Size.x / 2, self.System.windowHeight - Player_Size.y)
+        PlayerPos = GetVec2(self.System.windowWidth / 2 - Player_Size.x / 2, self.System.windowHeight - Player_Size.y)
         self.Player.position = PlayerPos
-        self.Ball.Reset(PlayerPos + glm.vec2(Player_Size.x / 2 - Ball_Radius, -Ball_Radius * 2), Ball_Velocity)
+        self.Ball.Reset(PlayerPos + GetVec2(Player_Size.x / 2 - Ball_Radius, -Ball_Radius * 2), Ball_Velocity)
 
 # l = GameLevel()
 # l.Load("levels/level1.txt", 1, 1)

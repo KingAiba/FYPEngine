@@ -1,7 +1,7 @@
-
 import numpy
 import glm
 from Source.Renderer.BatchRenderer import BatchRenderer
+
 # from OpenGL.GL import *
 # x = GL_TRUE
 # if not x:
@@ -137,3 +137,17 @@ from Source.Renderer.BatchRenderer import BatchRenderer
 # -> check -> engine
 #
 #
+# arr = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+# count = 0
+# for item in arr:
+#     print(item)
+#     del arr[count]
+#     print(arr)
+#     count += 1
+import os
+import simpleaudio
+
+
+sound = simpleaudio.WaveObject.from_wave_file(os.path.dirname(__file__)+"/../../res/SoundEffects/scifi_weapon1.wav")
+sound.play().wait_done()
+

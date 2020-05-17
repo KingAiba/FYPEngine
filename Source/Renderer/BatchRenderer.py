@@ -66,11 +66,12 @@ class BatchRenderer:
         count = 0
         for texture in self.Textures:
             if texture is None:
-                break
-            IDarray[count] = texture.BindTextureBySlot(count)
-            # print(self.Textures)
-            # print(IDarray[count])
-            count = count + 1
+                pass
+            else:
+                IDarray[count] = texture.BindTextureBySlot(count)
+                # print(self.Textures)
+                # print(IDarray[count])
+                count = count + 1
 
         glUniform1iv(self.Shader.GetUniformLocation("Textures"), count, IDarray[:count])
         # print(IDarray[:count])
@@ -134,7 +135,8 @@ class BatchRenderer:
                  TexID],
                 dtype="f")
         else:
-            # Pos                 color                            TexCoords                                    TexID
+            # Pos                 color                            TexCoords
+            # TexID
             vertices = numpy.array(
                 [glPos1.x, glPos1.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), (selected.y / grid.y),
                  TexID,

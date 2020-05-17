@@ -12,6 +12,7 @@ class Player(Sprite):
         self.CollisionFlag = 0
         self.acceleration = 500
         self.JumpFlag = 0
+        self.ObjectType = "DYNAMIC"
 
     def jump(self):
         if self.CollisionFlag == 1 and self.JumpFlag == 0:

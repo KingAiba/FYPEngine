@@ -27,12 +27,12 @@ class ResourceManager:
         return self.Textures[TexName]
 
     def LoadShader(self, VertexShaderFile, FragmentShaderFile, Name):
-        NewShader = Shader(VertexShaderFile, FragmentShaderFile)
+        NewShader = Shader(self.GetAssetPath() + VertexShaderFile, self.GetAssetPath() + FragmentShaderFile)
         self.Shaders[Name] = NewShader
         return NewShader
 
     def LoadTexture(self, File, Alpha, Name):
-        self.Textures[Name] = self.TextureFromFile(File, Alpha)
+        self.Textures[Name] = self.TextureFromFile(self.GetAssetPath() + File, Alpha)
         return self.Textures[Name]
 
     @staticmethod
@@ -59,6 +59,11 @@ class ResourceManager:
         texture.Generate(ImgWidth, ImgHeight, ImageArray)
 
         return texture
+
+    @staticmethod
+    def GetAssetPath():
+        # print(os.path.dirname(__file__) + "/../../res")
+        return os.path.dirname(__file__) + "/../../res"
 
 
 Resources = ResourceManager()

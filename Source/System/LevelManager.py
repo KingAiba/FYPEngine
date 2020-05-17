@@ -18,7 +18,9 @@ class LevelManager:
         for Objects in self.gameObjects:
             if Objects.Animated:
                 Objects.playAnimation(dt)
-            Objects.Update(dt)
+            if Objects.ObjectType is not "STATIC":
+                Objects.Update(dt)
+
 
     def Draw(self):
         for Objects in self.gameObjects:

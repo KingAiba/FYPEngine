@@ -18,4 +18,9 @@ def GetAttribute(path, t, att):
                     pass
 
 
+def GetRootAttribute(path, att):
+    myTree = os.path.abspath(path)
+    myTree = ET.parse(myTree)
+    myRoot = myTree.getroot()
+    return myRoot.attrib.get(att)
 # print(GetAttribute('../../res/Config/actor.xml', 'Sprite', 'Alpha'))

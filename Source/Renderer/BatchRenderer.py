@@ -62,38 +62,73 @@ class BatchRenderer:
     # TODO fix texture slot inconsistency
     def Render(self):
         self.Shader.UseProgram()
-        IDarray = [None] * self.MaxTexture
         count = 0
         for texture in self.Textures:
             if texture is None:
                 pass
             else:
-                IDarray[count] = texture.BindTextureBySlot(count)
-                # print(self.Textures)
-                # print(IDarray[count])
-                count = count + 1
+                glActiveTexture(GL_TEXTURE0)
+                texture.BindTexture()
+                CurrSize = 0
 
-        glUniform1iv(self.Shader.GetUniformLocation("Textures"), count, IDarray[:count])
-        # print(IDarray[:count])
-        while self.Objects:
-            count = 0
-            CurrDrawArray = numpy.array([], dtype="f")
-            for obj in self.Objects:
-                if count >= self.MaxObjects:
-                    break
-                CurrDrawArray = numpy.append(CurrDrawArray, obj)
-                count = count + 1
+                CurrDrawArray = numpy.array([], dtype="f")
+                for obj in self.Objects:
 
-            sizeOfData = numpy.size(CurrDrawArray) * 4
-            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeOfData, CurrDrawArray)
+                    if CurrSize >= self.MaxObjects:
+                        break
+                    if obj[7] == count:
+                        # print(obj[7], count)
+                        CurrDrawArray = numpy.append(CurrDrawArray, obj)
+                        CurrSize = CurrSize + 1
+                # print(CurrDrawArray.size)
+                sizeOfData = numpy.size(CurrDrawArray) * 4
+                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeOfData, CurrDrawArray)
 
-            glBindVertexArray(self.VAO)
-            glDrawArrays(GL_TRIANGLES, 0, numpy.size(CurrDrawArray))
-            # glClearBufferData(GL_ARRAY_BUFFER, GL_FLOAT, GL_FLOAT, GL_FLOAT, ctypes.c_void_p(0))
-            glBindVertexArray(0)
-            del self.Objects[:count]
-            # print("Batch Done at : " + str(count))
+                glBindVertexArray(self.VAO)
+                glDrawArrays(GL_TRIANGLES, 0, numpy.size(CurrDrawArray))
+
+                clearArr = numpy.array([0]*(self.MaxObjects-1), dtype="f")
+                glBufferSubData(GL_ARRAY_BUFFER, 0, self.BufferSize, clearArr)
+                glBindVertexArray(0)
+
+                texture.UnbindTexture()
+            count = count + 1
+        self.Objects.clear()
         self.End()
+
+        # self.Shader.UseProgram()
+        # IDarray = [None] * self.MaxTexture
+        # count = 0
+        # for texture in self.Textures:
+        #     if texture is None:
+        #         pass
+        #     else:
+        #         IDarray[count] = texture.BindTextureBySlot(count)
+        #         # print(self.Textures)
+        #         # print(IDarray[count])
+        #         count = count + 1
+        #
+        # glUniform1iv(self.Shader.GetUniformLocation("Textures"), count, IDarray[:count])
+        # # print(IDarray[:count])
+        # while self.Objects:
+        #     count = 0
+        #     CurrDrawArray = numpy.array([], dtype="f")
+        #     for obj in self.Objects:
+        #         if count >= self.MaxObjects:
+        #             break
+        #         CurrDrawArray = numpy.append(CurrDrawArray, obj)
+        #         count = count + 1
+        #
+        #     sizeOfData = numpy.size(CurrDrawArray) * 4
+        #     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeOfData, CurrDrawArray)
+        #
+        #     glBindVertexArray(self.VAO)
+        #     glDrawArrays(GL_TRIANGLES, 0, numpy.size(CurrDrawArray))
+        #     # glClearBufferData(GL_ARRAY_BUFFER, GL_FLOAT, GL_FLOAT, GL_FLOAT, ctypes.c_void_p(0))
+        #     glBindVertexArray(0)
+        #     del self.Objects[:count]
+        #     # print("Batch Done at : " + str(count))
+        # self.End()
 
     def Draw(self, texture, position, size, rotate, color, grid, selected, TexID, VerticalFlip=0):
 
@@ -148,7 +183,8 @@ class BatchRenderer:
 
                  glPos1.x, glPos1.y, color.x, color.y, color.z, ((selected.x - 1) / grid.x), (selected.y / grid.y),
                  TexID,
-                 glPos4.x, glPos4.y, color.x, color.y, color.z, (selected.x / grid.x), (selected.y / grid.y), TexID,
+                 glPos4.x, glPos4.y, color.x, color.y, color.z, (selected.x / grid.x), (selected.y / grid.y),
+                 TexID,
                  glPos2.x, glPos2.y, color.x, color.y, color.z, (selected.x / grid.x), ((selected.y - 1) / grid.y),
                  TexID],
                 dtype="f")
@@ -157,9 +193,9 @@ class BatchRenderer:
             print("ERROR : Texture binding limit reached, currently set at : " + str(self.MaxTexture))
             exit()
 
-        if (texture not in self.Textures) and (self.TextureIndex < self.MaxTexture):
-            self.Textures[self.TextureIndex] = texture
-            self.TextureIndex = self.TextureIndex + 1
+        if (texture not in self.Textures) and (TexID < self.MaxTexture):
+            self.Textures[TexID] = texture
+            # self.TextureIndex = self.TextureIndex + 1
 
         self.Objects.append(vertices)
 

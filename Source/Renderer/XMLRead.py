@@ -144,10 +144,10 @@ from Source.Renderer.BatchRenderer import BatchRenderer
 #     del arr[count]
 #     print(arr)
 #     count += 1
-import os
-import simpleaudio
-
-
-sound = simpleaudio.WaveObject.from_wave_file(os.path.dirname(__file__)+"/../../res/SoundEffects/scifi_weapon1.wav")
-sound.play().wait_done()
-
+#
+arr = []
+print(arr)
+arr.append(1)
+print(arr)
+arr.append(2)
+print(arr)

@@ -8,12 +8,12 @@ uniform mat4 projection;
 
 out vec3 spriteColor;
 out vec2 TexCoords;
-out float TexID;
+//out float TexID;
 
 void main()
 {
     spriteColor = inColor;
     TexCoords = inTexCoords;
-    TexID = inTexID;
+    //TexID = inTexID;
     gl_Position = projection * vec4(aPos, 0.0, 1.0);
 }

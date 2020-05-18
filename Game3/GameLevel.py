@@ -47,7 +47,7 @@ class GameLevel(LevelManager):
         Player1.addAnimation(walkingAnimation)
         Player1.addAnimation(jumpAnimation)
         Player1.position = glm.vec2(530, 100)
-        Player1.TexID = 1
+        Player1.TexID = 0
         Player1.VerticalFlip = 1
         Player1.Velocity = glm.vec2(0, 0)
         self.player = Player1
@@ -57,7 +57,7 @@ class GameLevel(LevelManager):
         testTile.Size = glm.vec2(100, 100)
         testTile.Grid = glm.vec2(6, 4)
         testTile.Selected = glm.vec2(3, 2)
-        testTile.TexID = 3
+        testTile.TexID = 1
         testTile.Texture = "TileSheet"
 
         testTile2 = Tile()
@@ -65,26 +65,42 @@ class GameLevel(LevelManager):
         testTile2.Size = glm.vec2(200, 200)
         testTile2.Grid = glm.vec2(6, 4)
         testTile2.Selected = glm.vec2(3, 4)
-        testTile2.TexID = 3
+        testTile2.TexID = 1
         testTile2.Texture = "TileSheet"
+
+        testTile4 = Tile()
+        testTile4.position = glm.vec2(100, 100)
+        testTile4.Size = glm.vec2(100, 100)
+        testTile4.Grid = glm.vec2(6, 4)
+        testTile4.Selected = glm.vec2(2, 2)
+        testTile4.TexID = 1
+        testTile4.Texture = "TileSheet"
+
 
         testTile3 = Tile()
         testTile3.position = glm.vec2(0, 0)
         testTile3.Size = glm.vec2(50, 50)
         testTile3.Grid = glm.vec2(12, 14)
         testTile3.Selected = glm.vec2(6, 5)
-        testTile3.TexID = 0
+        testTile3.TexID = 3
         testTile3.Texture = "textSheet"
+
+
 
         # self.AddObject(player)
         self.AddObject(Player1)
+        self.AddObject(testTile2)
+        self.AddObject(testTile3)
+        self.AddObject(testTile4)
+        self.AddObject(testTile)
         self.staticObjects.append(testTile)
         self.staticObjects.append(testTile2)
         self.staticObjects.append(testTile3)
+        self.staticObjects.append(testTile4)
 
     def Update(self, dt):
         i = 0
-        print(self.player.Velocity)
+        # print(self.player.Velocity)
 
         # print(self.System.GetDeltaTime())
         keys = self.System.GetInput()
@@ -120,6 +136,4 @@ class GameLevel(LevelManager):
         super().Update(dt)
 
     def BatchDraw(self):
-        for Objects in self.staticObjects:
-            Objects.BatchDraw(self.System)
         super().BatchDraw()

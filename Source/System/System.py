@@ -199,6 +199,28 @@ class System:
         self.BatchRenderer = None
         glfw.terminate()
 
+    # def StartGame(self, levelmanager, flag):
+    #     # GameSystem = System()
+    #     if flag == 0:
+    #         self.SpriteRenderer.shader.UseProgram()
+    #         self.Camera.update(x, y, rotation)
+    #         self.Camera.upload(self.SpriteRenderer.shader.ID, "projection")
+    #     else:
+    #         self.InitBatchSystem()
+    #
+    #         levelmanager.InitLevel()
+    #         self.LevelManager = levelmanager
+    #
+    #         self.GameLoop(1)
+    #
+    #         self.SystemTerminate()
+    #
+    #     return 0
+
+
+
+
+
 
 # EngineSystem = System()
 # EngineSystem.InitSystems()

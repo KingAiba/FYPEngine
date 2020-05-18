@@ -6,6 +6,7 @@ import sys
 sys.path.append(sys.path[0] + "/../")
 from Game.GameObject import GameObject, BallObject, Player
 from Source.Utility.glmVec import GetVec2, GetVec3, normalize, glmLength
+from Source.Utility.XmlUtility import PathToProject
 from Source.Renderer.ResourseManager import Resources
 from Source.System.TextManager import TextManager
 from Source.System.LevelManager import LevelManager
@@ -50,7 +51,6 @@ class Menu(LevelManager):
         if self.count > self.max:
             self.count = self.max
 
-
     def Draw(self):
 
         self.System.SystemDraw(Resources.GetTexture("background3"), GetVec2(0, 0),
@@ -65,9 +65,7 @@ class Menu(LevelManager):
         if self.count == 1:
             self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300))
         else:
-            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300),GetVec3(0.5, 0.5, 0.5))
-
-
+            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300), GetVec3(0.5, 0.5, 0.5))
 
 
 class GameLevel(LevelManager):
@@ -190,7 +188,7 @@ class GameLevel(LevelManager):
         self.gameObjects.append(self.Ball)
 
         # Load Levels
-        self.Load(os.path.dirname(__file__) + "/levels/level0.txt", self.System.windowWidth,
+        self.Load(PathToProject() + "Game/levels/level0.txt", self.System.windowWidth,
                   self.System.windowHeight * 0.5)
 
     def Draw(self):
@@ -207,12 +205,15 @@ class GameLevel(LevelManager):
     def Update(self, dt):
         super().Update(dt)
         self.System.UpdateCamera(0, 0, 0, 0)
+
         self.Player.ProccessInput(dt, self.System, self.Ball)
         keys = self.System.GetInput()
+
         if keys[self.System.getKey("Q")]:
             for Tile in self.Blocks:
                 if Tile.Destroyed is not True:
                     Tile.Destroyed = True
+
         # print(1/dt)
         self.Ball.BallMove(dt, self.System.windowWidth)
         self.BlockCollision()
@@ -220,11 +221,14 @@ class GameLevel(LevelManager):
         if self.Ball.position.y >= self.System.windowHeight:
             self.ResetLevel()
             self.ResetPlayer()
+
         if self.IsComplete():
             self.CurrLevel = self.CurrLevel + 1
             print(self.CurrLevel)
+
             if self.CurrLevel > 4:
                 self.CurrLevel = 0
+
             self.ResetLevel()
             self.ResetPlayer()
 
@@ -232,6 +236,7 @@ class GameLevel(LevelManager):
         for Tile in self.Blocks:
             if (not Tile.Destroyed) and (not Tile.IsSolid):
                 return False
+
         return True
 
     def BlockCollision(self):
@@ -250,10 +255,12 @@ class GameLevel(LevelManager):
                     if Direction == "LEFT" or Direction == "RIGHT":
                         self.Ball.Velocity.x = -self.Ball.Velocity.x
                         pen = self.Ball.Radius - abs(diffVector.x)
+
                         if Direction == "LEFT":
                             self.Ball.position.x = self.Ball.position.x + pen
                         else:
                             self.Ball.position.x = self.Ball.position.x - pen
+
                     else:
                         self.Ball.Velocity.y = -self.Ball.Velocity.y
                         pen = self.Ball.Radius - abs(diffVector.y)
@@ -281,16 +288,16 @@ class GameLevel(LevelManager):
 
     def ResetLevel(self):
         if self.CurrLevel == 0:
-            self.Load(os.path.dirname(__file__) + "/levels/level0.txt", self.System.windowWidth,
+            self.Load(PathToProject() + "Game/levels/level0.txt", self.System.windowWidth,
                       self.System.windowHeight * 0.5)
         elif self.CurrLevel == 1:
-            self.Load(os.path.dirname(__file__) + "/levels/level1.txt", self.System.windowWidth,
+            self.Load(PathToProject() + "Game/levels/level1.txt", self.System.windowWidth,
                       self.System.windowHeight * 0.5)
         elif self.CurrLevel == 2:
-            self.Load(os.path.dirname(__file__) + "/levels/level2.txt", self.System.windowWidth,
+            self.Load(PathToProject() + "Game/levels/level2.txt", self.System.windowWidth,
                       self.System.windowHeight * 0.5)
         elif self.CurrLevel == 3:
-            self.Load(os.path.dirname(__file__) + "/levels/level3.txt", self.System.windowWidth,
+            self.Load(PathToProject() + "Game/levels/level3.txt", self.System.windowWidth,
                       self.System.windowHeight * 0.5)
 
     def ResetPlayer(self):

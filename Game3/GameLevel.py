@@ -1,6 +1,5 @@
 import os
 import sys
-import glm
 
 # sys.path.append(os.path.dirname(__file__) + "/../")
 sys.path.append(sys.path[0] + "/../")
@@ -8,6 +7,7 @@ from Source.System.LevelManager import LevelManager
 from Source.System.animationComponent import Animation
 from Game3.GameObjects import Player
 from Game3.GameObjects import Tile
+from Source.Utility.glmVec import GetVec2, GetVec3
 
 playerVelocity = float(250)
 
@@ -28,17 +28,17 @@ class GameLevel(LevelManager):
         # init objects
         idleAnimation = Animation()
         idleAnimation.speed = 0.25
-        idleAnimation.AnimationList = [glm.vec2(1, 1), glm.vec2(2, 1), glm.vec2(3, 1), glm.vec2(4, 1)]
+        idleAnimation.AnimationList = [GetVec2(1, 1), GetVec2(2, 1), GetVec2(3, 1), GetVec2(4, 1)]
 
         walkingAnimation = Animation()
         walkingAnimation.speed = 0.20
-        walkingAnimation.AnimationList = [glm.vec2(1, 2), glm.vec2(2, 2), glm.vec2(3, 2), glm.vec2(4, 2),
-                                          glm.vec2(5, 2), glm.vec2(6, 2)]
+        walkingAnimation.AnimationList = [GetVec2(1, 2), GetVec2(2, 2), GetVec2(3, 2), GetVec2(4, 2),
+                                          GetVec2(5, 2), GetVec2(6, 2)]
 
         jumpAnimation = Animation()
         jumpAnimation.speed = 0.15
-        jumpAnimation.AnimationList = [glm.vec2(7, 2), glm.vec2(8, 2), glm.vec2(1, 3), glm.vec2(2, 3), glm.vec2(3, 3),
-                                       glm.vec2(4, 3), glm.vec2(5, 3), glm.vec2(6, 3), glm.vec2(7, 3), glm.vec2(8, 3)]
+        jumpAnimation.AnimationList = [GetVec2(7, 2), GetVec2(8, 2), GetVec2(1, 3), GetVec2(2, 3), GetVec2(3, 3),
+                                       GetVec2(4, 3), GetVec2(5, 3), GetVec2(6, 3), GetVec2(7, 3), GetVec2(8, 3)]
 
         Player1 = Player(os.path.abspath(__file__) + "/../../res/GameObjects/Player.xml")
 
@@ -46,42 +46,42 @@ class GameLevel(LevelManager):
         Player1.addAnimation(idleAnimation)
         Player1.addAnimation(walkingAnimation)
         Player1.addAnimation(jumpAnimation)
-        Player1.position = glm.vec2(530, 100)
+        Player1.position = GetVec2(530, 100)
         Player1.TexID = 0
         Player1.VerticalFlip = 1
-        Player1.Velocity = glm.vec2(0, 0)
+        Player1.Velocity = GetVec2(0, 0)
         self.player = Player1
 
         testTile = Tile()
-        testTile.position = glm.vec2(500, 500)
-        testTile.Size = glm.vec2(100, 100)
-        testTile.Grid = glm.vec2(6, 4)
-        testTile.Selected = glm.vec2(3, 2)
+        testTile.position = GetVec2(500, 500)
+        testTile.Size = GetVec2(100, 100)
+        testTile.Grid = GetVec2(6, 4)
+        testTile.Selected = GetVec2(3, 2)
         testTile.TexID = 1
         testTile.Texture = "TileSheet"
 
         testTile2 = Tile()
-        testTile2.position = glm.vec2(100, 500)
-        testTile2.Size = glm.vec2(200, 200)
-        testTile2.Grid = glm.vec2(6, 4)
-        testTile2.Selected = glm.vec2(3, 4)
+        testTile2.position = GetVec2(100, 500)
+        testTile2.Size = GetVec2(200, 200)
+        testTile2.Grid = GetVec2(6, 4)
+        testTile2.Selected = GetVec2(3, 4)
         testTile2.TexID = 1
         testTile2.Texture = "TileSheet"
 
         testTile4 = Tile()
-        testTile4.position = glm.vec2(100, 100)
-        testTile4.Size = glm.vec2(100, 100)
-        testTile4.Grid = glm.vec2(6, 4)
-        testTile4.Selected = glm.vec2(2, 2)
+        testTile4.position = GetVec2(100, 100)
+        testTile4.Size = GetVec2(100, 100)
+        testTile4.Grid = GetVec2(6, 4)
+        testTile4.Selected = GetVec2(2, 2)
         testTile4.TexID = 1
         testTile4.Texture = "TileSheet"
 
 
         testTile3 = Tile()
-        testTile3.position = glm.vec2(0, 0)
-        testTile3.Size = glm.vec2(50, 50)
-        testTile3.Grid = glm.vec2(12, 14)
-        testTile3.Selected = glm.vec2(6, 5)
+        testTile3.position = GetVec2(0, 0)
+        testTile3.Size = GetVec2(50, 50)
+        testTile3.Grid = GetVec2(12, 14)
+        testTile3.Selected = GetVec2(6, 5)
         testTile3.TexID = 3
         testTile3.Texture = "textSheet"
 

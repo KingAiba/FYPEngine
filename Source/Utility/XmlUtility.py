@@ -23,4 +23,8 @@ def GetRootAttribute(path, att):
     myTree = ET.parse(myTree)
     myRoot = myTree.getroot()
     return myRoot.attrib.get(att)
+
+
+def PathToProject():
+    return os.path.dirname(__file__) + "/../../"
 # print(GetAttribute('../../res/Config/actor.xml', 'Sprite', 'Alpha'))

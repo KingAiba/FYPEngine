@@ -21,7 +21,6 @@ class LevelManager:
             if Objects.ObjectType is not "STATIC":
                 Objects.Update(dt)
 
-
     def Draw(self):
         for Objects in self.gameObjects:
             Objects.Draw(self.System)

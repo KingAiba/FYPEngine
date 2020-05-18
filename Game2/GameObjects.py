@@ -1,7 +1,6 @@
 import os
 import sys
 
-
 # sys.path.append(os.path.dirname(__file__) + "/../")
 sys.path.append(sys.path[0] + "/../")
 
@@ -42,7 +41,6 @@ class Player(Sprite):
             newProjectile.Texture = texture
             self.ProjectileList.append(newProjectile)
             audio.Play("wep1")
-
 
     def Update(self, dt, system, audio):
         self.ProccessInput(dt, system, audio)

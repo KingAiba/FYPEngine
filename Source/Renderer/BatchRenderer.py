@@ -5,6 +5,7 @@ import sys
 import _ctypes
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+from OpenGL.GLU import *
 
 # sys.path.append(os.path.dirname(__file__) + "/../../")
 sys.path.append(sys.path[0] + "/../../")
@@ -32,10 +33,7 @@ class BatchRenderer:
         self.Textures = [None] * self.MaxTexture
         self.BufferSize = numpy.size(sampleQuad) * self.MaxObjects * 4
 
-    def Start(self):
-        self.Shader.Compile()
-        self.Shader.UseProgram()
-
+    def MakeBuffer(self):
         glGenVertexArrays(1, self.VAO)
         glGenBuffers(1, self.VBO)
 
@@ -59,7 +57,12 @@ class BatchRenderer:
         glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, ctypes.sizeof(GLfloat) * 8,
                               ctypes.c_void_p(7 * ctypes.sizeof(GLfloat)))
 
-    # TODO fix texture slot inconsistency
+    def Start(self):
+        self.Shader.Compile()
+        self.Shader.UseProgram()
+        self.MakeBuffer()
+
+
     def Render(self):
         self.Shader.UseProgram()
         count = 0
@@ -87,13 +90,17 @@ class BatchRenderer:
                 glBindVertexArray(self.VAO)
                 glDrawArrays(GL_TRIANGLES, 0, numpy.size(CurrDrawArray))
 
-                clearArr = numpy.array([0]*(self.MaxObjects-1), dtype="f")
-                glBufferSubData(GL_ARRAY_BUFFER, 0, self.BufferSize, clearArr)
+                clearArr = numpy.array([0]*(sizeOfData), dtype="f")
+                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeOfData, clearArr)
+                # glDeleteBuffers(1, ctypes.pointer(self.VBO))
+                # zero = float(0)
+                # glClearBufferData(GL_ARRAY_BUFFER, GL_R32F, GL_R32F,GL_FLOAT, ctypes.c_void_p(0))
                 glBindVertexArray(0)
 
                 texture.UnbindTexture()
             count = count + 1
         self.Objects.clear()
+
         self.End()
 
         # self.Shader.UseProgram()

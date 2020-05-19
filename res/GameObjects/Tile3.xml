@@ -1,0 +1,8 @@
+<Actor name = "Tile3">
+
+	<Transform PosX = "0" PosY = "0" rotation = "0" sizeX = "125"
+                sizeY = "64"/>
+	<Sprite textureName="TileSheet" texturePath="/Textures/tile_spritesheet.png" ColorR="1.0" ColorG="1.0" ColorB="1.0" isAlpha="1" Alpha="1.0"
+				GridX="6" GridY="4" SelectedX="3" SelectedY="2"/>
+
+</Actor>

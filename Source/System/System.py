@@ -32,9 +32,11 @@ class System:
         self.LevelManager = None
         self.InputManager = None
         self.Camera = None
+        self.Resources = None
         self.ConfigPath = os.path.dirname(__file__) + "/../../res/Config/SystemConfig.xml"
 
     def InitSystem(self):
+        self.Resources = Resources
         self.windowWidth = int(GetAttribute(self.ConfigPath, "Window", "windowWidth"))
         self.windowHeight = int(GetAttribute(self.ConfigPath, "Window", "windowHeight"))
         self.windowTitle = GetAttribute(self.ConfigPath, "Window", "windowTitle")
@@ -67,6 +69,7 @@ class System:
         # self.Camera.update(0.0, 0.0, 0.0)
         # glUniformMatrix4fv(glGetUniformLocation(Resources.Shaders["BatchShader"].ID, "projection"), 1, GL_FALSE,
         #                    glm.value_ptr(self.Camera.VP))
+
     def InitBatchSystem(self):
         self.windowWidth = int(GetAttribute(self.ConfigPath, "Window", "windowWidth"))
         self.windowHeight = int(GetAttribute(self.ConfigPath, "Window", "windowHeight"))
@@ -128,9 +131,10 @@ class System:
         Resources.clear()
         glfw.terminate()
         exit()
+
     def ChangeLevel(self, newLevel):
         self.LevelManager.ClearLevel()
-        Resources.clear()
+        # Resources.clear()
         self.LevelManager = newLevel
         self.LevelManager.InitLevel()
 
@@ -174,7 +178,6 @@ class System:
         else:
             Resources.LoadTexture(texturePath, isAlpha, key)
 
-
     @staticmethod
     def GetTextureFromResources(key):
         return Resources.Textures[key]
@@ -199,6 +202,16 @@ class System:
         self.BatchRenderer = None
         glfw.terminate()
 
+    @staticmethod
+    def GetParticleObject():
+        particle = Particle()
+        return particle
+
+    @staticmethod
+    def GetGenerator(texture, amount):
+        pGen = Generator(Resources.GetShader("ParticleShader"), texture, amount)
+        return pGen
+
     # def StartGame(self, levelmanager, flag):
     #     # GameSystem = System()
     #     if flag == 0:
@@ -216,11 +229,6 @@ class System:
     #         self.SystemTerminate()
     #
     #     return 0
-
-
-
-
-
 
 # EngineSystem = System()
 # EngineSystem.InitSystems()

@@ -31,7 +31,7 @@ class Menu(LevelManager):
         super().InitLevel()
         Resources.LoadTexture("/Textures/sci_fi_bg1.jpg", 0, "background3")
         self.textManager = TextManager("textsheet", "/Text/8x8text_whiteNoShadow.png", "/Text/textCoord.xml")
-        self.textManager.size = GetVec2(48, 48)
+
 
     def Update(self, dt):
         keys = self.System.GetInput()
@@ -58,14 +58,14 @@ class Menu(LevelManager):
                                GetVec3(0.3, 0.3, 0.5), GetVec2(1, 1), GetVec2(1, 1))
 
         if self.count == 0:
-            self.textManager.DrawString(self.System, "START", GetVec2(200, 200))
+            self.textManager.DrawString(self.System, "START", GetVec2(200, 200), GetVec2(48, 48))
         else:
-            self.textManager.DrawString(self.System, "START", GetVec2(200, 200), GetVec3(0.5, 0.5, 0.5))
+            self.textManager.DrawString(self.System, "START", GetVec2(200, 200), GetVec2(48, 48), GetVec3(0.5, 0.5, 0.5))
 
         if self.count == 1:
-            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300))
+            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300), GetVec2(48, 48))
         else:
-            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300), GetVec3(0.5, 0.5, 0.5))
+            self.textManager.DrawString(self.System, "EXIT", GetVec2(200, 300), GetVec2(48, 48), GetVec3(0.5, 0.5, 0.5))
 
 
 class GameLevel(LevelManager):
@@ -76,6 +76,7 @@ class GameLevel(LevelManager):
         self.Blocks = []
         self.Player = None
         self.Ball = None
+        # self.pGenerator = None
         # self.PGen = None
 
     def Load(self, FilePath, Width, Height):
@@ -191,10 +192,13 @@ class GameLevel(LevelManager):
         self.Load(PathToProject() + "Game/levels/level0.txt", self.System.windowWidth,
                   self.System.windowHeight * 0.5)
 
+        # self.pGenerator = self.System.GetGenerator(Resources.Textures["particle"], 100)
+
     def Draw(self):
         self.System.SystemDraw(Resources.GetTexture("background3"), GetVec2(0, 0),
                                GetVec2(self.System.windowWidth, self.System.windowHeight), 0.0,
                                GetVec3(0.3, 0.3, 0.5), GetVec2(1, 1), GetVec2(1, 1))
+        # self.pGenerator.Draw(self.System)
         for Tile in self.Blocks:
             if not Tile.Destroyed:
                 Tile.Draw(self.System)
@@ -217,6 +221,7 @@ class GameLevel(LevelManager):
         # print(1/dt)
         self.Ball.BallMove(dt, self.System.windowWidth)
         self.BlockCollision()
+
         # self.PGen.Update(dt, self.Ball, 20, glm.vec2(self.Ball.Radius / 2))
         if self.Ball.position.y >= self.System.windowHeight:
             self.ResetLevel()
@@ -224,13 +229,14 @@ class GameLevel(LevelManager):
 
         if self.IsComplete():
             self.CurrLevel = self.CurrLevel + 1
-            print(self.CurrLevel)
+            # print(self.CurrLevel)
 
             if self.CurrLevel > 4:
                 self.CurrLevel = 0
 
             self.ResetLevel()
             self.ResetPlayer()
+        # self.pGenerator.Update(dt, self.Ball, 20, GetVec2(self.Ball.Radius / 2, self.Ball.Radius / 2))
 
     def IsComplete(self):
         for Tile in self.Blocks:

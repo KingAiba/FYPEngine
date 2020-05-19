@@ -10,29 +10,31 @@ class Player(Sprite):
     def __init__(self, FilePath=None):
         super().__init__(FilePath)
         self.CollisionFlag = 0
-        self.acceleration = 500
+        self.acceleration = 300
         self.JumpFlag = 0
         self.ObjectType = "DYNAMIC"
 
     def jump(self):
         if self.CollisionFlag == 1 and self.JumpFlag == 0:
-            self.position.y -= 10
-            self.acceleration = -250
+            self.position.y -= 1
+            self.acceleration = -300
             self.JumpFlag = 1
 
     def gravity(self, dt):
-        if self.acceleration < 500:
-            self.acceleration += 500 * dt
+        if self.acceleration < 300:
+            self.acceleration += 310*dt
 
         if self.CollisionFlag == 0:
-
             self.Velocity.y += self.acceleration * dt
+
         else:
             self.Velocity.y = 0
 
     def Update(self, dt):
         self.gravity(dt)
         self.Move(dt)
+        if self.acceleration > 300:
+            self.acceleration = 300
         super().Update(dt)
 
     def TileCollision(self, tile):
@@ -47,7 +49,7 @@ class Player(Sprite):
                 (tile.position.y + tile.Size.y) >= self.position.y):
             ColY = True
 
-        if ColX and ColY and ((self.position.y + self.Size.y / 2) < tile.position.y):
+        if ColX and ColY and ((self.position.y + self.Size.y-5) <= tile.position.y):
             Col = True
 
         return Col
@@ -61,3 +63,5 @@ class Tile(Sprite):
 class Object(Sprite):
     def __init__(self, FilePath=None):
         super().__init__(FilePath)
+
+

@@ -7,7 +7,9 @@ sys.path.append(sys.path[0] + "/../../")
 
 from Source.Utility.XmlUtility import GetAttribute
 from Source.Renderer.ResourseManager import Resources
-
+# python game engine, wrapper, use does need to deal with the complxity of libraries,
+# advantages to using engine
+# installation, new project, simple game
 
 # PathToTexture = "../"
 

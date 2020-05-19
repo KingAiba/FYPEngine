@@ -13,8 +13,6 @@ def main():
     GameSystem = System()
     GameSystem.InitSystem()
 
-    #Level = GameLevel(GameSystem)
-    #Level.InitLevel()
     menu = Menu(GameSystem)
     menu.InitLevel()
     GameSystem.LevelManager = menu

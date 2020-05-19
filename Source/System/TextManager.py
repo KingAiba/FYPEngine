@@ -50,18 +50,17 @@ class TextManager:
             coordX = 1
             coordY = 1
 
-
         return coordX, coordY
 
-    def DrawString(self, system, string, position=glm.vec3(0.0, 0.0, 0.0), color=glm.vec3(1.0, 1.0, 1.0)):
+    def DrawString(self, system, string, position=glm.vec2(0.0, 0.0), size=glm.vec2(24, 24), color=glm.vec3(1.0, 1.0, 1.0)):
         count = 0
         for char in string:
             xStr, yStr = self.GetCoords(char)
             selected = glm.vec2(xStr, yStr)
             newPos = position.x
-            newPos = newPos + (self.size.x * count)
+            newPos = newPos + (size.x * count)
 
-            self.DrawChar(system, glm.vec2(newPos, position.y), self.size, self.rotation, color, self.Grid,
+            self.DrawChar(system, glm.vec2(newPos, position.y), size, self.rotation, color, self.Grid,
                           selected)
             count = count + 1
 

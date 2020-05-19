@@ -5,9 +5,10 @@ import sys
 sys.path.append(sys.path[0] + "/../")
 from Source.System.LevelManager import LevelManager
 from Source.System.animationComponent import Animation
-from Game3.GameObjects import Player
-from Game3.GameObjects import Tile
+from Game3.GameObjects import Player, Tile, Object
 from Source.Utility.glmVec import GetVec2, GetVec3
+from Source.Utility.XmlUtility import PathToProject
+from Source.Renderer.ResourseManager import Resources
 
 playerVelocity = float(250)
 
@@ -18,12 +19,25 @@ class GameLevel(LevelManager):
         super().__init__(system)
         self.player = None
         self.staticObjects = []
+        self.background = None
+        self.Camera = None
+        self.levelWidth = 1600
+        self.levelHeight = 1600
 
     def InitLevel(self):
         super().InitLevel()
         # load resources
-        self.System.LoadTextureToResources("/Textures/tile_spritesheet.png", 1, "TileSheet")
-        self.System.LoadTextureToResources("/Text/8x8text_whiteNoShadow.png", 1, "textSheet")
+        Resources.LoadTexture("/Textures/tile_spritesheet.png", 1, "TileSheet")
+        Resources.LoadTexture("/Textures/sci_fi_bg1.jpg", 0, "background")
+
+        self.background = Object()
+        self.background.position = GetVec2(0, 0)
+        self.background.Size = GetVec2(self.levelWidth, self.levelHeight)
+        self.background.Color = GetVec3(0.3, 0.3, 0.5)
+        self.background.Texture = "background"
+        self.background.TexID = 0
+
+        self.Camera = self.System.Camera
 
         # init objects
         idleAnimation = Animation()
@@ -40,14 +54,13 @@ class GameLevel(LevelManager):
         jumpAnimation.AnimationList = [GetVec2(7, 2), GetVec2(8, 2), GetVec2(1, 3), GetVec2(2, 3), GetVec2(3, 3),
                                        GetVec2(4, 3), GetVec2(5, 3), GetVec2(6, 3), GetVec2(7, 3), GetVec2(8, 3)]
 
-        Player1 = Player(os.path.abspath(__file__) + "/../../res/GameObjects/Player.xml")
-
+        Player1 = Player(PathToProject() + "res/GameObjects/Player.xml")
         Player1.Animated = True
         Player1.addAnimation(idleAnimation)
         Player1.addAnimation(walkingAnimation)
         Player1.addAnimation(jumpAnimation)
         Player1.position = GetVec2(530, 100)
-        Player1.TexID = 0
+        Player1.TexID = 2
         Player1.VerticalFlip = 1
         Player1.Velocity = GetVec2(0, 0)
         self.player = Player1
@@ -68,40 +81,18 @@ class GameLevel(LevelManager):
         testTile2.TexID = 1
         testTile2.Texture = "TileSheet"
 
-        testTile4 = Tile()
-        testTile4.position = GetVec2(100, 100)
-        testTile4.Size = GetVec2(100, 100)
-        testTile4.Grid = GetVec2(6, 4)
-        testTile4.Selected = GetVec2(2, 2)
-        testTile4.TexID = 1
-        testTile4.Texture = "TileSheet"
-
-
-        testTile3 = Tile()
-        testTile3.position = GetVec2(0, 0)
-        testTile3.Size = GetVec2(50, 50)
-        testTile3.Grid = GetVec2(12, 14)
-        testTile3.Selected = GetVec2(6, 5)
-        testTile3.TexID = 3
-        testTile3.Texture = "textSheet"
-
-
-
         # self.AddObject(player)
         self.AddObject(Player1)
-        self.AddObject(testTile2)
-        self.AddObject(testTile3)
-        self.AddObject(testTile4)
-        self.AddObject(testTile)
+
         self.staticObjects.append(testTile)
         self.staticObjects.append(testTile2)
-        self.staticObjects.append(testTile3)
-        self.staticObjects.append(testTile4)
+        self.MakeLevel("Game3/level1.txt", self.levelWidth, self.levelHeight)
 
     def Update(self, dt):
         i = 0
         # print(self.player.Velocity)
-
+        self.System.UpdateCamera(self.player.position.x + self.player.Size.x/2 - self.System.windowWidth/2,
+                                 self.player.position.y + self.player.Size.y/2 - self.System.windowHeight/2, 0, 1)
         # print(self.System.GetDeltaTime())
         keys = self.System.GetInput()
 
@@ -136,4 +127,63 @@ class GameLevel(LevelManager):
         super().Update(dt)
 
     def BatchDraw(self):
+        self.background.BatchDraw(self.System)
+        for obj in self.staticObjects:
+            obj.BatchDraw(self.System)
         super().BatchDraw()
+
+    def MakeLevel(self, filepath, width, height):
+        filepath = PathToProject() + filepath
+        count = 0
+        BlockData = []
+        file = open(filepath, "r")
+
+        if not file:
+            print("ERROR : CANNOT OPEN LEVEL FILE")
+            exit()
+
+        for line in file:
+            # print(line)
+            LineArray = line.split()
+            count = count + len(LineArray)
+            BlockData.append(LineArray)
+
+        if count > 0:
+            self.ConstructLevel(BlockData, width, height)
+
+    def ConstructLevel(self, data, width, height):
+        gapWidth = 64
+        gapHeight = 64
+        blockWidth = 125
+        blockHeight = 64
+        currPosx = 0
+        currPosy = 0
+
+        IndexY = 0
+        for y in data:
+            IndexX = 0
+            for x in y:
+                if int(x)==0:
+                    currPosx=0
+                elif int(x) == 1:
+                    newTile = Tile(PathToProject() + "res/GameObjects/Tile1.xml")
+                    newTile.TexID = 1
+                    newTile.position = GetVec2(IndexX*gapWidth+currPosx, IndexY*gapHeight)
+                    self.staticObjects.append(newTile)
+                    currPosx += 61
+                elif int(x) == 2:
+                    newTile = Tile(PathToProject() + "res/GameObjects/Tile2.xml")
+                    newTile.TexID = 1
+                    newTile.position = GetVec2(IndexX*gapWidth+currPosx, IndexY*gapHeight)
+                    self.staticObjects.append(newTile)
+                    currPosx += 61
+                elif int(x) == 3:
+                    newTile = Tile(PathToProject() + "res/GameObjects/Tile2.xml")
+                    newTile.TexID = 1
+                    newTile.position = GetVec2(IndexX*gapWidth+currPosx, IndexY*gapHeight)
+                    self.staticObjects.append(newTile)
+                    currPosx += 61
+                IndexX += 1
+            IndexY += 1
+
+

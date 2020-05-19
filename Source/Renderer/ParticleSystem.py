@@ -26,12 +26,13 @@ class Generator:
 
         self.InitRenderer()
 
-    def Draw(self):
+    def Draw(self, system):
         glBlendFunc(GL_SRC_ALPHA, GL_ONE)
         self.Shader.UseProgram()
 
         for particle in self.ParticleList:
             if particle.Life > 0.0:
+                system.Camera.upload(self.Shader.ID, "projection")
                 glUniform1f(glGetUniformLocation(self.Shader.ID, "Scale"), particle.Scale)
                 glUniform2f(glGetUniformLocation(self.Shader.ID, "offset"), particle.position.x, particle.position.y)
                 # print(particle.Position)
@@ -44,18 +45,18 @@ class Generator:
                 glBindVertexArray(0)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-    def Update(self, dt, obj, particle, offset):
+    def Update(self, dt, obj, particle, offset, r=1, g=1, b=1):
         # Add new from list, first unused particle
 
         for index in range(0, particle):
 
             Unused = self.FindUnusedParticle()
 
-            self.RespawnParticle(self.ParticleList[Unused], obj, offset)
+            self.RespawnParticle(self.ParticleList[Unused], obj, offset, r, g, b)
 
             Unused = self.FindUnusedParticle()
 
-            self.RespawnParticle(self.ParticleList[Unused], obj, offset)
+            self.RespawnParticle(self.ParticleList[Unused], obj, offset, r, g, b)
 
         for index in range(0, self.amount):
             P = self.ParticleList[index]
@@ -112,11 +113,11 @@ class Generator:
         return 0
 
     @staticmethod
-    def RespawnParticle(particle, obj, offset):
+    def RespawnParticle(particle, obj, offset, r=1, g=1, b=1):
         randNum = (random.uniform(0, 100) - 50) / 10.0
         randColor = 0.5 + (random.uniform(0, 100) / 100.0)
 
         particle.position = obj.position + randNum + offset
-        particle.Color = glm.vec4(randColor, randColor, randColor, 1.0)
+        particle.Color = glm.vec4(randColor*r, randColor*g, randColor*b, 1.0)
         particle.Life = 1.0
         particle.Velocity = obj.Velocity * 0.1

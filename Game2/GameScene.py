@@ -27,6 +27,7 @@ class Scene(LevelManager):
         self.SpawnTimer = 0
         self.Txt = None
         self.audio = None
+        self.score = 0
 
     def InitScene(self):
 
@@ -62,8 +63,8 @@ class Scene(LevelManager):
         self.SceneHeight = self.System.windowHeight
 
         self.Txt = TextManager("textsheet", "/Text/8x8text_whiteNoShadow.png", "/Text/textCoord.xml")
-        self.Txt.position = GetVec2(0, 0)
-        self.Txt.size = GetVec2(24, 24)
+
+
 
         self.audio = AudioManager()
         self.audio.LoadSound("/SoundEffects/scifi_weapon1.wav", "wep1")
@@ -89,7 +90,7 @@ class Scene(LevelManager):
             for x in range(0, amount):
                 if self.ShipAmount > 0:
                     randPos = GetVec2(random.uniform(150, self.SceneWidth - 150), 0.0)
-                    size = GetVec2(100, 100)
+                    size = GetVec2(86, 86)
                     velocity = GetVec2(0, 100)
                     NewShip = Ship()
                     NewShip.position = randPos
@@ -107,7 +108,7 @@ class Scene(LevelManager):
         self.StartScene(self.System, GetVec3(0.6, 0.6, 1.0))
         self.player.Draw(self.System)
         super().Draw()
-        self.Txt.DrawString(self.System, "SCORE:8317")
+        self.Txt.DrawString(self.System, "SCORE:" + str(self.score))
 
     def StartScene(self, system, backgroundColor):
         system.SystemDraw(Resources.GetTexture(self.background), GetVec2(0, 0),
@@ -118,6 +119,7 @@ class Scene(LevelManager):
         Ind = 0
         for ship in self.gameObjects:
             if ship.Health <= 0:
+                self.score += 1
                 del self.gameObjects[Ind]
             Ind = Ind + 1
 
@@ -151,4 +153,4 @@ class Scene(LevelManager):
             ShipIndex = ShipIndex + 1
 
         if self.player.Health <= 0:
-            print("GAME OVER")
+            self.Txt.DrawString(self.System, "GAMEOVER", GetVec2(self.SceneWidth/2, self.SceneHeight/2))

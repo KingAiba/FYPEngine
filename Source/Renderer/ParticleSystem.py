@@ -45,18 +45,19 @@ class Generator:
                 glBindVertexArray(0)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-    def Update(self, dt, obj, particle, offset, r=1, g=1, b=1):
+    # update particles, and re-spawn any particles that are dead
+    def Update(self, dt, obj, particle, offset, pos=glm.vec2(0, 0), r=1, g=1, b=1):
         # Add new from list, first unused particle
 
         for index in range(0, particle):
 
             Unused = self.FindUnusedParticle()
 
-            self.RespawnParticle(self.ParticleList[Unused], obj, offset, r, g, b)
+            self.RespawnParticle(self.ParticleList[Unused], obj, offset, pos,r, g, b)
 
             Unused = self.FindUnusedParticle()
 
-            self.RespawnParticle(self.ParticleList[Unused], obj, offset, r, g, b)
+            self.RespawnParticle(self.ParticleList[Unused], obj, offset, pos,r, g, b)
 
         for index in range(0, self.amount):
             P = self.ParticleList[index]
@@ -68,6 +69,7 @@ class Generator:
                 P.Color.w = P.Color.w - dt*2
                 # print(P.Color, P.Velocity, P.Position)
 
+    # initialize generator
     def InitRenderer(self):
         self.Shader.Compile()
         self.Shader.UseProgram()
@@ -97,6 +99,7 @@ class Generator:
         for i in range(self.amount):
             self.ParticleList.append(Particle())
 
+    # find any dead particles in generator
     def FindUnusedParticle(self):
 
         for index in range(self.LastUnused, self.amount):
@@ -112,12 +115,16 @@ class Generator:
         self.LastUnused = 0
         return 0
 
+    # re-spawn particles with the given arguments
     @staticmethod
-    def RespawnParticle(particle, obj, offset, r=1, g=1, b=1):
+    def RespawnParticle(particle, obj, offset, pos,r=1, g=1, b=1):
         randNum = (random.uniform(0, 100) - 50) / 10.0
         randColor = 0.5 + (random.uniform(0, 100) / 100.0)
+        if pos.x == 0 and pos.y == 0:
+            particle.position = obj.position + randNum + offset
+        else:
+            particle.position = pos + randNum + offset
 
-        particle.position = obj.position + randNum + offset
         particle.Color = glm.vec4(randColor*r, randColor*g, randColor*b, 1.0)
         particle.Life = 1.0
         particle.Velocity = obj.Velocity * 0.1

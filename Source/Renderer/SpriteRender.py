@@ -34,7 +34,7 @@ class SpriteRender:
         glBindVertexArray(self.VAO)
         glDrawArrays(GL_TRIANGLES, 0, 6)
         glBindVertexArray(0)
-
+    # rendering from sprite sheet
     def DrawSpriteFromSheet(self, texture, position, size, rotate, color, Grid, Selected):
         self.shader.UseProgram()
 
@@ -60,7 +60,7 @@ class SpriteRender:
         glBindVertexArray(self.VAO)
         glDrawArrays(GL_TRIANGLES, 0, 6)
         glBindVertexArray(0)
-
+    # rendering without textures
     def DrawNoTex(self, position, size, rotate, color, Grid, Selected):
         self.shader.UseProgram()
 
@@ -85,6 +85,7 @@ class SpriteRender:
         glDrawArrays(GL_TRIANGLES, 0, 6)
         glBindVertexArray(0)
 
+    # initialize buffer for renderer, before drawing
     def initRenderer(self):
         self.shader.Compile()
         self.shader.UseProgram()
@@ -119,6 +120,7 @@ class SpriteRender:
         glBindBuffer(GL_ARRAY_BUFFER, 0)
         glBindVertexArray(0)
 
+    # change shader of renderer, need shader object
     def ChangeShader(self, shader):
         self.shader = shader
         self.initRenderer()

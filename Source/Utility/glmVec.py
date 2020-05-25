@@ -1,6 +1,7 @@
 import glm
 
 
+# utility functions to get glm vector objects, used to abstract glm
 def GetVec1(x):
     return glm.vec1(x)
 
@@ -19,6 +20,7 @@ def GetVec4(x, y, z, w):
 
 def normalize(x):
     return glm.normalize(x)
+
 
 def glmLength(x):
     return glm.length(x)

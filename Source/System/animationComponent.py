@@ -1,3 +1,4 @@
+# partial animation system for testing texture atlas support
 class Animation:
 
     def __init__(self):

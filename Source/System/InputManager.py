@@ -1,6 +1,7 @@
 import glfw
 from OpenGL.GL import *
 
+# abstraction for glfw
 KEY_W = glfw.KEY_W
 KEY_A = glfw.KEY_A
 KEY_S = glfw.KEY_S
@@ -15,12 +16,15 @@ KEY_2 = glfw.KEY_2
 KEY_3 = glfw.KEY_3
 KEY_UP = glfw.KEY_UP
 KEY_DOWN = glfw.KEY_DOWN
+KEY_LEFT = glfw.KEY_LEFT
+KEY_RIGHT = glfw.KEY_RIGHT
+
 
 class InputManager:
 
     def __init__(self):
         self.Keys = [False] * 1024
-
+    # set glfw key call back
     def key_callback(self, window, key, scancode, action, mode):
 
         if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
@@ -39,6 +43,7 @@ class InputManager:
     def getKeys(self):
         return self.Keys
 
+    # returns key values for the specified string
     @staticmethod
     def key_string_to_glfw(keystr):
 
@@ -70,6 +75,10 @@ class InputManager:
             return KEY_UP
         elif keystr == "DOWN":
             return KEY_DOWN
+        elif keystr == "LEFT":
+            return KEY_LEFT
+        elif keystr == "RIGHT":
+            return KEY_RIGHT
 
     def cursorPositionCallback(self, window, xPos, yPos):
         print("XPos:" + str(xPos) + " YPos:" + str(yPos))

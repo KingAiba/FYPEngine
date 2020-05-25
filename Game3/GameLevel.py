@@ -20,6 +20,8 @@ class GameLevel(LevelManager):
         self.player = None
         self.staticObjects = []
         self.background = None
+        self.bg2 = None
+        self.bg3 = None
         self.Camera = None
         self.levelWidth = 1600
         self.levelHeight = 1600
@@ -37,6 +39,20 @@ class GameLevel(LevelManager):
         self.background.Texture = "background"
         self.background.TexID = 0
 
+        self.bg2 = Object()
+        self.bg2.position = GetVec2(self.levelWidth, 0)
+        self.bg2.Size = GetVec2(self.levelWidth, self.levelHeight)
+        self.bg2.Color = GetVec3(0.3, 0.3, 0.5)
+        self.bg2.Texture = "background"
+        self.bg2.TexID = 0
+
+        self.bg3 = Object()
+        self.bg3.position = GetVec2(-1600, 0)
+        self.bg3.Size = GetVec2(self.levelWidth, self.levelHeight)
+        self.bg3.Color = GetVec3(0.3, 0.3, 0.5)
+        self.bg3.Texture = "background"
+        self.bg3.TexID = 0
+
         self.Camera = self.System.Camera
 
         # init objects
@@ -50,16 +66,21 @@ class GameLevel(LevelManager):
                                           GetVec2(5, 2), GetVec2(6, 2)]
 
         jumpAnimation = Animation()
-        jumpAnimation.speed = 0.15
+        jumpAnimation.speed = 0.20
         jumpAnimation.AnimationList = [GetVec2(7, 2), GetVec2(8, 2), GetVec2(1, 3), GetVec2(2, 3), GetVec2(3, 3),
                                        GetVec2(4, 3), GetVec2(5, 3), GetVec2(6, 3), GetVec2(7, 3), GetVec2(8, 3)]
+        attackAnimation = Animation()
+        attackAnimation.speed = 0.15
+        attackAnimation.AnimationList = [GetVec2(1, 7), GetVec2(2, 7), GetVec2(3, 7), GetVec2(4, 7),
+                                         GetVec2(5, 7), ]
 
         Player1 = Player(PathToProject() + "res/GameObjects/Player.xml")
         Player1.Animated = True
         Player1.addAnimation(idleAnimation)
         Player1.addAnimation(walkingAnimation)
         Player1.addAnimation(jumpAnimation)
-        Player1.position = GetVec2(530, 100)
+        Player1.addAnimation(attackAnimation)
+        Player1.position = GetVec2(200, 200)
         Player1.TexID = 2
         Player1.VerticalFlip = 1
         Player1.Velocity = GetVec2(0, 0)
@@ -91,8 +112,8 @@ class GameLevel(LevelManager):
     def Update(self, dt):
         i = 0
         # print(self.player.Velocity)
-        self.System.UpdateCamera(self.player.position.x + self.player.Size.x/2 - self.System.windowWidth/2,
-                                 self.player.position.y + self.player.Size.y/2 - self.System.windowHeight/2, 0, 1)
+        self.System.UpdateCamera(self.player.position.x + self.player.Size.x / 2 - self.System.windowWidth / 2,
+                                 self.player.position.y + self.player.Size.y / 2 - self.System.windowHeight / 2, 0, 1)
         # print(self.System.GetDeltaTime())
         keys = self.System.GetInput()
 
@@ -100,11 +121,15 @@ class GameLevel(LevelManager):
             self.player.Velocity.x = -150
             self.player.VerticalFlip = 1
             i = 1
+        elif keys[self.System.getKey("E")]:
+            i = 3
 
         if keys[self.System.getKey("D")]:
             self.player.Velocity.x = 150
             self.player.VerticalFlip = 0
             i = 1
+        elif keys[self.System.getKey("E")]:
+            i = 3
 
         if keys[self.System.getKey("SPACE")]:
             self.player.jump()
@@ -128,6 +153,8 @@ class GameLevel(LevelManager):
 
     def BatchDraw(self):
         self.background.BatchDraw(self.System)
+        self.bg2.BatchDraw(self.System)
+        self.bg3.BatchDraw(self.System)
         for obj in self.staticObjects:
             obj.BatchDraw(self.System)
         super().BatchDraw()
@@ -163,27 +190,25 @@ class GameLevel(LevelManager):
         for y in data:
             IndexX = 0
             for x in y:
-                if int(x)==0:
-                    currPosx=0
+                if int(x) == 0:
+                    currPosx = 0
                 elif int(x) == 1:
                     newTile = Tile(PathToProject() + "res/GameObjects/Tile1.xml")
                     newTile.TexID = 1
-                    newTile.position = GetVec2(IndexX*gapWidth+currPosx, IndexY*gapHeight)
+                    newTile.position = GetVec2(IndexX * gapWidth + currPosx, IndexY * gapHeight)
                     self.staticObjects.append(newTile)
                     currPosx += 61
                 elif int(x) == 2:
                     newTile = Tile(PathToProject() + "res/GameObjects/Tile2.xml")
                     newTile.TexID = 1
-                    newTile.position = GetVec2(IndexX*gapWidth+currPosx, IndexY*gapHeight)
+                    newTile.position = GetVec2(IndexX * gapWidth + currPosx, IndexY * gapHeight)
                     self.staticObjects.append(newTile)
                     currPosx += 61
                 elif int(x) == 3:
                     newTile = Tile(PathToProject() + "res/GameObjects/Tile2.xml")
                     newTile.TexID = 1
-                    newTile.position = GetVec2(IndexX*gapWidth+currPosx, IndexY*gapHeight)
+                    newTile.position = GetVec2(IndexX * gapWidth + currPosx, IndexY * gapHeight)
                     self.staticObjects.append(newTile)
                     currPosx += 61
                 IndexX += 1
             IndexY += 1
-
-

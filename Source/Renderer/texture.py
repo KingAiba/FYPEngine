@@ -15,6 +15,7 @@ class Texture:
         self.Filter_Min = GL_LINEAR
         self.Filter_Max = GL_LINEAR
 
+    # make texture object with the specified arguments
     def Generate(self, width, height, data):
         self.Width = width
         self.Height = height
@@ -30,14 +31,17 @@ class Texture:
 
         glBindTexture(GL_TEXTURE_2D, 0)
 
+    # bind texture to slot
     def BindTexture(self):
         glBindTexture(GL_TEXTURE_2D, self.ID)
 
+    # bind texture to specified slot
     def BindTextureBySlot(self, slot):
         glActiveTexture(GL_TEXTURE0 + slot)
         glBindTexture(GL_TEXTURE_2D, self.ID)
         return self.ID
 
+    # change texture properties, check OpenGL documentation on what each attributes does
     def setTextureAttributes(self, Wrap_S, Wrap_T, Filter_Min, Filter_Max):
         self.Wrap_S = Wrap_S
         self.Wrap_T = Wrap_T
@@ -47,7 +51,7 @@ class Texture:
     @staticmethod
     def UnbindTexture():
         glBindTexture(GL_TEXTURE_2D, 0)
-
+    # enable alpha for texture with alpha
     @staticmethod
     def EnableAlpha():
         glEnable(GL_BLEND)

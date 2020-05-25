@@ -6,7 +6,8 @@ import simpleaudio
 # os.path.dirname(__file__) + "/../res/SoundEffects/scifi_weapon1.wav")
 # sound.play()
 
-
+# audio manager, stores sounds in dictionary
+# currently there is a known issue where audio manager causes a crash
 class AudioManager:
     def __init__(self):
         self.Sounds = {}
@@ -17,6 +18,7 @@ class AudioManager:
         sound = simpleaudio.WaveObject.from_wave_file(path)
         self.Sounds[key] = sound
 
+    # play once
     def Play(self, key):
         if key in self.Sounds:
             self.Sounds[key].play()
@@ -29,6 +31,7 @@ class AudioManager:
         else:
             print("ERROR : Incorrect Key")
 
+    # play sound in loop
     def LoopPlay(self, key):
         if key in self.PlayObject:
             if self.PlayObject[key].is_playing():

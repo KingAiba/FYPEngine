@@ -7,6 +7,8 @@ sys.path.append(sys.path[0] + "/../../")
 
 from Source.Utility.XmlUtility import GetAttribute
 from Source.Renderer.ResourseManager import Resources
+
+
 # python game engine, wrapper, use does need to deal with the complxity of libraries,
 # advantages to using engine
 # installation, new project, simple game
@@ -44,10 +46,20 @@ class Sprite:
         self.position = self.position + (self.Velocity * dt)
         return self.position
 
+    def MoveX(self, dt, velx):
+        self.position.x = self.position.x + (velx * dt)
+        return self.position.x
+
+    def MoveY(self, dt, vely):
+        self.position.y = self.position.y + (vely * dt)
+        return self.position.y
+
+    # use sprite renderer
     def Draw(self, system):
         system.SpriteRenderer.DrawSpriteFromSheet(Resources.Textures[self.Texture], self.position, self.Size,
                                                   self.Rotation, self.Color, self.Grid, self.Selected)
 
+    # use batch renderer
     def BatchDraw(self, system):
         system.BatchRenderer.Draw(Resources.Textures[self.Texture], self.position, self.Size,
                                   self.Rotation, self.Color, self.Grid, self.Selected, self.TexID,
@@ -91,6 +103,7 @@ class Sprite:
 
         return ColX and ColY
 
+    # check direction of collision
     @staticmethod
     def CheckDirection(target):
         compass = [glm.vec2(0.0, 1.0), glm.vec2(1.0, 0.0), glm.vec2(0.0, -1.0), glm.vec2(-1.0, 0.0)]
@@ -111,6 +124,7 @@ class Sprite:
 
         return direction[bestVal]
 
+    # check clamped collision
     def CheckClampedCollision(self, Obj1, Obj2):
         # find center of call
         center = glm.vec2(Obj1.position + Obj1.Radius)
@@ -132,6 +146,7 @@ class Sprite:
 
         return Collision
 
+    # getter and setter functions
     def getPosition(self):
         return self.position
 
@@ -211,4 +226,3 @@ class Sprite:
             Resources.LoadTexture(texturePath, isAlpha, key)
 
         self.Texture = key
-

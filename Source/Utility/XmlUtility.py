@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import os
 
 
+# utility functions to read xml and get paths
 def GetAttribute(path, t, att):
     myTree = os.path.abspath(path)
     myTree = ET.parse(myTree)

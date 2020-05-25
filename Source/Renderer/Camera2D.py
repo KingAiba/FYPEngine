@@ -6,9 +6,8 @@ import sys
 sys.path.append(sys.path[0] + "/../../")
 from OpenGL.GL import *
 
-
 class Camera2D:
-
+    # initialize camera by setting camera dimensions
     def __init__(self, left, right, bottom, top):
         self.position = glm.vec3(0.0, 0.0, 0.0)
         self.rotation = float(0)
@@ -21,19 +20,23 @@ class Camera2D:
         self.screenWidth = right
         self.screenHeight = bottom
 
+    # change positions
     def setPosition(self, x, y):
         self.position.x = x
         self.position.y = y
 
+    # change rotation
     def setRotation(self, rotation):
         self.rotation = rotation
 
+    # getter functions
     def getRotation(self):
         return self.rotation
 
     def getPosition(self):
         return self.position
 
+    # set scale
     def setScale(self, newScale):
         self.scale = newScale
 
@@ -43,6 +46,7 @@ class Camera2D:
     def getVP(self):
         return self.VP
 
+    # set new projection matrix
     def setProjection(self, left, right, bottom, top):
         self.projectionMat = glm.ortho(left, right, bottom, top, -1.0, 1.0)
 
@@ -52,6 +56,7 @@ class Camera2D:
     def getView(self):
         return self.viewMat
 
+    # recalculate view and projection-view matrix
     def CalcViewMatrix(self):
         transfrom = glm.translate(glm.mat4(1), self.position)
         transfrom = glm.rotate(transfrom, glm.radians(self.rotation), glm.vec3(0, 0, 1))
@@ -59,10 +64,12 @@ class Camera2D:
         self.viewMat = glm.inverse(transfrom)
         self.VP = self.projectionMat * self.viewMat
 
+    # upload view-projection uniform to shader
     def upload(self, shaderID, uniform):
         glUniformMatrix4fv(glGetUniformLocation(shaderID, uniform), 1, GL_FALSE,
                            glm.value_ptr(self.VP))
 
+    # update camera
     def update(self, x, y, rotation):
         self.setPosition(x, y)
         self.setRotation(rotation)

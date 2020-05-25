@@ -1,0 +1,10 @@
+
+
+<Actor name = "player">
+	<Transform PosX = "250" PosY = "250" rotation = "0" sizeX = "100"
+                sizeY = "100"/>
+	<Sprite textureName="DurrrSpaceShip" texturePath = "/Textures/DurrrSpaceShip.png" ColorR="1.0"
+			ColorG="1.0" ColorB="1.0" isAlpha="1" Alpha="1.0"
+			GridX="1" GridY="1" SelectedX="1" SelectedY="1" />
+
+</Actor>

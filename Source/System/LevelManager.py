@@ -1,3 +1,5 @@
+# level managers mantains list of object to update and draw
+
 class LevelManager:
     def __init__(self, system):
         self.gameObjects = []
@@ -21,10 +23,12 @@ class LevelManager:
             if Objects.ObjectType is not "STATIC":
                 Objects.Update(dt)
 
+    # sprite renderer
     def Draw(self):
         for Objects in self.gameObjects:
             Objects.Draw(self.System)
 
+    # batch renderer
     def BatchDraw(self):
         for Objects in self.gameObjects:
             Objects.BatchDraw(self.System)

@@ -19,7 +19,7 @@ class Shader:
         self.VSCode = VSFile.read()  # VSFile.read()
         self.FSCode = FSFile.read()  # FSFile.read()
         self.ID = 0
-
+    # compile vs and fs before rendering
     def Compile(self):
 
         vertex = OpenGL.GL.shaders.compileShader(self.VSCode, GL_VERTEX_SHADER)
@@ -40,7 +40,7 @@ class Shader:
 
     def GetUniformLocation(self, Uniform):
         return glGetUniformLocation(self.ID, Uniform)
-
+    # get uniform functions
     @staticmethod
     def GetUniform1f(uniform, v0):
         return glUniform1f(glGetUniformLocation(uniform), v0)

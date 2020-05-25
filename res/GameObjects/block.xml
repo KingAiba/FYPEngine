@@ -1,0 +1,10 @@
+
+
+<Actor name = "player">
+	<Transform PosX = "500" PosY = "500" rotation = "0" sizeX = "100"
+                sizeY = "100"/>
+	<Sprite textureName="block" texturePath = "/Textures/block.png" ColorR="1.0"
+			ColorG="0.5" ColorB="0.5" isAlpha="0" Alpha="1.0"
+			GridX="1" GridY="1" SelectedX="1" SelectedY="1" />
+
+</Actor>

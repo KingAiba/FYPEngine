@@ -8,6 +8,7 @@ class Window:
         self.LastFrame = float(0.0)
         self.dt = float(0.0)
 
+    # make window with specified arguments
     def CreateWindow(self, width, height, title):
         if not glfw.init():
             print("ERROR : Could not Init GLFW")
@@ -30,7 +31,7 @@ class Window:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         return self.window
-
+    # get dt for update/other function
     def GetDeltaTime(self):
 
         currentTime = glfw.get_time()
@@ -48,12 +49,12 @@ class Window:
 
     def SwapBuffers(self):
         glfw.swap_buffers(self.window)
-
+    # change background color, float arguments
     @staticmethod
     def BackgroundColor(r, g, b, alpha):
         glClearColor(r, g, b, alpha)
         glClear(GL_COLOR_BUFFER_BIT)
-
+    # end glfw
     @staticmethod
     def End():
         glfw.terminate()

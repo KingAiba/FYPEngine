@@ -14,8 +14,10 @@ D = glm.vec2(9, 4)
 E = glm.vec2(10, 4)
 
 
-# 12 - 14
+# for text rendering
+# default grid size 12 - 14
 class TextManager:
+    # initialize, (text sheet name, path to text sheet, path to xml containing text coordinates)
     def __init__(self, textsheet, textsheetPath, xmlPath):
         self.textSheet = textsheet
         self.textSheetPath = textsheetPath
@@ -28,6 +30,7 @@ class TextManager:
         self.Grid = glm.vec2(12, 14)
         Resources.LoadTexture(textsheetPath, 1, textsheet)
 
+    # get coord from xml for specified char
     def GetCoords(self, string):
         xStr = ""
         yStr = ""
@@ -52,7 +55,9 @@ class TextManager:
 
         return coordX, coordY
 
-    def DrawString(self, system, string, position=glm.vec2(0.0, 0.0), size=glm.vec2(24, 24), color=glm.vec3(1.0, 1.0, 1.0)):
+    # draw string
+    def DrawString(self, system, string, position=glm.vec2(0.0, 0.0), size=glm.vec2(24, 24),
+                   color=glm.vec3(1.0, 1.0, 1.0)):
         count = 0
         for char in string:
             xStr, yStr = self.GetCoords(char)
@@ -64,14 +69,18 @@ class TextManager:
                           selected)
             count = count + 1
 
+    # draw single char
     def DrawChar(self, system, position, size, rotate, color, Grid, Selected):
         system.SpriteRenderer.DrawSpriteFromSheet(Resources.Textures[self.textSheet], position, size, rotate, color,
                                                   Grid, Selected)
 
-    def GetPath(self):
+    @staticmethod
+    def GetPath():
         return os.path.dirname(__file__) + "/../../res"
 
-    def checkSign(self, string):
+    # check for special characters in text, not fully implemented
+    @staticmethod
+    def checkSign(string):
         if string == ":":
             return "ColonX", "ColonY"
 

@@ -19,6 +19,7 @@ from Source.Utility.XmlUtility import GetAttribute
 window = Window()
 
 
+# system class used to abstract other components of the system so it is simplified for the user
 class System:
 
     def __init__(self):
@@ -104,7 +105,8 @@ class System:
         glUniformMatrix4fv(glGetUniformLocation(Resources.Shaders["BatchShader"].ID, "projection"), 1, GL_FALSE,
                            glm.value_ptr(self.Camera.VP))
 
-    def GameLoop(self, flag, r=0.3, g=0.2, b=0.6, a=1.0):
+    # game loop, flag=0 for sprite renderer, flag=1 for batch renderer, float rgba values to change background color
+    def GameLoop(self, flag, r=0.2, g=0.2, b=0.6, a=1.0):
 
         if flag == 0:
             while not window.isWindowClosed():
@@ -132,19 +134,23 @@ class System:
         glfw.terminate()
         exit()
 
+    # change level manager
     def ChangeLevel(self, newLevel):
         self.LevelManager.ClearLevel()
         # Resources.clear()
         self.LevelManager = newLevel
         self.LevelManager.InitLevel()
 
+    # get dt
     @staticmethod
     def GetDeltaTime():
         return window.GetDeltaTime()
 
+    # get pressed keys
     def GetInput(self):
         return self.InputManager.getKeys()
 
+    # update camera, flag=0 for sprite renderer, flag=1 for batch renderer
     def UpdateCamera(self, x, y, rotation, flag=0):
         if flag == 0:
             self.SpriteRenderer.shader.UseProgram()
@@ -155,11 +161,15 @@ class System:
             self.Camera.update(x, y, rotation)
             self.Camera.upload(self.BatchRenderer.Shader.ID, "projection")
 
+    # getter and setters
     def getCameraPosition(self):
         return self.Camera.getPosition()
 
     def setCamera(self, left, right, bottom, top):
         self.Camera.setProjection(left, right, bottom, top)
+
+    def getCamera(self):
+        return self.Camera
 
     def getKey(self, key):
         return self.InputManager.key_string_to_glfw(key)
@@ -167,6 +177,7 @@ class System:
     def BatchRender(self):
         self.BatchRenderer.Render()
 
+    # getter and setter for resource manager
     @staticmethod
     def GetResourceManager():
         return Resources
@@ -193,6 +204,7 @@ class System:
     def GetShaderFromResources(key):
         return Resources.GetShader(key)
 
+    # draw call from system if needed, (texture opject, vec2, vec2, float, vec3, vec2, vec2)
     def SystemDraw(self, texture, position, size, rotation, color, Grid, Selected):
         self.SpriteRenderer.DrawSpriteFromSheet(texture, position, size, rotation, color, Grid, Selected)
 
@@ -207,6 +219,7 @@ class System:
         particle = Particle()
         return particle
 
+    # get particle generator
     @staticmethod
     def GetGenerator(texture, amount):
         pGen = Generator(Resources.GetShader("ParticleShader"), texture, amount)

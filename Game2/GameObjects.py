@@ -29,7 +29,6 @@ class Player(Sprite):
         self.ObjectType = "DYNAMIC"
 
     def MakeProjectile(self, texture, dt, audio):
-        # print(self.Timer)
         if self.Timer >= self.RoF:
             self.Timer = 0
             newProjectile = Projectile()

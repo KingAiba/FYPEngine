@@ -22,6 +22,7 @@ sampleQuad = numpy.array([0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1,
 
 
 class BatchRenderer:
+    # initialize (shader object)
     def __init__(self, shader):
         self.Shader = shader
         self.VAO = GLuint(0)
@@ -33,6 +34,7 @@ class BatchRenderer:
         self.Textures = [None] * self.MaxTexture
         self.BufferSize = numpy.size(sampleQuad) * self.MaxObjects * 4
 
+    # make a buffer of self.MaxObject size
     def MakeBuffer(self):
         glGenVertexArrays(1, self.VAO)
         glGenBuffers(1, self.VBO)
@@ -57,12 +59,13 @@ class BatchRenderer:
         glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, ctypes.sizeof(GLfloat) * 8,
                               ctypes.c_void_p(7 * ctypes.sizeof(GLfloat)))
 
+    # start batch renderer, need to use before drawing
     def Start(self):
         self.Shader.Compile()
         self.Shader.UseProgram()
         self.MakeBuffer()
 
-
+    # start drawing object in buffer, used after adding object to buffer using the draw function.
     def Render(self):
         self.Shader.UseProgram()
         count = 0
@@ -90,7 +93,7 @@ class BatchRenderer:
                 glBindVertexArray(self.VAO)
                 glDrawArrays(GL_TRIANGLES, 0, numpy.size(CurrDrawArray))
 
-                clearArr = numpy.array([0]*(sizeOfData), dtype="f")
+                clearArr = numpy.array([0] * (sizeOfData), dtype="f")
                 glBufferSubData(GL_ARRAY_BUFFER, 0, sizeOfData, clearArr)
                 # glDeleteBuffers(1, ctypes.pointer(self.VBO))
                 # zero = float(0)
@@ -137,6 +140,8 @@ class BatchRenderer:
         #     # print("Batch Done at : " + str(count))
         # self.End()
 
+    # add object to buffer, Draw(texture object, vec2 position, vec2 size, float rotation, vec3 color, vec2 grid,
+    # vec2 selected, int Texture ID, int vertical flip)
     def Draw(self, texture, position, size, rotate, color, grid, selected, TexID, VerticalFlip=0):
 
         self.Shader.UseProgram()
@@ -206,6 +211,7 @@ class BatchRenderer:
 
         self.Objects.append(vertices)
 
+    # clear buffers for next batch
     def End(self):
         self.Objects.clear()
         self.Textures = [None] * self.MaxTexture

@@ -76,8 +76,8 @@ class GameLevel(LevelManager):
         self.Blocks = []
         self.Player = None
         self.Ball = None
-        # self.pGenerator = None
-        # self.PGen = None
+        self.pGenerator = None
+
 
     def Load(self, FilePath, Width, Height):
         self.Blocks.clear()
@@ -192,16 +192,17 @@ class GameLevel(LevelManager):
         self.Load(PathToProject() + "Game/levels/level0.txt", self.System.windowWidth,
                   self.System.windowHeight * 0.5)
 
-        # self.pGenerator = self.System.GetGenerator(Resources.Textures["particle"], 100)
+        self.pGenerator = self.System.GetGenerator(Resources.Textures["particle"], 100)
 
     def Draw(self):
         self.System.SystemDraw(Resources.GetTexture("background3"), GetVec2(0, 0),
                                GetVec2(self.System.windowWidth, self.System.windowHeight), 0.0,
                                GetVec3(0.3, 0.3, 0.5), GetVec2(1, 1), GetVec2(1, 1))
-        # self.pGenerator.Draw(self.System)
+
         for Tile in self.Blocks:
             if not Tile.Destroyed:
                 Tile.Draw(self.System)
+        self.pGenerator.Draw(self.System)
         super().Draw()
 
     # self.PGen.Draw()
@@ -236,7 +237,7 @@ class GameLevel(LevelManager):
 
             self.ResetLevel()
             self.ResetPlayer()
-        # self.pGenerator.Update(dt, self.Ball, 20, GetVec2(self.Ball.Radius / 2, self.Ball.Radius / 2))
+        self.pGenerator.Update(dt, self.Ball, 20, GetVec2(self.Ball.Radius / 2, self.Ball.Radius / 2))
 
     def IsComplete(self):
         for Tile in self.Blocks:
